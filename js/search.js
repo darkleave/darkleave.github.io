@@ -131,7 +131,7 @@ var SearchService = "";
     self.buildResult = function(url, title, digest) {
       var html = "";
       html = "<li>";
-      html +=   "<a class='result' href='" +url+ "'>";
+      html +=   "<a class='result' href='http://" +url+ "'>";
       html +=     "<span class='title'>" +title+ "</span>";
       html +=     "<span class='digest'>" +digest+ "</span>";
       html +=     "<span class='icon icon-chevron-thin-right'></span>";
