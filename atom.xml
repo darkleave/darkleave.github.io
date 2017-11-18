@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>静默的魔法书</title>
   
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="www.zhz.gift/"/>
   <updated>2017-11-18T10:15:24.071Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>www.zhz.gift/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>Hans Chung</name>
     
   </author>
   
@@ -18,8 +18,8 @@
   
   <entry>
     <title>article title测试</title>
-    <link href="http://yoursite.com/2017/11/18/article-title/"/>
-    <id>http://yoursite.com/2017/11/18/article-title/</id>
+    <link href="www.zhz.gift/2017/11/18/article-title/"/>
+    <id>www.zhz.gift/2017/11/18/article-title/</id>
     <published>2017-11-18T10:14:42.000Z</published>
     <updated>2017-11-18T10:15:24.071Z</updated>
     
@@ -32,8 +32,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2017/11/01/hello-world/"/>
-    <id>http://yoursite.com/2017/11/01/hello-world/</id>
+    <link href="www.zhz.gift/2017/11/01/hello-world/"/>
+    <id>www.zhz.gift/2017/11/01/hello-world/</id>
     <published>2017-11-01T15:00:06.523Z</published>
     <updated>2017-11-01T15:00:06.524Z</updated>
     
