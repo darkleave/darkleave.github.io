@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="www.zhz.gift/"/>
-  <updated>2017-11-18T11:27:35.353Z</updated>
+  <updated>2017-11-20T16:32:40.377Z</updated>
   <id>www.zhz.gift/</id>
   
   <author>
@@ -17,53 +17,93 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>about</title>
-    <link href="www.zhz.gift/2017/11/18/about/"/>
-    <id>www.zhz.gift/2017/11/18/about/</id>
-    <published>2017-11-18T11:27:35.000Z</published>
-    <updated>2017-11-18T11:27:35.353Z</updated>
+    <title>归并排序</title>
+    <link href="www.zhz.gift/2017/11/21/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/2017/11/21/归并排序/</id>
+    <published>2017-11-20T16:15:34.000Z</published>
+    <updated>2017-11-20T16:32:40.377Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>归并排序</strong></p><p>将一个无序序列进行折半递归,直到得到单个元素的有序序列,然后递归的将折半后左右两边的有序序列依次进行合并,最终得到有序序列.</p><a id="more"></a><pre><code>import java.util.Arrays;public class MergeSort {    public static void main(String[] args){        int[] a = new int[]{11,2,5,15,23,44,24,8};        mergeSort(a);        System.out.println(Arrays.toString(a));    }    private static  void mergeSort(int[] a,int[] tmpArray,int left,int right){        if(left &lt; right){            int center = (left + right) / 2;            mergeSort(a,tmpArray,left,center);            mergeSort(a,tmpArray,center + 1,right);            merge(a,tmpArray,left,center + 1,right);        }        System.out.println(&quot;left:&quot; + left + &quot;,right:&quot; + right);    }    public static  void mergeSort(int[] a){        int[] tmpArray = new int[a.length];        mergeSort(a,tmpArray,0,a.length - 1);    }    private static  void merge(int[] a,int[] tmpArray,int leftPos,int rightPos,int rightEnd){        System.out.println(&quot;leftPos:&quot; + leftPos + &quot;,rightPos:&quot; + rightPos + &quot;,rightEnd:&quot; + rightEnd);        int leftEnd = rightPos - 1;        int tmpPos = leftPos;        int numElements = rightEnd - leftPos + 1;        //Main loop        while(leftPos &lt;= leftEnd &amp;&amp; rightPos &lt;= rightEnd){            if(a[leftPos] &lt; a[rightPos]){                tmpArray[tmpPos++] = a[leftPos++];            }else{                tmpArray[tmpPos++] = a[rightPos++];            }        }        while(leftPos &lt;= leftEnd){            tmpArray[tmpPos++] = a[leftPos++];        }        while(rightPos &lt;= rightEnd){            tmpArray[tmpPos++] = a[rightPos++];        }        for(int i = 0;i &lt; numElements;i++,rightEnd--){            a[rightEnd] = tmpArray[rightEnd];        }    }}</code></pre><p><strong>最差时间复杂度:O(N^2) 平均时间复杂度O(N*logN) 空间复杂度:O(N) 稳定算法</strong>    </p>]]></content>
     
     <summary type="html">
     
+      &lt;p&gt;&lt;strong&gt;归并排序&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;将一个无序序列进行折半递归,直到得到单个元素的有序序列,然后递归的将折半后左右两边的有序序列依次进行合并,最终得到有序序列.&lt;/p&gt;
+    
     </summary>
     
+    
+      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+    
+      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
-    <title>article title测试</title>
-    <link href="www.zhz.gift/2017/11/18/article-title/"/>
-    <id>www.zhz.gift/2017/11/18/article-title/</id>
-    <published>2017-11-18T10:14:42.000Z</published>
-    <updated>2017-11-18T11:29:07.764Z</updated>
+    <title>希尔排序</title>
+    <link href="www.zhz.gift/2017/11/20/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/2017/11/20/希尔排序/</id>
+    <published>2017-11-20T15:57:35.000Z</published>
+    <updated>2017-11-20T16:14:06.358Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>希尔排序</strong></p><p>希尔排序(ShellSort)的名称源于它的发明者Donald Shell.<br>它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.<br>希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.<br><a id="more"></a></p><pre><code>import java.util.*;public class Test {    public static void main(String[] args){        int[] test = new int[]{11,3,8,25,22};        Test.shellSort(test);    }    /**     * 希尔排序,使用ht=N/2 hk=h(k+1)/2的增量序列     * @param a     */    public static void shellSort(int[] a){        int hk;        int j;        for(hk = a.length / 2;hk &gt; 0 ;hk /= 2){            for(int k = hk;k &lt; a.length;k++){                int temp = a[k];                for(j = k;j &gt;= hk &amp;&amp; a[j - hk] &gt; temp;j -= hk){                    a[j] = a[j- hk];                }                a[j] = temp;            }        }        System.out.println(Arrays.toString(a));    }}</code></pre><p><strong>不稳定算法 空间复杂度O(1)</strong>    </p>]]></content>
     
     <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;希尔排序&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;希尔排序(ShellSort)的名称源于它的发明者Donald Shell.&lt;br&gt;它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.&lt;br&gt;希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.&lt;br&gt;
     
     </summary>
     
     
-      <category term="Linux" scheme="www.zhz.gift/tags/Linux/"/>
+      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+    
+      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="www.zhz.gift/2017/11/01/hello-world/"/>
-    <id>www.zhz.gift/2017/11/01/hello-world/</id>
-    <published>2017-11-01T15:00:06.523Z</published>
-    <updated>2017-11-01T15:00:06.524Z</updated>
+    <title>插入排序</title>
+    <link href="www.zhz.gift/2017/11/20/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/2017/11/20/插入排序/</id>
+    <published>2017-11-20T15:52:15.000Z</published>
+    <updated>2017-11-20T15:57:39.472Z</updated>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p><strong>插入排序</strong></p><p>插入排序由N-1趟排序组成,对于p=1到N-1趟,插入排序保证从位置0到位置p上的元素为已排序状态.</p><a id="more"></a><pre><code>import java.util.Arrays;public class InsertSort2 {    public static void main(String[] args){        int[] a = new int[]{11,3,6,22,15};        sort(a);        System.out.println(Arrays.toString(a));    }    //插入排序：    //将无序的元素插入到有序的元素序列中，插入后仍然有序    public static void sort(int[] a){        int k;        for(int p = 1;p &lt; a.length;p++){            int temp = a[p];            for(k = p;k &gt; 0 &amp;&amp; a[k- 1] &gt; temp;k--){                a[k] = a[k- 1];            }            a[k] = temp;        }    }}</code></pre><p><strong>最差时间复杂度:O(n^2) 平均时间复杂度O(n^2) 空间复杂度:O(1) 稳定算法</strong></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
+      &lt;p&gt;&lt;strong&gt;插入排序&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;插入排序由N-1趟排序组成,对于p=1到N-1趟,插入排序保证从位置0到位置p上的元素为已排序状态.&lt;/p&gt;
     
     </summary>
     
+    
+      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+    
+      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>冒泡排序</title>
+    <link href="www.zhz.gift/2017/11/20/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/2017/11/20/冒泡排序/</id>
+    <published>2017-11-20T15:14:53.000Z</published>
+    <updated>2017-11-20T15:51:10.068Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>冒泡排序</strong><br><a id="more"></a></p><pre><code>import java.util.Arrays;public class MTest {    //冒泡排序：    //比较相邻元素，直到序列变为有序为止    public static void main(String[] args){        int[] a = new int[]{7,2,8,11,3,5,4};        //int[] a = new int[]{1,2,3,4,5,6};        for(int i = 0;i &lt; a.length - 1;i++){            boolean flag =false;            for(int k = 0;k &lt; a.length - 1 -i;k++){                if(a[k] &gt; a[k + 1]){                    int temp = a[k];                    a[k] = a[k + 1];                    a[k + 1] = temp;                    flag = true;                }            }            if(!flag){                break;            }        }        System.out.println(Arrays.toString(a));    }}</code></pre><p><strong>每次循环对每对相邻元素依次进行比较,比较过后最后的元素也是最大的元素,重复n-1次即可得到有序序列</strong><br><strong>最差时间复杂度:O(n^2) 平均时间复杂度O(n^2) 空间复杂度:O(1) 稳定算法</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;冒泡排序&lt;/strong&gt;&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+    
+      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   

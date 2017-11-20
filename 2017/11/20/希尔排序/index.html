@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>About Me | 静默的魔法书</title>
+  <title>希尔排序 | 静默的魔法书</title>
   <meta name="description" content="A blog of Hans Chung" />
   <meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java" />
   <meta name="HandheldFriendly" content="True" />
@@ -12,18 +12,18 @@
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="alternate" href="/atom.xml" title="静默的魔法书">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="I’m only a salty fish.. i will make more efforts.i promise..maybe">
-<meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java">
-<meta property="og:type" content="website">
-<meta property="og:title" content="About Me">
-<meta property="og:url" content="www.zhz.gift/about/index.html">
+  <meta name="description" content="希尔排序 希尔排序(ShellSort)的名称源于它的发明者Donald Shell.它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.">
+<meta name="keywords" content="java,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="希尔排序">
+<meta property="og:url" content="www.zhz.gift/2017/11/20/希尔排序/index.html">
 <meta property="og:site_name" content="静默的魔法书">
-<meta property="og:description" content="I’m only a salty fish.. i will make more efforts.i promise..maybe">
+<meta property="og:description" content="希尔排序 希尔排序(ShellSort)的名称源于它的发明者Donald Shell.它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-11-18T11:58:26.965Z">
+<meta property="og:updated_time" content="2017-11-20T16:14:06.358Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="About Me">
-<meta name="twitter:description" content="I’m only a salty fish.. i will make more efforts.i promise..maybe">
+<meta name="twitter:title" content="希尔排序">
+<meta name="twitter:description" content="希尔排序 希尔排序(ShellSort)的名称源于它的发明者Donald Shell.它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.">
     
   <link href="https://fonts.googleapis.com/css?family=Inconsolata|Titillium+Web" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
@@ -124,17 +124,17 @@
   <div class="l_body">
     <div class='container clearfix'>
       <div class='l_main'>
-        <article id="page-"
-  class="post white-box article-type-page"
+        <article id="post-希尔排序"
+  class="post white-box article-type-post"
   itemscope itemprop="blogPost">
 	<section class='meta'>
 	<h2 class="title">
-  	<a href="/about/index.html">
-    	About Me
+  	<a href="/2017/11/20/希尔排序/">
+    	希尔排序
     </a>
   </h2>
 	<time>
-	  11月 18, 2017
+	  11月 20, 2017
 	</time>
 	
 	</section>
@@ -143,18 +143,81 @@
 	
 	<section class="article typo">
   	<div class="article-entry" itemprop="articleBody">
-    	<p><strong>I’m only a salty fish.. i will make more efforts.i promise..maybe</strong></p>
+    	<p><strong>希尔排序</strong></p>
+<p>希尔排序(ShellSort)的名称源于它的发明者Donald Shell.<br>它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.<br>希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.<br><a id="more"></a></p>
+<pre><code>import java.util.*;
+
+public class Test {
+    public static void main(String[] args){
+
+        int[] test = new int[]{11,3,8,25,22};
+
+
+        Test.shellSort(test);
+
+
+    }
+
+
+    /**
+     * 希尔排序,使用ht=N/2 hk=h(k+1)/2的增量序列
+     * @param a
+     */
+    public static void shellSort(int[] a){
+
+        int hk;
+        int j;
+        for(hk = a.length / 2;hk &gt; 0 ;hk /= 2){
+
+
+
+            for(int k = hk;k &lt; a.length;k++){
+                int temp = a[k];
+                for(j = k;j &gt;= hk &amp;&amp; a[j - hk] &gt; temp;j -= hk){
+                    a[j] = a[j- hk];
+                }
+                a[j] = temp;
+            }
+        }
+        System.out.println(Arrays.toString(a));
+    }
+
+
+
+}
+</code></pre><p><strong>不稳定算法 空间复杂度O(1)</strong>    </p>
 
   	</div>
 	  
+	  <div class="article-tags tags">
+      
+        <a href="/tags/java/">java</a>
+      
+        <a href="/tags/算法/">算法</a>
+      
+	  </div>
+    
 		
+	
+		<div class="art-item-footer">
+				
+					<span class="art-item-left"><i class="icon icon-chevron-thin-left"></i>prev：<a href="/2017/11/21/归并排序/" rel="prev"  title="归并排序">
+						归并排序 
+					</a></span>
+				
+				
+					<span class="art-item-right">next：<a href="/2017/11/20/插入排序/" rel="next"  title="插入排序">
+						插入排序
+					</a><i class="icon icon-chevron-thin-right"></i></span>
+				
+		</div>
 	
 	</section>
 	
 </article>
 <script>
 	window.subData = {
-		title: 'About Me',
+		title: '希尔排序',
 		tools: true
 	}
 </script>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>About Me | 静默的魔法书</title>
+  <title>归并排序 | 静默的魔法书</title>
   <meta name="description" content="A blog of Hans Chung" />
   <meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java" />
   <meta name="HandheldFriendly" content="True" />
@@ -12,18 +12,18 @@
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="alternate" href="/atom.xml" title="静默的魔法书">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="I’m only a salty fish.. i will make more efforts.i promise..maybe">
-<meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java">
-<meta property="og:type" content="website">
-<meta property="og:title" content="About Me">
-<meta property="og:url" content="www.zhz.gift/about/index.html">
+  <meta name="description" content="归并排序 将一个无序序列进行折半递归,直到得到单个元素的有序序列,然后递归的将折半后左右两边的有序序列依次进行合并,最终得到有序序列.">
+<meta name="keywords" content="java,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="归并排序">
+<meta property="og:url" content="www.zhz.gift/2017/11/21/归并排序/index.html">
 <meta property="og:site_name" content="静默的魔法书">
-<meta property="og:description" content="I’m only a salty fish.. i will make more efforts.i promise..maybe">
+<meta property="og:description" content="归并排序 将一个无序序列进行折半递归,直到得到单个元素的有序序列,然后递归的将折半后左右两边的有序序列依次进行合并,最终得到有序序列.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-11-18T11:58:26.965Z">
+<meta property="og:updated_time" content="2017-11-20T16:32:40.377Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="About Me">
-<meta name="twitter:description" content="I’m only a salty fish.. i will make more efforts.i promise..maybe">
+<meta name="twitter:title" content="归并排序">
+<meta name="twitter:description" content="归并排序 将一个无序序列进行折半递归,直到得到单个元素的有序序列,然后递归的将折半后左右两边的有序序列依次进行合并,最终得到有序序列.">
     
   <link href="https://fonts.googleapis.com/css?family=Inconsolata|Titillium+Web" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
@@ -124,17 +124,17 @@
   <div class="l_body">
     <div class='container clearfix'>
       <div class='l_main'>
-        <article id="page-"
-  class="post white-box article-type-page"
+        <article id="post-归并排序"
+  class="post white-box article-type-post"
   itemscope itemprop="blogPost">
 	<section class='meta'>
 	<h2 class="title">
-  	<a href="/about/index.html">
-    	About Me
+  	<a href="/2017/11/21/归并排序/">
+    	归并排序
     </a>
   </h2>
 	<time>
-	  11月 18, 2017
+	  11月 21, 2017
 	</time>
 	
 	</section>
@@ -143,18 +143,107 @@
 	
 	<section class="article typo">
   	<div class="article-entry" itemprop="articleBody">
-    	<p><strong>I’m only a salty fish.. i will make more efforts.i promise..maybe</strong></p>
+    	<p><strong>归并排序</strong></p>
+<p>将一个无序序列进行折半递归,直到得到单个元素的有序序列,然后递归的将折半后左右两边的有序序列依次进行合并,最终得到有序序列.</p>
+<a id="more"></a>
+<pre><code>import java.util.Arrays;
+
+public class MergeSort {
+
+
+    public static void main(String[] args){
+
+        int[] a = new int[]{11,2,5,15,23,44,24,8};
+
+        mergeSort(a);
+
+        System.out.println(Arrays.toString(a));
+
+    }
+
+    private static  void mergeSort(int[] a,int[] tmpArray,int left,int right){
+
+        if(left &lt; right){
+            int center = (left + right) / 2;
+            mergeSort(a,tmpArray,left,center);
+            mergeSort(a,tmpArray,center + 1,right);
+            merge(a,tmpArray,left,center + 1,right);
+        }
+        System.out.println(&quot;left:&quot; + left + &quot;,right:&quot; + right);
+
+    }
+
+
+    public static  void mergeSort(int[] a){
+        int[] tmpArray = new int[a.length];
+        mergeSort(a,tmpArray,0,a.length - 1);
+    }
+
+
+    private static  void merge(int[] a,int[] tmpArray,int leftPos,int rightPos,int rightEnd){
+
+        System.out.println(&quot;leftPos:&quot; + leftPos + &quot;,rightPos:&quot; + rightPos + &quot;,rightEnd:&quot; + rightEnd);
+
+
+        int leftEnd = rightPos - 1;
+        int tmpPos = leftPos;
+        int numElements = rightEnd - leftPos + 1;
+
+        //Main loop
+
+        while(leftPos &lt;= leftEnd &amp;&amp; rightPos &lt;= rightEnd){
+            if(a[leftPos] &lt; a[rightPos]){
+                tmpArray[tmpPos++] = a[leftPos++];
+            }else{
+                tmpArray[tmpPos++] = a[rightPos++];
+            }
+        }
+        while(leftPos &lt;= leftEnd){
+            tmpArray[tmpPos++] = a[leftPos++];
+        }
+
+        while(rightPos &lt;= rightEnd){
+            tmpArray[tmpPos++] = a[rightPos++];
+        }
+
+        for(int i = 0;i &lt; numElements;i++,rightEnd--){
+            a[rightEnd] = tmpArray[rightEnd];
+        }
+
+    }
+
+
+
+}
+</code></pre><p><strong>最差时间复杂度:O(N^2) 平均时间复杂度O(N*logN) 空间复杂度:O(N) 稳定算法</strong>    </p>
 
   	</div>
 	  
+	  <div class="article-tags tags">
+      
+        <a href="/tags/java/">java</a>
+      
+        <a href="/tags/算法/">算法</a>
+      
+	  </div>
+    
 		
+	
+		<div class="art-item-footer">
+				
+				
+					<span class="art-item-right">next：<a href="/2017/11/20/希尔排序/" rel="next"  title="希尔排序">
+						希尔排序
+					</a><i class="icon icon-chevron-thin-right"></i></span>
+				
+		</div>
 	
 	</section>
 	
 </article>
 <script>
 	window.subData = {
-		title: 'About Me',
+		title: '归并排序',
 		tools: true
 	}
 </script>
