@@ -3,6 +3,208 @@
   
     
     <entry>
+      <title><![CDATA[spring boot简介]]></title>
+      <url>/2017/12/02/spring-boot%E7%AE%80%E4%BB%8B/</url>
+      <content type="html"><![CDATA[<p><strong>spring boot</strong></p>
+<p>spring boot 为所有spring框架开发者提供一种更加易于理解，更加便捷高效的开发方式；<br>通过提供更为直观的spring平台和第三方依赖库，只需要极其少量的spring配置，便能部署运行spring boot应用。</p>
+<a id="more"></a>
+<p>1.环境要求</p>
+<p>Spring Boot 2.0.0.BUILD-SNAPSHOT 需要 Java 8 以及 Spring Framework 5.0.2.RELEASE 或者以上版本.<br>当使用maven或者gradle构建spring boot时需要 Maven 3.2+ 或者 Gradle 4及其以上版本.</p>
+<p>2.spring boot安装</p>
+<p>2.1使用maven 构建spring boot应用</p>
+<p>pom.xml配置:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.example&lt;/groupId&gt;
+    &lt;artifactId&gt;myproject&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+
+    &lt;!-- Inherit defaults from Spring Boot --&gt;
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.0.0.BUILD-SNAPSHOT&lt;/version&gt;
+    &lt;/parent&gt;
+
+    &lt;!-- Add typical dependencies for a web application --&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;!-- Package as an executable jar --&gt;
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+    &lt;!-- Add Spring repositories --&gt;
+    &lt;!-- (you don&apos;t need this if you are using a .RELEASE version) --&gt;
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;spring-snapshots&lt;/id&gt;
+            &lt;url&gt;http://repo.spring.io/snapshot&lt;/url&gt;
+            &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
+        &lt;/repository&gt;
+        &lt;repository&gt;
+            &lt;id&gt;spring-milestones&lt;/id&gt;
+            &lt;url&gt;http://repo.spring.io/milestone&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+    &lt;pluginRepositories&gt;
+        &lt;pluginRepository&gt;
+            &lt;id&gt;spring-snapshots&lt;/id&gt;
+            &lt;url&gt;http://repo.spring.io/snapshot&lt;/url&gt;
+        &lt;/pluginRepository&gt;
+        &lt;pluginRepository&gt;
+            &lt;id&gt;spring-milestones&lt;/id&gt;
+            &lt;url&gt;http://repo.spring.io/milestone&lt;/url&gt;
+        &lt;/pluginRepository&gt;
+    &lt;/pluginRepositories&gt;
+&lt;/project&gt;
+</code></pre><p>2.2安装Spring Boot CLI</p>
+<p>The Spring Boot CLI (Command Line Interface)是一个用于快速建立spring原型的命令行工具.<br>通过它你能运行Groovy scripts,使用熟悉的类java语法。</p>
+<p>使用CLI来运行spring boot不是必须的,但它是使spring应用运行起来的最快方法.</p>
+<p>2.2.1 手动安装</p>
+<p>你可以在spring 软件仓库下载Spring CLI</p>
+<p><a href="https://repo.spring.io/snapshot/org/springframework/boot/spring-boot-cli/2.0.0.BUILD-SNAPSHOT/spring-boot-cli-2.0.0.BUILD-SNAPSHOT-bin.zip" target="_blank" rel="external">spring-boot-cli-2.0.0.BUILD-SNAPSHOT-bin.zip</a></p>
+<p><a href="https://repo.spring.io/snapshot/org/springframework/boot/spring-boot-cli/2.0.0.BUILD-SNAPSHOT/spring-boot-cli-2.0.0.BUILD-SNAPSHOT-bin.tar.gz" target="_blank" rel="external">spring-boot-cli-2.0.0.BUILD-SNAPSHOT-bin.tar.gz</a></p>
+<p>2.2.2 通过SDKMAN安装</p>
+<p>SDKMAN!(The Software Development Kit Manager)可以用来管理不同版本的二进制sdks,包括 Groovy和Spring Boot CLI.<br>从<a href="http://sdkman.io/" target="_blank" rel="external">sdkman.io</a>获取SDKMAN!并且通过以下命令来安装Spring Boot</p>
+<pre><code>$ sdk install springboot
+$ spring --version
+Spring Boot v2.0.0.BUILD-SNAPSHOT
+</code></pre><p>上述的安装方式都会在本地建立一个名为dev的Spring实例,它指向你的安装路径,所以你每次重建Spring Boot时,<br>spring 都会更新到最新.</p>
+<p>你能通过以下命令看到它是如何进行的:</p>
+<p>$ sdk ls springboot</p>
+<pre><code>================================================================================
+Available Springboot Versions
+================================================================================
+&gt; + dev
+* 2.0.0.BUILD-SNAPSHOT
+
+================================================================================
++ - local version
+* - installed
+&gt; - currently in use
+================================================================================    
+</code></pre><p>3.开发你首个Spring Boot 应用</p>
+<p>这个章节描述了如何区开发一个\”五脏俱全\”的Spring Boot \”Hello World!\”应用.<br>我们使用Maven来构建这个项目,因为大部分IDES都支持它.</p>
+<p><a href="https://spring.io/" target="_blank" rel="external">spring.io</a>web网站包含很多”Getting Started”的spring boot教程,<br>如果你需要解决一些特定的问题,首先查看这里.</p>
+<p>开始之前首先检查jdk版本和maven版本是否满足要求</p>
+<p>java -version</p>
+<p>mvn -v</p>
+<p>pom.xml 配置如下:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.example&lt;/groupId&gt;
+    &lt;artifactId&gt;myproject&lt;/artifactId&gt;
+    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;2.0.0.BUILD-SNAPSHOT&lt;/version&gt;
+    &lt;/parent&gt;
+
+    &lt;!-- Additional lines to be added here... --&gt;
+
+    &lt;!-- (you don&apos;t need this if you are using a .RELEASE version) --&gt;
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;spring-snapshots&lt;/id&gt;
+            &lt;url&gt;http://repo.spring.io/snapshot&lt;/url&gt;
+            &lt;snapshots&gt;&lt;enabled&gt;true&lt;/enabled&gt;&lt;/snapshots&gt;
+        &lt;/repository&gt;
+        &lt;repository&gt;
+            &lt;id&gt;spring-milestones&lt;/id&gt;
+            &lt;url&gt;http://repo.spring.io/milestone&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+    &lt;pluginRepositories&gt;
+        &lt;pluginRepository&gt;
+            &lt;id&gt;spring-snapshots&lt;/id&gt;
+            &lt;url&gt;http://repo.spring.io/snapshot&lt;/url&gt;
+        &lt;/pluginRepository&gt;
+        &lt;pluginRepository&gt;
+            &lt;id&gt;spring-milestones&lt;/id&gt;
+            &lt;url&gt;http://repo.spring.io/milestone&lt;/url&gt;
+        &lt;/pluginRepository&gt;
+    &lt;/pluginRepositories&gt;
+&lt;/project&gt;
+</code></pre><p>3.2 Spring Boot提供了大量的”Starters”开始器使你能在classpath路径添加jars.<br>我们普通的例子应用已经在POM的父节点使用 spring-boot-starter-parent .</p>
+<p>spring-boot-starter-parent是一个提供了众多有用Maven默认配置的特殊启动器.<br>它同样提供了dependency-management配置使你能够为一些dependencies依赖省略 version 配置.</p>
+<p>但你开发其它特殊类型的应用时可能需要使用到其它启动器(Starters),例如,当我们开发一个web应用时,<br>我们添加spring-boot-starter-web 依赖.在那之前,我们可以通过以下命令查看依赖树:</p>
+<p>mvn dependency:tree</p>
+<p>通过mvn dependency:tree命令我们可以查看项目的依赖树结构,<br>你可以看到  spring-boot-starter-parent 本身没有提供其它依赖.<br>通过编辑pom.xml添加必要的依赖</p>
+<dependencies><br>    <dependency><br>        <groupid>org.springframework.boot</groupid><br>        <artifactid>spring-boot-starter-web</artifactid><br>    </dependency><br></dependencies>
+
+<p>如果你再次运行 mvn dependency:tree 命令,你就能看到一系列新添加的依赖,<br>包括tomcat 服务器以及spring boot本身.</p>
+<p>3.3 代码编写</p>
+<p>为了完成应用，我们首先需要创建一个java文件.<br>在src/main/java下创建Example.java文件并添加以下代码:</p>
+<pre><code>import org.springframework.boot.*;
+import org.springframework.boot.autoconfigure.*;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@EnableAutoConfiguration
+public class Example {
+
+    @RequestMapping(&quot;/&quot;)
+    String home() {
+        return &quot;Hello World!&quot;;
+    }
+
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(Example.class, args);
+    }
+
+}
+</code></pre><p>3.3.1 @RestController 和 @RequestMapping 注解</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> spring </tag>
+            
+            <tag> 框架 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[快速排序]]></title>
+      <url>/2017/12/02/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
+      <content type="html"><![CDATA[<p><strong>快速排序</strong></p>
+<p>堆排序是指利用堆这种数据结构所设计的一种排序算法.堆是一种特殊的二叉树,每个子节点的值总是小于(或大于)它的父节点,相应的分为最大堆或最小堆,<br>通过最大堆或最小堆不断输出堆顶元素,直到全部元素都已输出,得到的输出元素序列即为有序序列.</p>
+<a id="more"></a>]]></content>
+      
+        
+        <tags>
+            
+            <tag> java </tag>
+            
+            <tag> 算法 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[堆排序]]></title>
       <url>/2017/12/01/%E5%A0%86%E6%8E%92%E5%BA%8F/</url>
       <content type="html"><![CDATA[<p><strong>堆排序</strong></p>
