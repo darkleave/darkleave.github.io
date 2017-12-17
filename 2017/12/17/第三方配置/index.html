@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>第三方配置 | 静默的魔法书</title>
+  <meta name="description" content="A blog of Hans Chung" />
+  <meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="alternate" href="/atom.xml" title="静默的魔法书">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="第三方配置">
+<meta name="keywords" content="SpringBoot,config">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三方配置">
+<meta property="og:url" content="www.zhz.gift/2017/12/17/第三方配置/index.html">
+<meta property="og:site_name" content="静默的魔法书">
+<meta property="og:description" content="第三方配置">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-17T12:12:37.019Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第三方配置">
+<meta name="twitter:description" content="第三方配置">
+    
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata|Titillium+Web" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+  <link href='//cdn.bootcss.com/node-waves/0.7.5/waves.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/style.css">
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+</head>
+
+<body>
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+
+
+  <script>setLoadingBarProgress(20)</script> 
+  <header class="l_header">
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+			<a class="logo flat-box" href='/' >
+				静默的魔法书
+			</a>
+			<div class='menu'>
+				<ul class='h-list'>
+					
+						<li>
+							<a class='flat-box nav-home' href='/'>
+								Home
+							</a>
+						</li>
+					
+						<li>
+							<a class='flat-box nav-archives' href='/archives'>
+								Archives
+							</a>
+						</li>
+					
+						<li>
+							<a class='flat-box nav-about' href='/about'>
+								About
+							</a>
+						</li>
+					
+				</ul>
+				<div class='underline'></div>
+			</div>
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="Search" />
+						<span class="icon icon-search"></span>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a href='javascript:void(0)'><span class="icon icon-search flat-box"></span></a></li>
+				
+				<li class='s-menu'><a href='javascript:void(0)'><span class="icon icon-menu flat-box"></span></a></li>
+			</ul>
+		</div>
+		
+		<div class='nav-sub container container--flex'>
+			<a class="logo" class="flat-box" href='javascript:void(0)'>
+				Word of Forks
+			</a>
+
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a href='javascript:void(0)'><span class="icon icon-chat_bubble_outline flat-box"></span></a></li>
+				<li class='s-top'><a href='javascript:void(0)'><span class="icon icon-arrow_upward flat-box"></span></a></li>
+				<li class='s-toc'><a href='javascript:void(0)'><span class="icon icon-format_list_numbered flat-box"></span></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<aside class="menu-phone">
+	<nav>
+		
+			<a href="/" class="nav-home nav">
+				Home
+			</a>
+		
+			<a href="/archives" class="nav-archives nav">
+				Archives
+			</a>
+		
+			<a href="/about" class="nav-about nav">
+				About
+			</a>
+		
+	</nav>
+</aside>
+
+    <script>setLoadingBarProgress(40);</script>
+  <div class="l_body">
+    <div class='container clearfix'>
+      <div class='l_main'>
+        <article id="post-第三方配置"
+  class="post white-box article-type-post"
+  itemscope itemprop="blogPost">
+	<section class='meta'>
+	<h2 class="title">
+  	<a href="/2017/12/17/第三方配置/">
+    	第三方配置
+    </a>
+  </h2>
+	<time>
+	  12月 17, 2017
+	</time>
+	
+	</section>
+	
+		<section class="toc-wrapper"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ConfigurationProperties-vs-Value"><span class="toc-number">1.</span> <span class="toc-text">@ConfigurationProperties    vs.    @Value</span></a></li></ol></section>
+	
+	<section class="article typo">
+  	<div class="article-entry" itemprop="articleBody">
+    	<p><strong>第三方配置</strong></p>
+<a id="more"></a>
+<p>@ConfigurationProperties    不仅可以注解在类上，也可以注解在public @Bean    方法上，当你需要为不受控的第三方组件绑定属性时，该方法将非常有<br>用。为了从     Environment属性中配置一个bean，你需要使用@ConfigurationProperties    注解该bean：</p>
+<pre><code>@ConfigurationProperties(prefix    =    &quot;foo&quot;)
+@Bean
+public    FooComponent    fooComponent()    {
+                ...
+}
+</code></pre><p>和上面     ConnectionSettings    的示例方式相同，所有以foo为前缀的属性定义都会被映射到     FooComponent    上。</p>
+<p>##Relaxed绑定##</p>
+<p>Spring    Boot将     Environment    属性绑定到     @ConfigurationProperties        beans时会使用一些宽松的规则，所以     Environment属性名和bean属性名不需要精确匹配。常见的示例中有用的包括虚线分割（比如，     context-path    绑定到     contextPath    ），将environment属性转为大写字母（比如，     PORT    绑定     port    ）。<br>例如，给定以下     @ConfigurationProperties    类：</p>
+<pre><code>@ConfigurationProperties(prefix=&quot;person&quot;)
+public    class    OwnerProperties    {
+                private    String    firstName;
+                public    String    getFirstName()    {
+                                return    this.firstName;
+                }
+                public    void    setFirstName(String    firstName)    {
+                                this.firstName    =    firstName;
+                }
+}
+</code></pre><p>下面的属性名都能使用：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">person.firstName</td>
+<td style="text-align:center">标准驼峰规则</td>
+</tr>
+<tr>
+<td style="text-align:center">person.first-name</td>
+<td style="text-align:center">虚线表示，推荐用于     .properties    和     .yml文件中</td>
+</tr>
+<tr>
+<td style="text-align:center">person.first_name</td>
+<td style="text-align:center">下划线表示，用于     .properties    和     .yml    文件的可选格式</td>
+</tr>
+<tr>
+<td style="text-align:center">PERSON_FIRST_NAME</td>
+<td style="text-align:center">大写形式，使用系统环境变量时推荐</td>
+</tr>
+</tbody>
+</table>
+<p>##属性转换##</p>
+<p>将外部应用配置绑定到     @ConfigurationProperties        beans时，Spring会尝试将属性强制转换为正确的类型。如果需要自定义类型转换器，你可以提供一个ConversionService        bean（bean    id为     conversionService    ），或自定义属性编辑器（通过     CustomEditorConfigurer        bean），或自定义     Converters    （bean定义时需要注解     @ConfigurationPropertiesBinding    ）。</p>
+<p>注    由于该bean在应用程序生命周期的早期就需要使用，所以确保限制你的     ConversionService使用的依赖。通常，在创建时期任何你需要的依赖可能都<br>没完全初始化。        </p>
+<p>##@ConfigurationProperties校验##</p>
+<p>Spring    Boot将尝试校验外部配置，默认使用JSR-303（如果在classpath路径中），你只需要将JSR-303          javax.validation    约束注解添加到     @ConfigurationProperties    类上：</p>
+<pre><code>@ConfigurationProperties(prefix=&quot;connection&quot;)
+public    class    ConnectionProperties    {
+                @NotNull
+                private    InetAddress    remoteAddress;
+                //    ...    getters    and    setters
+}
+</code></pre><p>为了校验内嵌属性的值，你需要使用     @Valid    注解关联的字段以触发它的校验，例<br>如：    </p>
+<pre><code>@ConfigurationProperties(prefix=&quot;connection&quot;)
+public    class    ConnectionProperties    {
+                @NotNull
+                @Valid
+                private    RemoteAddress    remoteAddress;
+                //    ...    getters    and    setters
+                public    static    class    RemoteAddress    {
+                                @NotEmpty
+                                public    String    hostname;
+                                //    ...    getters    and    setters
+                }
+}
+</code></pre><p>你也可以通过创建一个叫做     configurationPropertiesValidator    的bean来添加自定义的Spring          Validator    。     @Bean    方法需要声明为     static    ，因为配置属性校验器在应用程序生命周期中创建的比较早，将     @Bean    方法声明为     static    允许该bean在创建时不需要实例化     @Configuration    类，从而避免了早期实例化（early    instantiation）的所有问题。相关的示例可以看这里。</p>
+<p>注          spring-boot-actuator    模块包含一个暴露所有     @ConfigurationProperties        beans的端点（endpoint），通过浏览器打开     /configprops    进行浏览，或使用等效的JMX端点，具体参考Production    readyfeatures。    </p>
+<h2 id="ConfigurationProperties-vs-Value"><a href="#ConfigurationProperties-vs-Value" class="headerlink" title="@ConfigurationProperties    vs.    @Value"></a>@ConfigurationProperties    vs.    @Value</h2><p>@Value    是Spring容器的一个核心特性，它没有提供跟type-safe    Configuration<br>Properties相同的特性。下面的表格总结了     @ConfigurationProperties    和     @Value    支持的特性：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">特性</th>
+<th style="text-align:center">@ConfigurationProperties</th>
+<th>@Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Relaxed绑定</td>
+<td style="text-align:center">Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td style="text-align:center">Meta-data支持</td>
+<td style="text-align:center">Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td style="text-align:center">SpEL表达式</td>
+<td style="text-align:center">No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>如果你为自己的组件定义了一系列的配置keys，我们建议你将它们以@ConfigurationProperties    注解的POJO进行分组。<br>由于     @Value    不支持relaxed绑定，所以如果你使用环境变量提供属性值的话，它就不是很好的选择。最后，尽管     @Value    可以写     SpEL表达式，但这些表达式不会处理来自Application属性文件的属性。</p>
+
+  	</div>
+	  
+	  <div class="article-tags tags">
+      
+        <a href="/tags/SpringBoot/">SpringBoot</a>
+      
+        <a href="/tags/config/">config</a>
+      
+	  </div>
+    
+		
+	
+		<div class="art-item-footer">
+				
+					<span class="art-item-left"><i class="icon icon-chevron-thin-left"></i>prev：<a href="/2017/12/17/SpringBoot应用启动事件/" rel="prev"  title="SpringBoot应用启动事件">
+						SpringBoot应用启动事件 
+					</a></span>
+				
+				
+					<span class="art-item-right">next：<a href="/2017/12/02/spring-boot简介/" rel="next"  title="spring boot简介">
+						spring boot简介
+					</a><i class="icon icon-chevron-thin-right"></i></span>
+				
+		</div>
+	
+	</section>
+	
+</article>
+<script>
+	window.subData = {
+		title: '第三方配置',
+		tools: true
+	}
+</script>
+
+      </div>
+      <aside class='l_side'>
+        
+  <section class='m_widget about'>
+
+<img class='avatar waves-image' src='/images/avatar.jpg' />
+
+<div class='header'>Hans Chung</div>
+<div class='content'>
+<div class='desc'>Time is a bird for ever on the wing ...</div>
+</div>
+</section>
+
+  <section class='m_widget links'>
+<div class='header'>Links</div>
+<div class='content'>
+    <ul class="entry">
+    
+    </ul>
+</div>
+</section>
+
+  <section class='m_widget categories'>
+<div class='header'>Categories</div>
+<div class='content'>
+    
+</div>
+</section>
+
+  
+<div class="m_widget tagcloud">
+    <div class="header">Tags</div>
+    <div class='content'>
+        <a href="/tags/MVC/" style="font-size: 14px; color: #808080">MVC</a> <a href="/tags/SpringBoot/" style="font-size: 20px; color: #000">SpringBoot</a> <a href="/tags/YAML/" style="font-size: 14px; color: #808080">YAML</a> <a href="/tags/config/" style="font-size: 14px; color: #808080">config</a> <a href="/tags/event/" style="font-size: 14px; color: #808080">event</a> <a href="/tags/java/" style="font-size: 17px; color: #404040">java</a> <a href="/tags/log/" style="font-size: 14px; color: #808080">log</a> <a href="/tags/spring/" style="font-size: 14px; color: #808080">spring</a> <a href="/tags/框架/" style="font-size: 14px; color: #808080">框架</a> <a href="/tags/算法/" style="font-size: 17px; color: #404040">算法</a>
+    </div>
+</div>
+
+
+
+      </aside>
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+  </div>
+  <footer id="footer" class="clearfix">
+
+	<div class="social-wrapper">
+  	
+      
+        <a href="https://github.com/darkleave" class="social github"
+          target="_blank" rel="external">
+          <span class="icon icon-github"></span>
+        </a>
+      
+        <a href="https://twitter.com/darkleave" class="social twitter"
+          target="_blank" rel="external">
+          <span class="icon icon-twitter"></span>
+        </a>
+      
+        <a href="/atom.xml" class="social rss"
+          target="_blank" rel="external">
+          <span class="icon icon-rss"></span>
+        </a>
+      
+    
+  </div>
+  
+  <div>Theme <a href='https://github.com/stkevintan/hexo-theme-material-flow' class="codename">MaterialFlow</a> designed by <a href="http://keyin.me/" target="_blank">Kevin Tan</a>.</div>
+  <p>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></p>
+</footer>
+
+
+  <script>setLoadingBarProgress(80);</script>
+  
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src='//cdn.bootcss.com/node-waves/0.7.5/waves.min.js'></script>
+<script src="//cdn.bootcss.com/scrollReveal.js/3.3.2/scrollreveal.min.js"></script>
+<script src="/js/jquery.fitvids.js"></script>
+<script>
+	var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+	var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+	var ALGOLIA_API_KEY = "";
+	var ALGOLIA_APP_ID = "";
+	var ALGOLIA_INDEX_NAME = "";
+  var AZURE_SERVICE_NAME = "";
+  var AZURE_INDEX_NAME = "";
+  var AZURE_QUERY_KEY = "";
+  var BAIDU_API_ID = "";
+  var SEARCH_SERVICE = "hexo";
+  var ROOT = "/"||"/";
+  if(!ROOT.endsWith('/'))ROOT += '/';
+</script>
+<script src="/js/search.js"></script>
+<script src="/js/app.js"></script>
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

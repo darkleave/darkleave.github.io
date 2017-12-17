@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Archives: 2017/11 | 静默的魔法书</title>
+  <title>WEB环境下进行单元测试 | 静默的魔法书</title>
   <meta name="description" content="A blog of Hans Chung" />
   <meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java" />
   <meta name="HandheldFriendly" content="True" />
@@ -12,17 +12,18 @@
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="alternate" href="/atom.xml" title="静默的魔法书">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="A blog of Hans Chung">
-<meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java">
-<meta property="og:type" content="website">
-<meta property="og:title" content="静默的魔法书">
-<meta property="og:url" content="www.zhz.gift/archives/2017/11/index.html">
+  <meta name="description" content="WEB环境下进行单元测试">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WEB环境下进行单元测试">
+<meta property="og:url" content="www.zhz.gift/2017/12/17/WEB环境下进行单元测试/index.html">
 <meta property="og:site_name" content="静默的魔法书">
-<meta property="og:description" content="A blog of Hans Chung">
+<meta property="og:description" content="WEB环境下进行单元测试">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-17T12:11:06.369Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="静默的魔法书">
-<meta name="twitter:description" content="A blog of Hans Chung">
+<meta name="twitter:title" content="WEB环境下进行单元测试">
+<meta name="twitter:description" content="WEB环境下进行单元测试">
     
   <link href="https://fonts.googleapis.com/css?family=Inconsolata|Titillium+Web" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
@@ -123,168 +124,61 @@
   <div class="l_body">
     <div class='container clearfix'>
       <div class='l_main'>
-        
+        <article id="post-WEB环境下进行单元测试"
+  class="post white-box article-type-post"
+  itemscope itemprop="blogPost">
+	<section class='meta'>
+	<h2 class="title">
+  	<a href="/2017/12/17/WEB环境下进行单元测试/">
+    	WEB环境下进行单元测试
+    </a>
+  </h2>
+	<time>
+	  12月 17, 2017
+	</time>
 	
-  <script>
-    window.subData= { title:'Year : 2017.11'}
-  </script>
-
-<section class="post-list">
+	</section>
 	
-    <div class='post-wrapper'>
-      <article class="post reveal">
-  <section class="meta">
-    
-    <h2 class="title">
-      <a href="/2017/11/21/归并排序/">
-        归并排序
-      </a>
-    </h2>
-    
-    <time>
-      11月 21, 2017
-    </time>
-		
-  </section>
-  <section class="article typo">
-	  <p><strong>归并排序</strong></p>
-<p>将一个无序序列进行折半递归,直到得到单个元素的有序序列,然后递归的将折半后左右两边的有序序列依次进行合并,最终得到有序序列.</p>
+		<section class="toc-wrapper"></section>
+	
+	<section class="article typo">
+  	<div class="article-entry" itemprop="articleBody">
+    	<p><strong>WEB环境下进行单元测试</strong></p>
+<a id="more"></a>
+<p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>
 
-    
-	  <div class="readmore">
-      <a href="/2017/11/21/归并排序/">Read More</a>
-    </div>
-    
-    
-    
-	  <div class="full-width auto-padding tags">
+  	</div>
+	  
+	  <div class="article-tags tags">
       
-        <a href="/tags/java/">java</a>
-      
-        <a href="/tags/算法/">算法</a>
+        <a href="/tags/SpringBoot/">SpringBoot</a>
       
 	  </div>
     
-  </section>
-</article>
-    </div>
-  
-    <div class='post-wrapper'>
-      <article class="post reveal">
-  <section class="meta">
-    
-    <h2 class="title">
-      <a href="/2017/11/20/希尔排序/">
-        希尔排序
-      </a>
-    </h2>
-    
-    <time>
-      11月 20, 2017
-    </time>
 		
-  </section>
-  <section class="article typo">
-	  <p><strong>希尔排序</strong></p>
-<p>希尔排序(ShellSort)的名称源于它的发明者Donald Shell.<br>它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.<br>希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.<br>
-
-    
-	  <div class="readmore">
-      <a href="/2017/11/20/希尔排序/">Read More</a>
-    </div>
-    
-    
-    
-	  <div class="full-width auto-padding tags">
-      
-        <a href="/tags/java/">java</a>
-      
-        <a href="/tags/算法/">算法</a>
-      
-	  </div>
-    
-  </section>
+	
+		<div class="art-item-footer">
+				
+					<span class="art-item-left"><i class="icon icon-chevron-thin-left"></i>prev：<a href="/2017/12/17/Spring_Web_MVC框架/" rel="prev"  title="Spring WebMVC框架">
+						Spring WebMVC框架 
+					</a></span>
+				
+				
+					<span class="art-item-right">next：<a href="/2017/12/17/使用YAML代替Properties/" rel="next"  title="使用YAML代替Properties">
+						使用YAML代替Properties
+					</a><i class="icon icon-chevron-thin-right"></i></span>
+				
+		</div>
+	
+	</section>
+	
 </article>
-    </div>
-  
-    <div class='post-wrapper'>
-      <article class="post reveal">
-  <section class="meta">
-    
-    <h2 class="title">
-      <a href="/2017/11/20/插入排序/">
-        插入排序
-      </a>
-    </h2>
-    
-    <time>
-      11月 20, 2017
-    </time>
-		
-  </section>
-  <section class="article typo">
-	  <p><strong>插入排序</strong></p>
-<p>插入排序由N-1趟排序组成,对于p=1到N-1趟,插入排序保证从位置0到位置p上的元素为已排序状态.</p>
-
-    
-	  <div class="readmore">
-      <a href="/2017/11/20/插入排序/">Read More</a>
-    </div>
-    
-    
-    
-	  <div class="full-width auto-padding tags">
-      
-        <a href="/tags/java/">java</a>
-      
-        <a href="/tags/算法/">算法</a>
-      
-	  </div>
-    
-  </section>
-</article>
-    </div>
-  
-    <div class='post-wrapper'>
-      <article class="post reveal">
-  <section class="meta">
-    
-    <h2 class="title">
-      <a href="/2017/11/20/冒泡排序/">
-        冒泡排序
-      </a>
-    </h2>
-    
-    <time>
-      11月 20, 2017
-    </time>
-		
-  </section>
-  <section class="article typo">
-	  <p><strong>冒泡排序</strong><br>
-
-    
-	  <div class="readmore">
-      <a href="/2017/11/20/冒泡排序/">Read More</a>
-    </div>
-    
-    
-    
-	  <div class="full-width auto-padding tags">
-      
-        <a href="/tags/java/">java</a>
-      
-        <a href="/tags/算法/">算法</a>
-      
-	  </div>
-    
-  </section>
-</article>
-    </div>
-  
-</section>
-
-
+<script>
+	window.subData = {
+		title: 'WEB环境下进行单元测试',
+		tools: true
+	}
+</script>
 
       </div>
       <aside class='l_side'>

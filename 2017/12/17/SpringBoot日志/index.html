@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Archives: 2017/11 | 静默的魔法书</title>
+  <title>SpringBoot日志 | 静默的魔法书</title>
   <meta name="description" content="A blog of Hans Chung" />
   <meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java" />
   <meta name="HandheldFriendly" content="True" />
@@ -12,17 +12,18 @@
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="alternate" href="/atom.xml" title="静默的魔法书">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="A blog of Hans Chung">
-<meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java">
-<meta property="og:type" content="website">
-<meta property="og:title" content="静默的魔法书">
-<meta property="og:url" content="www.zhz.gift/archives/2017/11/index.html">
+  <meta name="description" content="SpringBoot日志">
+<meta name="keywords" content="SpringBoot,log">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot日志">
+<meta property="og:url" content="www.zhz.gift/2017/12/17/SpringBoot日志/index.html">
 <meta property="og:site_name" content="静默的魔法书">
-<meta property="og:description" content="A blog of Hans Chung">
+<meta property="og:description" content="SpringBoot日志">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-17T12:12:51.622Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="静默的魔法书">
-<meta name="twitter:description" content="A blog of Hans Chung">
+<meta name="twitter:title" content="SpringBoot日志">
+<meta name="twitter:description" content="SpringBoot日志">
     
   <link href="https://fonts.googleapis.com/css?family=Inconsolata|Titillium+Web" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
@@ -123,168 +124,129 @@
   <div class="l_body">
     <div class='container clearfix'>
       <div class='l_main'>
-        
+        <article id="post-SpringBoot日志"
+  class="post white-box article-type-post"
+  itemscope itemprop="blogPost">
+	<section class='meta'>
+	<h2 class="title">
+  	<a href="/2017/12/17/SpringBoot日志/">
+    	SpringBoot日志
+    </a>
+  </h2>
+	<time>
+	  12月 17, 2017
+	</time>
 	
-  <script>
-    window.subData= { title:'Year : 2017.11'}
-  </script>
-
-<section class="post-list">
+	</section>
 	
-    <div class='post-wrapper'>
-      <article class="post reveal">
-  <section class="meta">
-    
-    <h2 class="title">
-      <a href="/2017/11/21/归并排序/">
-        归并排序
-      </a>
-    </h2>
-    
-    <time>
-      11月 21, 2017
-    </time>
-		
-  </section>
-  <section class="article typo">
-	  <p><strong>归并排序</strong></p>
-<p>将一个无序序列进行折半递归,直到得到单个元素的有序序列,然后递归的将折半后左右两边的有序序列依次进行合并,最终得到有序序列.</p>
+		<section class="toc-wrapper"></section>
+	
+	<section class="article typo">
+  	<div class="article-entry" itemprop="articleBody">
+    	<p><strong>SpringBoot日志</strong></p>
+<a id="more"></a>
+<p>##日志格式##</p>
+<p>Spring    Boot默认的日志输出格式如下：</p>
+<pre><code>2014-03-05    10:57:51.112        INFO    45469    ---    [main]org.apache.catalina.core.StandardEngine        :    Starting    Servlet    Engine:    Apache    Tomcat/7.0.522014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.a.c.
+c.C.[Tomcat].[localhost].[/]                            :    Initializing    Spring    embedde
+d    WebApplicationContext
+2014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.s.we
+b.context.ContextLoader                                                :    Root    WebApplicationContext:
+    initialization    completed    in    1358    ms
+2014-03-05    10:57:51.698        INFO    45469    ---    [ost-startStop-1]    o.s.b.
+c.e.ServletRegistrationBean                                :    Mapping    servlet:    &apos;dispatche
+rServlet&apos;    to    [/]
+2014-03-05    10:57:51.702        INFO    45469    ---    [ost-startStop-1]    o.s.b.
+c.embedded.FilterRegistrationBean        :    Mapping    filter:    &apos;hiddenHttp
+MethodFilter&apos;    to:    [/*]
+</code></pre><p>输出的节点（items）如下：</p>
+<ol>
+<li>日期和时间    -    精确到毫秒，且易于排序。</li>
+<li>日志级别    -          ERROR    ,          WARN    ,          INFO    ,          DEBUG        或          TRACE    。</li>
+<li>Process    ID。</li>
+<li>—    分隔符，用于区分实际日志信息开头。</li>
+<li>线程名    -    包括在方括号中（控制台输出可能会被截断）。</li>
+<li>日志名    -    通常是源class的类名（缩写）。</li>
+<li>日志信息。<br>注    Logback没有     FATAL    级别，它会映射到     ERROR    。</li>
+</ol>
+<p>##控制台输出##</p>
+<p>默认的日志配置会在写日志消息时将它们回显到控制台，级别为     ERROR    ,WARN    和     INFO    的消息会被记录。你可以在启动应用时，通过     –debug    标识开启控制台的DEBUG级别日志记录，也可以在application.properties    中指定     debug=true    。</p>
+<pre><code>$    java    -jar    myapp.jar    --debug
+</code></pre><p>当debug模式启用时，一系列核心loggers（内嵌容器，Hibernate，Spring    Boot<br>等）记录的日志会变多，但不会输出所有的信息。<br>相应地，你可以在启动应用时，通过     –trace    （或在     application.properties    设置     trace=true    ）启用”trace”模式，该模式能够追踪核心loggers（内嵌容器，Hibernate生成的schema，Spring全部的portfolio）的所有日志信息。    </p>
+<p>##文件输出##</p>
+<p>默认情况下，SpringBoot只会将日志记录到控制台，而不写进日志文件，如果需要，你可以设置     logging.file    或     logging.path    属性（例如     application.properties    ）。<br>下表展示如何组合使用     logging.*    ：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">logging.file</th>
+<th style="text-align:center">logging.path</th>
+<th style="text-align:center">示例</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">只记录到控制台</td>
+</tr>
+<tr>
+<td style="text-align:center">Specific    file</td>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center">my.log</td>
+<td style="text-align:center">写到特定的日志文件，名称可以是精确的位置或相对于当前目录</td>
+</tr>
+<tr>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center">Specific directory</td>
+<td style="text-align:center">/var/log</td>
+<td style="text-align:center">写到特定目录下的     spring.log    里，名称可以是精确的位置或相对于当前目录</td>
+</tr>
+</tbody>
+</table>
+<p>日志文件每达到10M就会被分割，跟控制台一样，默认记录     ERROR    ,WARN    和     INFO    级别的信息。</p>
+<p>##日志级别##</p>
+<p>所有Spring    Boot支持的日志系统都可以在Spring          Environment    中设置级别（     application.properties    里也一样），设置格式为’logging.level.*=LEVEL’，其中     LEVEL    是     TRACE    ,          DEBUG    ,          INFO    ,          WARN    ,          ERROR    ,          FATAL    ,          OFF    之一：<br>以下是     application.properties    示例：</p>
+<pre><code>logging.level.root=WARN
+logging.level.org.springframework.web=DEBUG
+logging.level.org.hibernate=ERROR
+</code></pre><p>注    默认情况，Spring    Boot会重新映射Thymeleaf的     INFO    信息到     DEBUG    级别，这<br>能减少标准日志输出的噪声。查看LevelRemappingAppender可以按自己的配置设<br>置映射。</p>
 
-    
-	  <div class="readmore">
-      <a href="/2017/11/21/归并排序/">Read More</a>
-    </div>
-    
-    
-    
-	  <div class="full-width auto-padding tags">
+  	</div>
+	  
+	  <div class="article-tags tags">
       
-        <a href="/tags/java/">java</a>
+        <a href="/tags/SpringBoot/">SpringBoot</a>
       
-        <a href="/tags/算法/">算法</a>
+        <a href="/tags/log/">log</a>
       
 	  </div>
     
-  </section>
-</article>
-    </div>
-  
-    <div class='post-wrapper'>
-      <article class="post reveal">
-  <section class="meta">
-    
-    <h2 class="title">
-      <a href="/2017/11/20/希尔排序/">
-        希尔排序
-      </a>
-    </h2>
-    
-    <time>
-      11月 20, 2017
-    </time>
 		
-  </section>
-  <section class="article typo">
-	  <p><strong>希尔排序</strong></p>
-<p>希尔排序(ShellSort)的名称源于它的发明者Donald Shell.<br>它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.<br>希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.<br>
-
-    
-	  <div class="readmore">
-      <a href="/2017/11/20/希尔排序/">Read More</a>
-    </div>
-    
-    
-    
-	  <div class="full-width auto-padding tags">
-      
-        <a href="/tags/java/">java</a>
-      
-        <a href="/tags/算法/">算法</a>
-      
-	  </div>
-    
-  </section>
+	
+		<div class="art-item-footer">
+				
+					<span class="art-item-left"><i class="icon icon-chevron-thin-left"></i>prev：<a href="/2017/12/17/Application属性文件/" rel="prev"  title="Application属性文件">
+						Application属性文件 
+					</a></span>
+				
+				
+					<span class="art-item-right">next：<a href="/2017/12/17/Spring_Web_MVC框架/" rel="next"  title="Spring WebMVC框架">
+						Spring WebMVC框架
+					</a><i class="icon icon-chevron-thin-right"></i></span>
+				
+		</div>
+	
+	</section>
+	
 </article>
-    </div>
-  
-    <div class='post-wrapper'>
-      <article class="post reveal">
-  <section class="meta">
-    
-    <h2 class="title">
-      <a href="/2017/11/20/插入排序/">
-        插入排序
-      </a>
-    </h2>
-    
-    <time>
-      11月 20, 2017
-    </time>
-		
-  </section>
-  <section class="article typo">
-	  <p><strong>插入排序</strong></p>
-<p>插入排序由N-1趟排序组成,对于p=1到N-1趟,插入排序保证从位置0到位置p上的元素为已排序状态.</p>
-
-    
-	  <div class="readmore">
-      <a href="/2017/11/20/插入排序/">Read More</a>
-    </div>
-    
-    
-    
-	  <div class="full-width auto-padding tags">
-      
-        <a href="/tags/java/">java</a>
-      
-        <a href="/tags/算法/">算法</a>
-      
-	  </div>
-    
-  </section>
-</article>
-    </div>
-  
-    <div class='post-wrapper'>
-      <article class="post reveal">
-  <section class="meta">
-    
-    <h2 class="title">
-      <a href="/2017/11/20/冒泡排序/">
-        冒泡排序
-      </a>
-    </h2>
-    
-    <time>
-      11月 20, 2017
-    </time>
-		
-  </section>
-  <section class="article typo">
-	  <p><strong>冒泡排序</strong><br>
-
-    
-	  <div class="readmore">
-      <a href="/2017/11/20/冒泡排序/">Read More</a>
-    </div>
-    
-    
-    
-	  <div class="full-width auto-padding tags">
-      
-        <a href="/tags/java/">java</a>
-      
-        <a href="/tags/算法/">算法</a>
-      
-	  </div>
-    
-  </section>
-</article>
-    </div>
-  
-</section>
-
-
+<script>
+	window.subData = {
+		title: 'SpringBoot日志',
+		tools: true
+	}
+</script>
 
       </div>
       <aside class='l_side'>
