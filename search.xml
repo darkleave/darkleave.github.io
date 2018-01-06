@@ -4,7 +4,7 @@
     
     <entry>
       <title><![CDATA[使用YAML代替Properties]]></title>
-      <url>/blog/2017/12/17/%E4%BD%BF%E7%94%A8YAML%E4%BB%A3%E6%9B%BFProperties/</url>
+      <url>/2017/12/17/%E4%BD%BF%E7%94%A8YAML%E4%BB%A3%E6%9B%BFProperties/</url>
       <content type="html"><![CDATA[<p><strong>使用YAML代替Properties</strong></p>
 <a id="more"></a>
 <p>##SpringBoot支持YAML##<br>YAML是JSON的一个超集，也是一种方便的定义层次配置数据的格式。只要你<br>将SnakeYAML    库放到classpath下，     SpringApplication    就会自动支持YAML，<br>以作为properties的替换。<br>注    如果你使用’Starters’，添加     spring-boot-starter    依赖会自动加载<br>SnakeYAML。</p>
@@ -121,7 +121,7 @@ foo:
     
     <entry>
       <title><![CDATA[SpringBoot应用启动事件]]></title>
-      <url>/blog/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/</url>
+      <url>/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/</url>
       <content type="html"><![CDATA[<p><strong>SpringBoot应用启动事件</strong></p>
 <a id="more"></a>
 <p><strong>监听Spring boot应用的事件只需实现ApplicationListener接口来监听对应事件.</strong></p>
@@ -166,7 +166,7 @@ foo:
     
     <entry>
       <title><![CDATA[使用CommandLineRunner或ApplicationRunner]]></title>
-      <url>/blog/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/</url>
+      <url>/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/</url>
       <content type="html"><![CDATA[<p><strong>使用CommandLineRunner或ApplicationRunner</strong></p>
 <a id="more"></a>
 <p>如果需要在     SpringApplication    启动后执行一些特殊的代码，你可以实<br>现     ApplicationRunner    或     CommandLineRunner    接口，这两个接口工作方式相<br>同，都只提供单一的     run    方法，该方法仅在     SpringApplication.run(…)    完成<br>之前调用。<br>     CommandLineRunner    接口能够访问string数组类型的应用参数，<br>而     ApplicationRunner    使用的是上面描述过的     ApplicationArguments    接口：</p>
@@ -192,7 +192,7 @@ public    class    MyBean    implements    CommandLineRunner    {
     
     <entry>
       <title><![CDATA[SpringBoot日志]]></title>
-      <url>/blog/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/</url>
+      <url>/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/</url>
       <content type="html"><![CDATA[<p><strong>SpringBoot日志</strong></p>
 <a id="more"></a>
 <p>##日志格式##</p>
@@ -277,7 +277,7 @@ logging.level.org.hibernate=ERROR
     
     <entry>
       <title><![CDATA[Application属性文件]]></title>
-      <url>/blog/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/</url>
+      <url>/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/</url>
       <content type="html"><![CDATA[<p><strong>Application属性文件</strong></p>
 <a id="more"></a>
 <p>SpringApplication    将从以下位置加载     application.properties    文件，并把<br>它们添加到Spring          Environment    中：</p>
@@ -314,7 +314,7 @@ fault.properties,classpath:/override.properties
     
     <entry>
       <title><![CDATA[Spring WebMVC框架]]></title>
-      <url>/blog/2017/12/17/Spring_Web_MVC%E6%A1%86%E6%9E%B6/</url>
+      <url>/2017/12/17/Spring_Web_MVC%E6%A1%86%E6%9E%B6/</url>
       <content type="html"><![CDATA[<p><strong>Spring WebMVC框架</strong></p>
 <a id="more"></a>
 <p>Spring    Web    MVC框架（通常简称为”SpringMVC”）是一个富“模型，视图，控制器”web框架，    允许用户创建特定的     @Controller    或     @RestController        beans来处理传入的HTTP请求，通过@RequestMapping注解可以将控制器中的方法映射到相应的HTTP请求。<br>示例：</p>
@@ -527,7 +527,7 @@ public    class    MyConfiguration    {
     
     <entry>
       <title><![CDATA[WEB环境下进行单元测试]]></title>
-      <url>/blog/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</url>
+      <url>/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</url>
       <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p>
 <a id="more"></a>
 <p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>
@@ -544,7 +544,7 @@ public    class    MyConfiguration    {
     
     <entry>
       <title><![CDATA[第三方配置]]></title>
-      <url>/blog/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/</url>
+      <url>/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/</url>
       <content type="html"><![CDATA[<p><strong>第三方配置</strong></p>
 <a id="more"></a>
 <p>@ConfigurationProperties    不仅可以注解在类上，也可以注解在public @Bean    方法上，当你需要为不受控的第三方组件绑定属性时，该方法将非常有<br>用。为了从     Environment属性中配置一个bean，你需要使用@ConfigurationProperties    注解该bean：</p>
@@ -662,7 +662,7 @@ public    class    ConnectionProperties    {
     
     <entry>
       <title><![CDATA[spring boot简介]]></title>
-      <url>/blog/2017/12/02/spring-boot%E7%AE%80%E4%BB%8B/</url>
+      <url>/2017/12/02/spring-boot%E7%AE%80%E4%BB%8B/</url>
       <content type="html"><![CDATA[<p><strong>spring boot</strong></p>
 <p>spring boot 为所有spring框架开发者提供一种更加易于理解，更加便捷高效的开发方式；<br>通过提供更为直观的spring平台和第三方依赖库，只需要极其少量的spring配置，便能部署运行spring boot应用。</p>
 <a id="more"></a>
@@ -846,7 +846,7 @@ public class Example {
     
     <entry>
       <title><![CDATA[快速排序]]></title>
-      <url>/blog/2017/12/02/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
+      <url>/2017/12/02/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
       <content type="html"><![CDATA[<p><strong>快速排序</strong></p>
 <p>堆排序是指利用堆这种数据结构所设计的一种排序算法.堆是一种特殊的二叉树,每个子节点的值总是小于(或大于)它的父节点,相应的分为最大堆或最小堆,<br>通过最大堆或最小堆不断输出堆顶元素,直到全部元素都已输出,得到的输出元素序列即为有序序列.</p>
 <a id="more"></a>]]></content>
@@ -864,7 +864,7 @@ public class Example {
     
     <entry>
       <title><![CDATA[堆排序]]></title>
-      <url>/blog/2017/12/01/%E5%A0%86%E6%8E%92%E5%BA%8F/</url>
+      <url>/2017/12/01/%E5%A0%86%E6%8E%92%E5%BA%8F/</url>
       <content type="html"><![CDATA[<p><strong>堆排序</strong></p>
 <p>堆排序是指利用堆这种数据结构所设计的一种排序算法.堆是一种特殊的二叉树,每个子节点的值总是小于(或大于)它的父节点,相应的分为最大堆或最小堆,<br>通过最大堆或最小堆不断输出堆顶元素,直到全部元素都已输出,得到的输出元素序列即为有序序列.</p>
 <a id="more"></a>
@@ -962,7 +962,7 @@ public class HeapSort3 {
     
     <entry>
       <title><![CDATA[归并排序]]></title>
-      <url>/blog/2017/11/21/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</url>
+      <url>/2017/11/21/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/</url>
       <content type="html"><![CDATA[<p><strong>归并排序</strong></p>
 <p>将一个无序序列进行折半递归,直到得到单个元素的有序序列,然后递归的将折半后左右两边的有序序列依次进行合并,最终得到有序序列.</p>
 <a id="more"></a>
@@ -1051,7 +1051,7 @@ public class MergeSort {
     
     <entry>
       <title><![CDATA[希尔排序]]></title>
-      <url>/blog/2017/11/20/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
+      <url>/2017/11/20/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/</url>
       <content type="html"><![CDATA[<p><strong>希尔排序</strong></p>
 <p>希尔排序(ShellSort)的名称源于它的发明者Donald Shell.<br>它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.<br>希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.<br><a id="more"></a></p>
 <pre><code>import java.util.*;
@@ -1110,7 +1110,7 @@ public class Test {
     
     <entry>
       <title><![CDATA[插入排序]]></title>
-      <url>/blog/2017/11/20/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
+      <url>/2017/11/20/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/</url>
       <content type="html"><![CDATA[<p><strong>插入排序</strong></p>
 <p>插入排序由N-1趟排序组成,对于p=1到N-1趟,插入排序保证从位置0到位置p上的元素为已排序状态.</p>
 <a id="more"></a>
@@ -1158,7 +1158,7 @@ public class InsertSort2 {
     
     <entry>
       <title><![CDATA[冒泡排序]]></title>
-      <url>/blog/2017/11/20/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
+      <url>/2017/11/20/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/</url>
       <content type="html"><![CDATA[<p><strong>冒泡排序</strong><br><a id="more"></a></p>
 <pre><code>import java.util.Arrays;
 
