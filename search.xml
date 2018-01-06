@@ -157,23 +157,6 @@ fault.properties,classpath:/override.properties
     </entry>
     
     <entry>
-      <title><![CDATA[WEB环境下进行单元测试]]></title>
-      <url>/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</url>
-      <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p>
-<a id="more"></a>
-<p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> SpringBoot </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[SpringBoot日志]]></title>
       <url>/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/</url>
       <content type="html"><![CDATA[<p><strong>SpringBoot日志</strong></p>
@@ -253,6 +236,51 @@ logging.level.org.hibernate=ERROR
             <tag> SpringBoot </tag>
             
             <tag> log </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[SpringBoot应用启动事件]]></title>
+      <url>/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<p><strong>SpringBoot应用启动事件</strong></p>
+<a id="more"></a>
+<p><strong>监听Spring boot应用的事件只需实现ApplicationListener接口来监听对应事件.</strong></p>
+<p>有些事件实际上是在    ApplicationContext    创建前触发的，所以你不能在那些</p>
+<p>事件（处理类）中通过    @Bean    注册监听器，只能通</p>
+<p>过    SpringApplication.addListeners(…)    或    SpringApplicationBuilder.lis</p>
+<p>teners(…)    方法注册.</p>
+<p>应用运行时，事件会以下面的次序发送：</p>
+<ol>
+<li>在运行开始，但除了监听器注册和初始化以外的任何处理之前，会发送一</li>
+</ol>
+<p>个    ApplicationStartedEvent    。</p>
+<ol>
+<li>在Environment将被用于已知的上下文，但在上下文被创建前，会发送一</li>
+</ol>
+<p>个    ApplicationEnvironmentPreparedEvent    。</p>
+<ol>
+<li>在refresh开始前，但在bean定义已被加载后，会发送一</li>
+</ol>
+<p>个    ApplicationPreparedEvent    。</p>
+<ol>
+<li>在refresh之后，相关的回调处理完，会发送一个    ApplicationReadyEvent    ，</li>
+</ol>
+<p>表示应用准备好接收请求了。</p>
+<ol>
+<li>启动过程中如果出现异常，会发送一个    ApplicationFailedEvent    。</li>
+</ol>
+<p>注    通常不需要使用application事件，但知道它们的存在是有用的（在某些场合可能</p>
+<p>会使用到），比如，在Spring    Boot内部会使用事件处理各种任务。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> SpringBoot </tag>
+            
+            <tag> event </tag>
             
         </tags>
         
@@ -472,51 +500,6 @@ public    class    MyConfiguration    {
     </entry>
     
     <entry>
-      <title><![CDATA[SpringBoot应用启动事件]]></title>
-      <url>/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/</url>
-      <content type="html"><![CDATA[<p><strong>SpringBoot应用启动事件</strong></p>
-<a id="more"></a>
-<p><strong>监听Spring boot应用的事件只需实现ApplicationListener接口来监听对应事件.</strong></p>
-<p>有些事件实际上是在    ApplicationContext    创建前触发的，所以你不能在那些</p>
-<p>事件（处理类）中通过    @Bean    注册监听器，只能通</p>
-<p>过    SpringApplication.addListeners(…)    或    SpringApplicationBuilder.lis</p>
-<p>teners(…)    方法注册.</p>
-<p>应用运行时，事件会以下面的次序发送：</p>
-<ol>
-<li>在运行开始，但除了监听器注册和初始化以外的任何处理之前，会发送一</li>
-</ol>
-<p>个    ApplicationStartedEvent    。</p>
-<ol>
-<li>在Environment将被用于已知的上下文，但在上下文被创建前，会发送一</li>
-</ol>
-<p>个    ApplicationEnvironmentPreparedEvent    。</p>
-<ol>
-<li>在refresh开始前，但在bean定义已被加载后，会发送一</li>
-</ol>
-<p>个    ApplicationPreparedEvent    。</p>
-<ol>
-<li>在refresh之后，相关的回调处理完，会发送一个    ApplicationReadyEvent    ，</li>
-</ol>
-<p>表示应用准备好接收请求了。</p>
-<ol>
-<li>启动过程中如果出现异常，会发送一个    ApplicationFailedEvent    。</li>
-</ol>
-<p>注    通常不需要使用application事件，但知道它们的存在是有用的（在某些场合可能</p>
-<p>会使用到），比如，在Spring    Boot内部会使用事件处理各种任务。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> SpringBoot </tag>
-            
-            <tag> event </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[使用CommandLineRunner或ApplicationRunner]]></title>
       <url>/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/</url>
       <content type="html"><![CDATA[<p><strong>使用CommandLineRunner或ApplicationRunner</strong></p>
@@ -531,6 +514,23 @@ public    class    MyBean    implements    CommandLineRunner    {
                 }
 }
 </code></pre><p>如果某些定义的     CommandLineRunner    或     ApplicationRunner        beans需要以特定<br>的顺序调用，你可以实现     <strong>org.springframework.core.Ordered</strong>    接口或使<br>用     <strong>org.springframework.core.annotation.Order</strong>    注解。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> SpringBoot </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[WEB环境下进行单元测试]]></title>
+      <url>/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</url>
+      <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p>
+<a id="more"></a>
+<p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>
 ]]></content>
       
         
