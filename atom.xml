@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="www.zhz.gift/"/>
-  <updated>2017-12-17T12:12:19.322Z</updated>
+  <updated>2017-12-17T12:11:06.369Z</updated>
   <id>www.zhz.gift/</id>
   
   <author>
@@ -17,24 +17,42 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>使用YAML代替Properties</title>
-    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8YAML%E4%BB%A3%E6%9B%BFProperties/"/>
-    <id>www.zhz.gift/2017/12/17/使用YAML代替Properties/</id>
+    <title>WEB环境下进行单元测试</title>
+    <link href="www.zhz.gift/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+    <id>www.zhz.gift/2017/12/17/WEB环境下进行单元测试/</id>
     <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:12:19.322Z</updated>
+    <updated>2017-12-17T12:11:06.369Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>使用YAML代替Properties</strong></p><a id="more"></a><p>##SpringBoot支持YAML##<br>YAML是JSON的一个超集，也是一种方便的定义层次配置数据的格式。只要你<br>将SnakeYAML    库放到classpath下，     SpringApplication    就会自动支持YAML，<br>以作为properties的替换。<br>注    如果你使用’Starters’，添加     spring-boot-starter    依赖会自动加载<br>SnakeYAML。</p><p>##加载YAML##</p><p>Spring框架提供两个便利的类用于加载YAML文档，YamlPropertiesFactoryBean    会将YAML加载为     Properties    ，     YamlMapFactoryBean    会将YAML加载为     Map    。<br>例如，下面的YAML文档：</p><pre><code>environments:                dev:                                url:    http://dev.bar.com                                name:    Developer    Setup                prod:                                url:    http://foo.bar.com                                name:    My    Cool    App</code></pre><p>会被转化到这些属性：</p><pre><code>environments.dev.url=http://dev.bar.comenvironments.dev.name=Developer    Setupenvironments.prod.url=http://foo.bar.comenvironments.prod.name=My    Cool    App</code></pre><p>YAML列表被表示成使用[index]间接引用作为属性keys的形式，例如下面的<br>YAML：</p><pre><code>my:            servers:                            -    dev.bar.com                            -    foo.bar.com</code></pre><p>将会转化到这些属性:</p><pre><code>my.servers[0]=dev.bar.commy.servers[1]=foo.bar.com</code></pre><p>使用Spring          DataBinder    工具集绑定这些属性（这是@ConfigurationProperties    做的事）时，你需要确保目标bean有个     java.util.List    或     Set    类型的属性，并且需要提供一个setter或使用可变的值初始化它，比如，下面的代码将绑定上面的属性：</p><pre><code>@ConfigurationProperties(prefix=&quot;my&quot;)public    class    Config    {        private    List&lt;String&gt;    servers    =    new    ArrayList&lt;String&gt;();        public    List&lt;String&gt;    getServers(){                return    this.servers;        }}</code></pre><p>##在Spring环境中使用YAML暴露属性##</p><p>YamlPropertySourceLoader类能够将YAML作为PropertySource导出到SprigEnvironment    ，这允许你使用常用的    @Value注解配合占位符语法访问YAML属<br>性。</p><p>##Multi-profile    YAML文档##</p><p>你可以在单个文件中定义多个特定配置（profile-specific）的YAML文档，并通过     spring.profiles    标示生效的文档，例如：</p><pre><code>server:                address:    192.168.1.100---spring:                profiles:    developmentserver:                address:    127.0.0.1---spring:                profiles:    productionserver:                address:    192.168.1.120</code></pre><p>在以上例子中，如果     development        profile被激活，     server.address    属性将是     127.0.0.1    ；如果     development    和     production        profiles没有启用，则该属性的值将是     192.168.1.100    。<br>在应用上下文启动时，如果没有明确指定激活的profiles，则默认的profiles将生效。所以，在下面的文档中我们为     security.user.password    设置了一个值，该<br>值只在”default”    profile中有效：                    </p><pre><code>server:        port:    8000---spring:        profiles:    defaultsecurity:        user:                password:    weak</code></pre><p>然而，在这个示例中，由于没有关联任何profile，密码总是会设置，并且如果有必要的话可以在其他profiles中显式重置：                    </p><pre><code>server:        port:    8000security:        user:                password:    weak                    </code></pre><p>通过     !    可以对     spring.profiles指定的profiles进行取反（negated，跟java中的     !    作用一样），如果negated和non-negated    profiles都指定一个单一文件，至少需要匹配一个non-negated    profile，可能不会匹配任何negated    profiles。                    </p><p>##YAML缺点##                    </p><p>YAML文件不能通过     @PropertySource    注解加载，如果需要使用该方式，那就必须使用properties文件。</p><p>##合并YAML列表##</p><p>正如上面看到的，所有YAML最终都转换为properties，在通过一个profile覆<br>盖”list”属性时这个过程可能不够直观（counter    intuitive）。例如，假设有一<br>个     MyPojo    对象，默认它的     name    和     description    属性都为     null    ，下面我们<br>将从     FooProperties    暴露一个     MyPojo    对象列表（list）：</p><pre><code>@ConfigurationProperties(&quot;foo&quot;)public    class    FooProperties    {        private    final    List&lt;MyPojo&gt;    list    =    new    ArrayList&lt;&gt;();        public    List&lt;MyPojo&gt;    getList()    {                return    this.list;        }}</code></pre><p>考虑如下配置：</p><pre><code>foo:        list:                -    name:    my    name                        description:    my    description---spring:        profiles:    devfoo:        list:                -    name:    my    another    name</code></pre><p> 如果     dev        profile没有激活，     FooProperties.list    将包括一个如上述定义的     MyPojo    实体，即使     dev    生效，该     list    仍旧只包含一个实体（     name    值为     my    another    name    ，description    值为     null    ）。<br>此配置不会向该列表添加第二个     MyPojo    实例，也不会对该项进行合并。<br>当一个集合定义在多个profiles时，只使用优先级最高的：       </p><pre><code>foo:        list:                -    name:    my    name                        description:    my    description                -    name:    another    name                        description:    another    description---spring:        profiles:    devfoo:        list:                    -    name:    my    another    name</code></pre><p> 在以上示例中，如果     dev        profile激活，     FooProperties.list将包含一个     MyPojo    实体（     name    值为     my    another    name    ，     description    值为     null    ）。   </p>]]></content>
+    <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p><a id="more"></a><p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;strong&gt;使用YAML代替Properties&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;WEB环境下进行单元测试&lt;/strong&gt;&lt;/p&gt;
     
     </summary>
     
     
       <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
     
-      <category term="YAML" scheme="www.zhz.gift/tags/YAML/"/>
+  </entry>
+  
+  <entry>
+    <title>Application属性文件</title>
+    <link href="www.zhz.gift/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/"/>
+    <id>www.zhz.gift/2017/12/17/Application属性文件/</id>
+    <published>2017-12-16T16:07:42.000Z</published>
+    <updated>2017-12-17T12:10:39.804Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>Application属性文件</strong></p><a id="more"></a><p>SpringApplication    将从以下位置加载     application.properties    文件，并把<br>它们添加到Spring          Environment    中：</p><ol><li><p>当前目录下的     /config    子目录。</p></li><li><p>当前目录。</p></li><li><p>classpath下的     /config    包。</p></li><li><p>classpath根路径（root）。</p></li></ol><p>该列表是按优先级排序的（列表中位置高的路径下定义的属性将覆盖位置低的）。<br>注    你可以使用YAML（’.yml’）文件替代’.properties’。</p><p>如果不喜欢将     application.properties    作为配置文件名，你可以通过指<br>定     spring.config.name    环境属性来切换其他的名称，也可以使<br>用     spring.config.location    环境属性引用一个明确的路径（目录位置或文件路<br>径列表以逗号分割）。</p><pre><code>$    java    -jar    myproject.jar    --spring.config.name=myproject或$    java    -jar    myproject.jar    --spring.config.location=classpath:/default.properties,classpath:/override.properties</code></pre><p>注    在初期需要根据     spring.config.name    和     spring.config.location    决定加<br>载哪个文件，所以它们必须定义为environment属性（通常为OS    env，系统属性或<br>命令行参数）。</p><p>如果     spring.config.location    包含目录（相对于文件），那它们应该以     /    结尾<br>（在被加载前，     spring.config.name    关联的名称将被追加到后面，包括profile-<br>specific的文件名）。     spring.config.location    下定义的文件使用方法跟往常一<br>样，没有profile-specific变量支持的属性，将被profile-specific的属性覆盖。</p><p>不管     spring.config.location    配置什么值，默认总会按<br>照     classpath:,classpath:/config,file:,file:config/    的顺序进行搜索，优<br>先级由低到高，也就是     file:config/    获胜。<br>如果你指定自己的位置，它们会优先于所有的默认位置（locations），并使用相同的由低到高的优先级顺序。<br>那样，你就可以在     application.properties    为应用设置默认值，然后在运行的时候使<br>用不同的文件覆盖它，同时保留默认配置。</p><p>注    如果使用环境变量而不是系统属性，需要注意多数操作系统的key名称不允许以<br>句号分割（period-separated），但你可以使用下划线（underscores）代替（比<br>如，使用     SPRING_CONFIG_NAME    代替     spring.config.name    ）。<br>注    如果应用运行在容器中，那么JNDI属性（java:comp/env）或servlet上下文初始<br>化参数可以用来代替环境变量或系统属性，当然也可以使用环境变量或系统属性。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;Application属性文件&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
     
   </entry>
   
@@ -61,39 +79,17 @@
   </entry>
   
   <entry>
-    <title>SpringBoot日志</title>
-    <link href="www.zhz.gift/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/"/>
-    <id>www.zhz.gift/2017/12/17/SpringBoot日志/</id>
+    <title>使用CommandLineRunner或ApplicationRunner</title>
+    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/"/>
+    <id>www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/</id>
     <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:12:51.622Z</updated>
+    <updated>2017-12-17T12:11:22.286Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>SpringBoot日志</strong></p><a id="more"></a><p>##日志格式##</p><p>Spring    Boot默认的日志输出格式如下：</p><pre><code>2014-03-05    10:57:51.112        INFO    45469    ---    [main]org.apache.catalina.core.StandardEngine        :    Starting    Servlet    Engine:    Apache    Tomcat/7.0.522014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.a.c.c.C.[Tomcat].[localhost].[/]                            :    Initializing    Spring    embedded    WebApplicationContext2014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.s.web.context.ContextLoader                                                :    Root    WebApplicationContext:    initialization    completed    in    1358    ms2014-03-05    10:57:51.698        INFO    45469    ---    [ost-startStop-1]    o.s.b.c.e.ServletRegistrationBean                                :    Mapping    servlet:    &apos;dispatcherServlet&apos;    to    [/]2014-03-05    10:57:51.702        INFO    45469    ---    [ost-startStop-1]    o.s.b.c.embedded.FilterRegistrationBean        :    Mapping    filter:    &apos;hiddenHttpMethodFilter&apos;    to:    [/*]</code></pre><p>输出的节点（items）如下：</p><ol><li>日期和时间    -    精确到毫秒，且易于排序。</li><li>日志级别    -          ERROR    ,          WARN    ,          INFO    ,          DEBUG        或          TRACE    。</li><li>Process    ID。</li><li>—    分隔符，用于区分实际日志信息开头。</li><li>线程名    -    包括在方括号中（控制台输出可能会被截断）。</li><li>日志名    -    通常是源class的类名（缩写）。</li><li>日志信息。<br>注    Logback没有     FATAL    级别，它会映射到     ERROR    。</li></ol><p>##控制台输出##</p><p>默认的日志配置会在写日志消息时将它们回显到控制台，级别为     ERROR    ,WARN    和     INFO    的消息会被记录。你可以在启动应用时，通过     –debug    标识开启控制台的DEBUG级别日志记录，也可以在application.properties    中指定     debug=true    。</p><pre><code>$    java    -jar    myapp.jar    --debug</code></pre><p>当debug模式启用时，一系列核心loggers（内嵌容器，Hibernate，Spring    Boot<br>等）记录的日志会变多，但不会输出所有的信息。<br>相应地，你可以在启动应用时，通过     –trace    （或在     application.properties    设置     trace=true    ）启用”trace”模式，该模式能够追踪核心loggers（内嵌容器，Hibernate生成的schema，Spring全部的portfolio）的所有日志信息。    </p><p>##文件输出##</p><p>默认情况下，SpringBoot只会将日志记录到控制台，而不写进日志文件，如果需要，你可以设置     logging.file    或     logging.path    属性（例如     application.properties    ）。<br>下表展示如何组合使用     logging.*    ：</p><table><thead><tr><th style="text-align:center">logging.file</th><th style="text-align:center">logging.path</th><th style="text-align:center">示例</th><th style="text-align:center">描述</th></tr></thead><tbody><tr><td style="text-align:center">(none)</td><td style="text-align:center">(none)</td><td style="text-align:center"></td><td style="text-align:center">只记录到控制台</td></tr><tr><td style="text-align:center">Specific    file</td><td style="text-align:center">(none)</td><td style="text-align:center">my.log</td><td style="text-align:center">写到特定的日志文件，名称可以是精确的位置或相对于当前目录</td></tr><tr><td style="text-align:center">(none)</td><td style="text-align:center">Specific directory</td><td style="text-align:center">/var/log</td><td style="text-align:center">写到特定目录下的     spring.log    里，名称可以是精确的位置或相对于当前目录</td></tr></tbody></table><p>日志文件每达到10M就会被分割，跟控制台一样，默认记录     ERROR    ,WARN    和     INFO    级别的信息。</p><p>##日志级别##</p><p>所有Spring    Boot支持的日志系统都可以在Spring          Environment    中设置级别（     application.properties    里也一样），设置格式为’logging.level.*=LEVEL’，其中     LEVEL    是     TRACE    ,          DEBUG    ,          INFO    ,          WARN    ,          ERROR    ,          FATAL    ,          OFF    之一：<br>以下是     application.properties    示例：</p><pre><code>logging.level.root=WARNlogging.level.org.springframework.web=DEBUGlogging.level.org.hibernate=ERROR</code></pre><p>注    默认情况，Spring    Boot会重新映射Thymeleaf的     INFO    信息到     DEBUG    级别，这<br>能减少标准日志输出的噪声。查看LevelRemappingAppender可以按自己的配置设<br>置映射。</p>]]></content>
+    <content type="html"><![CDATA[<p><strong>使用CommandLineRunner或ApplicationRunner</strong></p><a id="more"></a><p>如果需要在     SpringApplication    启动后执行一些特殊的代码，你可以实<br>现     ApplicationRunner    或     CommandLineRunner    接口，这两个接口工作方式相<br>同，都只提供单一的     run    方法，该方法仅在     SpringApplication.run(…)    完成<br>之前调用。<br>     CommandLineRunner    接口能够访问string数组类型的应用参数，<br>而     ApplicationRunner    使用的是上面描述过的     ApplicationArguments    接口：</p><pre><code>import    org.springframework.boot.*import    org.springframework.stereotype.*@Componentpublic    class    MyBean    implements    CommandLineRunner    {                public    void    run(String...    args)    {                                //    Do    something...                }}</code></pre><p>如果某些定义的     CommandLineRunner    或     ApplicationRunner        beans需要以特定<br>的顺序调用，你可以实现     <strong>org.springframework.core.Ordered</strong>    接口或使<br>用     <strong>org.springframework.core.annotation.Order</strong>    注解。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;strong&gt;SpringBoot日志&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
-    
-      <category term="log" scheme="www.zhz.gift/tags/log/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>WEB环境下进行单元测试</title>
-    <link href="www.zhz.gift/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
-    <id>www.zhz.gift/2017/12/17/WEB环境下进行单元测试/</id>
-    <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:11:06.369Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p><a id="more"></a><p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;WEB环境下进行单元测试&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;使用CommandLineRunner或ApplicationRunner&lt;/strong&gt;&lt;/p&gt;
     
     </summary>
     
@@ -125,6 +121,50 @@
   </entry>
   
   <entry>
+    <title>使用YAML代替Properties</title>
+    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8YAML%E4%BB%A3%E6%9B%BFProperties/"/>
+    <id>www.zhz.gift/2017/12/17/使用YAML代替Properties/</id>
+    <published>2017-12-16T16:07:42.000Z</published>
+    <updated>2017-12-17T12:12:19.322Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>使用YAML代替Properties</strong></p><a id="more"></a><p>##SpringBoot支持YAML##<br>YAML是JSON的一个超集，也是一种方便的定义层次配置数据的格式。只要你<br>将SnakeYAML    库放到classpath下，     SpringApplication    就会自动支持YAML，<br>以作为properties的替换。<br>注    如果你使用’Starters’，添加     spring-boot-starter    依赖会自动加载<br>SnakeYAML。</p><p>##加载YAML##</p><p>Spring框架提供两个便利的类用于加载YAML文档，YamlPropertiesFactoryBean    会将YAML加载为     Properties    ，     YamlMapFactoryBean    会将YAML加载为     Map    。<br>例如，下面的YAML文档：</p><pre><code>environments:                dev:                                url:    http://dev.bar.com                                name:    Developer    Setup                prod:                                url:    http://foo.bar.com                                name:    My    Cool    App</code></pre><p>会被转化到这些属性：</p><pre><code>environments.dev.url=http://dev.bar.comenvironments.dev.name=Developer    Setupenvironments.prod.url=http://foo.bar.comenvironments.prod.name=My    Cool    App</code></pre><p>YAML列表被表示成使用[index]间接引用作为属性keys的形式，例如下面的<br>YAML：</p><pre><code>my:            servers:                            -    dev.bar.com                            -    foo.bar.com</code></pre><p>将会转化到这些属性:</p><pre><code>my.servers[0]=dev.bar.commy.servers[1]=foo.bar.com</code></pre><p>使用Spring          DataBinder    工具集绑定这些属性（这是@ConfigurationProperties    做的事）时，你需要确保目标bean有个     java.util.List    或     Set    类型的属性，并且需要提供一个setter或使用可变的值初始化它，比如，下面的代码将绑定上面的属性：</p><pre><code>@ConfigurationProperties(prefix=&quot;my&quot;)public    class    Config    {        private    List&lt;String&gt;    servers    =    new    ArrayList&lt;String&gt;();        public    List&lt;String&gt;    getServers(){                return    this.servers;        }}</code></pre><p>##在Spring环境中使用YAML暴露属性##</p><p>YamlPropertySourceLoader类能够将YAML作为PropertySource导出到SprigEnvironment    ，这允许你使用常用的    @Value注解配合占位符语法访问YAML属<br>性。</p><p>##Multi-profile    YAML文档##</p><p>你可以在单个文件中定义多个特定配置（profile-specific）的YAML文档，并通过     spring.profiles    标示生效的文档，例如：</p><pre><code>server:                address:    192.168.1.100---spring:                profiles:    developmentserver:                address:    127.0.0.1---spring:                profiles:    productionserver:                address:    192.168.1.120</code></pre><p>在以上例子中，如果     development        profile被激活，     server.address    属性将是     127.0.0.1    ；如果     development    和     production        profiles没有启用，则该属性的值将是     192.168.1.100    。<br>在应用上下文启动时，如果没有明确指定激活的profiles，则默认的profiles将生效。所以，在下面的文档中我们为     security.user.password    设置了一个值，该<br>值只在”default”    profile中有效：                    </p><pre><code>server:        port:    8000---spring:        profiles:    defaultsecurity:        user:                password:    weak</code></pre><p>然而，在这个示例中，由于没有关联任何profile，密码总是会设置，并且如果有必要的话可以在其他profiles中显式重置：                    </p><pre><code>server:        port:    8000security:        user:                password:    weak                    </code></pre><p>通过     !    可以对     spring.profiles指定的profiles进行取反（negated，跟java中的     !    作用一样），如果negated和non-negated    profiles都指定一个单一文件，至少需要匹配一个non-negated    profile，可能不会匹配任何negated    profiles。                    </p><p>##YAML缺点##                    </p><p>YAML文件不能通过     @PropertySource    注解加载，如果需要使用该方式，那就必须使用properties文件。</p><p>##合并YAML列表##</p><p>正如上面看到的，所有YAML最终都转换为properties，在通过一个profile覆<br>盖”list”属性时这个过程可能不够直观（counter    intuitive）。例如，假设有一<br>个     MyPojo    对象，默认它的     name    和     description    属性都为     null    ，下面我们<br>将从     FooProperties    暴露一个     MyPojo    对象列表（list）：</p><pre><code>@ConfigurationProperties(&quot;foo&quot;)public    class    FooProperties    {        private    final    List&lt;MyPojo&gt;    list    =    new    ArrayList&lt;&gt;();        public    List&lt;MyPojo&gt;    getList()    {                return    this.list;        }}</code></pre><p>考虑如下配置：</p><pre><code>foo:        list:                -    name:    my    name                        description:    my    description---spring:        profiles:    devfoo:        list:                -    name:    my    another    name</code></pre><p> 如果     dev        profile没有激活，     FooProperties.list    将包括一个如上述定义的     MyPojo    实体，即使     dev    生效，该     list    仍旧只包含一个实体（     name    值为     my    another    name    ，description    值为     null    ）。<br>此配置不会向该列表添加第二个     MyPojo    实例，也不会对该项进行合并。<br>当一个集合定义在多个profiles时，只使用优先级最高的：       </p><pre><code>foo:        list:                -    name:    my    name                        description:    my    description                -    name:    another    name                        description:    another    description---spring:        profiles:    devfoo:        list:                    -    name:    my    another    name</code></pre><p> 在以上示例中，如果     dev        profile激活，     FooProperties.list将包含一个     MyPojo    实体（     name    值为     my    another    name    ，     description    值为     null    ）。   </p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;使用YAML代替Properties&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+    
+      <category term="YAML" scheme="www.zhz.gift/tags/YAML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SpringBoot日志</title>
+    <link href="www.zhz.gift/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/"/>
+    <id>www.zhz.gift/2017/12/17/SpringBoot日志/</id>
+    <published>2017-12-16T16:07:42.000Z</published>
+    <updated>2017-12-17T12:12:51.622Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>SpringBoot日志</strong></p><a id="more"></a><p>##日志格式##</p><p>Spring    Boot默认的日志输出格式如下：</p><pre><code>2014-03-05    10:57:51.112        INFO    45469    ---    [main]org.apache.catalina.core.StandardEngine        :    Starting    Servlet    Engine:    Apache    Tomcat/7.0.522014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.a.c.c.C.[Tomcat].[localhost].[/]                            :    Initializing    Spring    embedded    WebApplicationContext2014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.s.web.context.ContextLoader                                                :    Root    WebApplicationContext:    initialization    completed    in    1358    ms2014-03-05    10:57:51.698        INFO    45469    ---    [ost-startStop-1]    o.s.b.c.e.ServletRegistrationBean                                :    Mapping    servlet:    &apos;dispatcherServlet&apos;    to    [/]2014-03-05    10:57:51.702        INFO    45469    ---    [ost-startStop-1]    o.s.b.c.embedded.FilterRegistrationBean        :    Mapping    filter:    &apos;hiddenHttpMethodFilter&apos;    to:    [/*]</code></pre><p>输出的节点（items）如下：</p><ol><li>日期和时间    -    精确到毫秒，且易于排序。</li><li>日志级别    -          ERROR    ,          WARN    ,          INFO    ,          DEBUG        或          TRACE    。</li><li>Process    ID。</li><li>—    分隔符，用于区分实际日志信息开头。</li><li>线程名    -    包括在方括号中（控制台输出可能会被截断）。</li><li>日志名    -    通常是源class的类名（缩写）。</li><li>日志信息。<br>注    Logback没有     FATAL    级别，它会映射到     ERROR    。</li></ol><p>##控制台输出##</p><p>默认的日志配置会在写日志消息时将它们回显到控制台，级别为     ERROR    ,WARN    和     INFO    的消息会被记录。你可以在启动应用时，通过     –debug    标识开启控制台的DEBUG级别日志记录，也可以在application.properties    中指定     debug=true    。</p><pre><code>$    java    -jar    myapp.jar    --debug</code></pre><p>当debug模式启用时，一系列核心loggers（内嵌容器，Hibernate，Spring    Boot<br>等）记录的日志会变多，但不会输出所有的信息。<br>相应地，你可以在启动应用时，通过     –trace    （或在     application.properties    设置     trace=true    ）启用”trace”模式，该模式能够追踪核心loggers（内嵌容器，Hibernate生成的schema，Spring全部的portfolio）的所有日志信息。    </p><p>##文件输出##</p><p>默认情况下，SpringBoot只会将日志记录到控制台，而不写进日志文件，如果需要，你可以设置     logging.file    或     logging.path    属性（例如     application.properties    ）。<br>下表展示如何组合使用     logging.*    ：</p><table><thead><tr><th style="text-align:center">logging.file</th><th style="text-align:center">logging.path</th><th style="text-align:center">示例</th><th style="text-align:center">描述</th></tr></thead><tbody><tr><td style="text-align:center">(none)</td><td style="text-align:center">(none)</td><td style="text-align:center"></td><td style="text-align:center">只记录到控制台</td></tr><tr><td style="text-align:center">Specific    file</td><td style="text-align:center">(none)</td><td style="text-align:center">my.log</td><td style="text-align:center">写到特定的日志文件，名称可以是精确的位置或相对于当前目录</td></tr><tr><td style="text-align:center">(none)</td><td style="text-align:center">Specific directory</td><td style="text-align:center">/var/log</td><td style="text-align:center">写到特定目录下的     spring.log    里，名称可以是精确的位置或相对于当前目录</td></tr></tbody></table><p>日志文件每达到10M就会被分割，跟控制台一样，默认记录     ERROR    ,WARN    和     INFO    级别的信息。</p><p>##日志级别##</p><p>所有Spring    Boot支持的日志系统都可以在Spring          Environment    中设置级别（     application.properties    里也一样），设置格式为’logging.level.*=LEVEL’，其中     LEVEL    是     TRACE    ,          DEBUG    ,          INFO    ,          WARN    ,          ERROR    ,          FATAL    ,          OFF    之一：<br>以下是     application.properties    示例：</p><pre><code>logging.level.root=WARNlogging.level.org.springframework.web=DEBUGlogging.level.org.hibernate=ERROR</code></pre><p>注    默认情况，Spring    Boot会重新映射Thymeleaf的     INFO    信息到     DEBUG    级别，这<br>能减少标准日志输出的噪声。查看LevelRemappingAppender可以按自己的配置设<br>置映射。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;SpringBoot日志&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+    
+      <category term="log" scheme="www.zhz.gift/tags/log/"/>
+    
+  </entry>
+  
+  <entry>
     <title>第三方配置</title>
     <link href="www.zhz.gift/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/"/>
     <id>www.zhz.gift/2017/12/17/第三方配置/</id>
@@ -143,46 +183,6 @@
       <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
     
       <category term="config" scheme="www.zhz.gift/tags/config/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用CommandLineRunner或ApplicationRunner</title>
-    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/"/>
-    <id>www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/</id>
-    <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:11:22.286Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>使用CommandLineRunner或ApplicationRunner</strong></p><a id="more"></a><p>如果需要在     SpringApplication    启动后执行一些特殊的代码，你可以实<br>现     ApplicationRunner    或     CommandLineRunner    接口，这两个接口工作方式相<br>同，都只提供单一的     run    方法，该方法仅在     SpringApplication.run(…)    完成<br>之前调用。<br>     CommandLineRunner    接口能够访问string数组类型的应用参数，<br>而     ApplicationRunner    使用的是上面描述过的     ApplicationArguments    接口：</p><pre><code>import    org.springframework.boot.*import    org.springframework.stereotype.*@Componentpublic    class    MyBean    implements    CommandLineRunner    {                public    void    run(String...    args)    {                                //    Do    something...                }}</code></pre><p>如果某些定义的     CommandLineRunner    或     ApplicationRunner        beans需要以特定<br>的顺序调用，你可以实现     <strong>org.springframework.core.Ordered</strong>    接口或使<br>用     <strong>org.springframework.core.annotation.Order</strong>    注解。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;使用CommandLineRunner或ApplicationRunner&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Application属性文件</title>
-    <link href="www.zhz.gift/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/"/>
-    <id>www.zhz.gift/2017/12/17/Application属性文件/</id>
-    <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:10:39.804Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>Application属性文件</strong></p><a id="more"></a><p>SpringApplication    将从以下位置加载     application.properties    文件，并把<br>它们添加到Spring          Environment    中：</p><ol><li><p>当前目录下的     /config    子目录。</p></li><li><p>当前目录。</p></li><li><p>classpath下的     /config    包。</p></li><li><p>classpath根路径（root）。</p></li></ol><p>该列表是按优先级排序的（列表中位置高的路径下定义的属性将覆盖位置低的）。<br>注    你可以使用YAML（’.yml’）文件替代’.properties’。</p><p>如果不喜欢将     application.properties    作为配置文件名，你可以通过指<br>定     spring.config.name    环境属性来切换其他的名称，也可以使<br>用     spring.config.location    环境属性引用一个明确的路径（目录位置或文件路<br>径列表以逗号分割）。</p><pre><code>$    java    -jar    myproject.jar    --spring.config.name=myproject或$    java    -jar    myproject.jar    --spring.config.location=classpath:/default.properties,classpath:/override.properties</code></pre><p>注    在初期需要根据     spring.config.name    和     spring.config.location    决定加<br>载哪个文件，所以它们必须定义为environment属性（通常为OS    env，系统属性或<br>命令行参数）。</p><p>如果     spring.config.location    包含目录（相对于文件），那它们应该以     /    结尾<br>（在被加载前，     spring.config.name    关联的名称将被追加到后面，包括profile-<br>specific的文件名）。     spring.config.location    下定义的文件使用方法跟往常一<br>样，没有profile-specific变量支持的属性，将被profile-specific的属性覆盖。</p><p>不管     spring.config.location    配置什么值，默认总会按<br>照     classpath:,classpath:/config,file:,file:config/    的顺序进行搜索，优<br>先级由低到高，也就是     file:config/    获胜。<br>如果你指定自己的位置，它们会优先于所有的默认位置（locations），并使用相同的由低到高的优先级顺序。<br>那样，你就可以在     application.properties    为应用设置默认值，然后在运行的时候使<br>用不同的文件覆盖它，同时保留默认配置。</p><p>注    如果使用环境变量而不是系统属性，需要注意多数操作系统的key名称不允许以<br>句号分割（period-separated），但你可以使用下划线（underscores）代替（比<br>如，使用     SPRING_CONFIG_NAME    代替     spring.config.name    ）。<br>注    如果应用运行在容器中，那么JNDI属性（java:comp/env）或servlet上下文初始<br>化参数可以用来代替环境变量或系统属性，当然也可以使用环境变量或系统属性。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;Application属性文件&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
     
   </entry>
   
