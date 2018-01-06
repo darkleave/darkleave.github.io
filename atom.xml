@@ -5,9 +5,9 @@
   <subtitle>零</subtitle>
   <link href="/blog/atom.xml" rel="self"/>
   
-  <link href="www.zhz.gift/"/>
+  <link href="www.zhz.gift/blog/"/>
   <updated>2017-12-17T12:12:19.322Z</updated>
-  <id>www.zhz.gift/</id>
+  <id>www.zhz.gift/blog/</id>
   
   <author>
     <name>Hans Chung</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>使用YAML代替Properties</title>
-    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8YAML%E4%BB%A3%E6%9B%BFProperties/"/>
-    <id>www.zhz.gift/2017/12/17/使用YAML代替Properties/</id>
+    <link href="www.zhz.gift/blog/2017/12/17/%E4%BD%BF%E7%94%A8YAML%E4%BB%A3%E6%9B%BFProperties/"/>
+    <id>www.zhz.gift/blog/2017/12/17/使用YAML代替Properties/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:12:19.322Z</updated>
     
@@ -32,16 +32,16 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="www.zhz.gift/blog/tags/SpringBoot/"/>
     
-      <category term="YAML" scheme="www.zhz.gift/tags/YAML/"/>
+      <category term="YAML" scheme="www.zhz.gift/blog/tags/YAML/"/>
     
   </entry>
   
   <entry>
     <title>SpringBoot应用启动事件</title>
-    <link href="www.zhz.gift/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/"/>
-    <id>www.zhz.gift/2017/12/17/SpringBoot应用启动事件/</id>
+    <link href="www.zhz.gift/blog/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/"/>
+    <id>www.zhz.gift/blog/2017/12/17/SpringBoot应用启动事件/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:10:53.646Z</updated>
     
@@ -54,16 +54,16 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="www.zhz.gift/blog/tags/SpringBoot/"/>
     
-      <category term="event" scheme="www.zhz.gift/tags/event/"/>
+      <category term="event" scheme="www.zhz.gift/blog/tags/event/"/>
     
   </entry>
   
   <entry>
     <title>使用CommandLineRunner或ApplicationRunner</title>
-    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/"/>
-    <id>www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/</id>
+    <link href="www.zhz.gift/blog/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/"/>
+    <id>www.zhz.gift/blog/2017/12/17/使用CommandLineRunner或ApplicationRunner/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:11:22.286Z</updated>
     
@@ -76,14 +76,14 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="www.zhz.gift/blog/tags/SpringBoot/"/>
     
   </entry>
   
   <entry>
     <title>SpringBoot日志</title>
-    <link href="www.zhz.gift/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/"/>
-    <id>www.zhz.gift/2017/12/17/SpringBoot日志/</id>
+    <link href="www.zhz.gift/blog/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/"/>
+    <id>www.zhz.gift/blog/2017/12/17/SpringBoot日志/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:12:51.622Z</updated>
     
@@ -96,16 +96,16 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="www.zhz.gift/blog/tags/SpringBoot/"/>
     
-      <category term="log" scheme="www.zhz.gift/tags/log/"/>
+      <category term="log" scheme="www.zhz.gift/blog/tags/log/"/>
     
   </entry>
   
   <entry>
     <title>Application属性文件</title>
-    <link href="www.zhz.gift/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/"/>
-    <id>www.zhz.gift/2017/12/17/Application属性文件/</id>
+    <link href="www.zhz.gift/blog/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/"/>
+    <id>www.zhz.gift/blog/2017/12/17/Application属性文件/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:10:39.804Z</updated>
     
@@ -118,14 +118,14 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="www.zhz.gift/blog/tags/SpringBoot/"/>
     
   </entry>
   
   <entry>
     <title>Spring WebMVC框架</title>
-    <link href="www.zhz.gift/2017/12/17/Spring_Web_MVC%E6%A1%86%E6%9E%B6/"/>
-    <id>www.zhz.gift/2017/12/17/Spring_Web_MVC框架/</id>
+    <link href="www.zhz.gift/blog/2017/12/17/Spring_Web_MVC%E6%A1%86%E6%9E%B6/"/>
+    <id>www.zhz.gift/blog/2017/12/17/Spring_Web_MVC框架/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:11:43.347Z</updated>
     
@@ -138,16 +138,16 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="www.zhz.gift/blog/tags/SpringBoot/"/>
     
-      <category term="MVC" scheme="www.zhz.gift/tags/MVC/"/>
+      <category term="MVC" scheme="www.zhz.gift/blog/tags/MVC/"/>
     
   </entry>
   
   <entry>
     <title>WEB环境下进行单元测试</title>
-    <link href="www.zhz.gift/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
-    <id>www.zhz.gift/2017/12/17/WEB环境下进行单元测试/</id>
+    <link href="www.zhz.gift/blog/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+    <id>www.zhz.gift/blog/2017/12/17/WEB环境下进行单元测试/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:11:06.369Z</updated>
     
@@ -160,14 +160,14 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="www.zhz.gift/blog/tags/SpringBoot/"/>
     
   </entry>
   
   <entry>
     <title>第三方配置</title>
-    <link href="www.zhz.gift/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/"/>
-    <id>www.zhz.gift/2017/12/17/第三方配置/</id>
+    <link href="www.zhz.gift/blog/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/"/>
+    <id>www.zhz.gift/blog/2017/12/17/第三方配置/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:12:37.019Z</updated>
     
@@ -180,16 +180,16 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="www.zhz.gift/blog/tags/SpringBoot/"/>
     
-      <category term="config" scheme="www.zhz.gift/tags/config/"/>
+      <category term="config" scheme="www.zhz.gift/blog/tags/config/"/>
     
   </entry>
   
   <entry>
     <title>spring boot简介</title>
-    <link href="www.zhz.gift/2017/12/02/spring-boot%E7%AE%80%E4%BB%8B/"/>
-    <id>www.zhz.gift/2017/12/02/spring-boot简介/</id>
+    <link href="www.zhz.gift/blog/2017/12/02/spring-boot%E7%AE%80%E4%BB%8B/"/>
+    <id>www.zhz.gift/blog/2017/12/02/spring-boot简介/</id>
     <published>2017-12-02T14:22:54.000Z</published>
     <updated>2017-12-03T10:38:50.690Z</updated>
     
@@ -203,16 +203,16 @@
     </summary>
     
     
-      <category term="spring" scheme="www.zhz.gift/tags/spring/"/>
+      <category term="spring" scheme="www.zhz.gift/blog/tags/spring/"/>
     
-      <category term="框架" scheme="www.zhz.gift/tags/%E6%A1%86%E6%9E%B6/"/>
+      <category term="框架" scheme="www.zhz.gift/blog/tags/%E6%A1%86%E6%9E%B6/"/>
     
   </entry>
   
   <entry>
     <title>快速排序</title>
-    <link href="www.zhz.gift/2017/12/02/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/12/02/快速排序/</id>
+    <link href="www.zhz.gift/blog/2017/12/02/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/blog/2017/12/02/快速排序/</id>
     <published>2017-12-01T16:24:16.000Z</published>
     <updated>2017-12-01T16:24:49.088Z</updated>
     
@@ -226,16 +226,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="www.zhz.gift/blog/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="www.zhz.gift/blog/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>堆排序</title>
-    <link href="www.zhz.gift/2017/12/01/%E5%A0%86%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/12/01/堆排序/</id>
+    <link href="www.zhz.gift/blog/2017/12/01/%E5%A0%86%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/blog/2017/12/01/堆排序/</id>
     <published>2017-11-30T16:07:42.000Z</published>
     <updated>2017-11-30T16:53:14.523Z</updated>
     
@@ -249,16 +249,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="www.zhz.gift/blog/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="www.zhz.gift/blog/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>归并排序</title>
-    <link href="www.zhz.gift/2017/11/21/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/11/21/归并排序/</id>
+    <link href="www.zhz.gift/blog/2017/11/21/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/blog/2017/11/21/归并排序/</id>
     <published>2017-11-20T16:15:34.000Z</published>
     <updated>2017-11-20T16:32:40.377Z</updated>
     
@@ -272,16 +272,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="www.zhz.gift/blog/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="www.zhz.gift/blog/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>希尔排序</title>
-    <link href="www.zhz.gift/2017/11/20/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/11/20/希尔排序/</id>
+    <link href="www.zhz.gift/blog/2017/11/20/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/blog/2017/11/20/希尔排序/</id>
     <published>2017-11-20T15:57:35.000Z</published>
     <updated>2017-11-20T16:14:06.358Z</updated>
     
@@ -295,16 +295,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="www.zhz.gift/blog/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="www.zhz.gift/blog/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>插入排序</title>
-    <link href="www.zhz.gift/2017/11/20/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/11/20/插入排序/</id>
+    <link href="www.zhz.gift/blog/2017/11/20/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/blog/2017/11/20/插入排序/</id>
     <published>2017-11-20T15:52:15.000Z</published>
     <updated>2017-11-20T15:57:39.472Z</updated>
     
@@ -318,16 +318,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="www.zhz.gift/blog/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="www.zhz.gift/blog/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>冒泡排序</title>
-    <link href="www.zhz.gift/2017/11/20/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/11/20/冒泡排序/</id>
+    <link href="www.zhz.gift/blog/2017/11/20/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/"/>
+    <id>www.zhz.gift/blog/2017/11/20/冒泡排序/</id>
     <published>2017-11-20T15:14:53.000Z</published>
     <updated>2017-11-20T15:51:10.068Z</updated>
     
@@ -340,9 +340,9 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="www.zhz.gift/blog/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="www.zhz.gift/blog/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
