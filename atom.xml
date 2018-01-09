@@ -5,9 +5,9 @@
   <subtitle>零</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="www.zhz.gift/"/>
+  <link href="http://www.zhz.gift/"/>
   <updated>2018-01-09T13:45:00.293Z</updated>
-  <id>www.zhz.gift/</id>
+  <id>http://www.zhz.gift/</id>
   
   <author>
     <name>Hans Chung</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>jooq基本操作介绍</title>
-    <link href="www.zhz.gift/2018/01/09/jooq%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%BB%8B%E7%BB%8D/"/>
-    <id>www.zhz.gift/2018/01/09/jooq基本操作介绍/</id>
+    <link href="http://www.zhz.gift/2018/01/09/jooq%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://www.zhz.gift/2018/01/09/jooq基本操作介绍/</id>
     <published>2018-01-08T16:07:42.000Z</published>
     <updated>2018-01-09T13:45:00.293Z</updated>
     
@@ -32,14 +32,14 @@
     </summary>
     
     
-      <category term="jooq" scheme="www.zhz.gift/tags/jooq/"/>
+      <category term="jooq" scheme="http://www.zhz.gift/tags/jooq/"/>
     
   </entry>
   
   <entry>
     <title>Application属性文件</title>
-    <link href="www.zhz.gift/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/"/>
-    <id>www.zhz.gift/2017/12/17/Application属性文件/</id>
+    <link href="http://www.zhz.gift/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/"/>
+    <id>http://www.zhz.gift/2017/12/17/Application属性文件/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:10:39.804Z</updated>
     
@@ -52,56 +52,14 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SpringBoot应用启动事件</title>
-    <link href="www.zhz.gift/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/"/>
-    <id>www.zhz.gift/2017/12/17/SpringBoot应用启动事件/</id>
-    <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:10:53.646Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>SpringBoot应用启动事件</strong></p><a id="more"></a><p><strong>监听Spring boot应用的事件只需实现ApplicationListener接口来监听对应事件.</strong></p><p>有些事件实际上是在    ApplicationContext    创建前触发的，所以你不能在那些</p><p>事件（处理类）中通过    @Bean    注册监听器，只能通</p><p>过    SpringApplication.addListeners(…)    或    SpringApplicationBuilder.lis</p><p>teners(…)    方法注册.</p><p>应用运行时，事件会以下面的次序发送：</p><ol><li>在运行开始，但除了监听器注册和初始化以外的任何处理之前，会发送一</li></ol><p>个    ApplicationStartedEvent    。</p><ol><li>在Environment将被用于已知的上下文，但在上下文被创建前，会发送一</li></ol><p>个    ApplicationEnvironmentPreparedEvent    。</p><ol><li>在refresh开始前，但在bean定义已被加载后，会发送一</li></ol><p>个    ApplicationPreparedEvent    。</p><ol><li>在refresh之后，相关的回调处理完，会发送一个    ApplicationReadyEvent    ，</li></ol><p>表示应用准备好接收请求了。</p><ol><li>启动过程中如果出现异常，会发送一个    ApplicationFailedEvent    。</li></ol><p>注    通常不需要使用application事件，但知道它们的存在是有用的（在某些场合可能</p><p>会使用到），比如，在Spring    Boot内部会使用事件处理各种任务。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;SpringBoot应用启动事件&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
-    
-      <category term="event" scheme="www.zhz.gift/tags/event/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用CommandLineRunner或ApplicationRunner</title>
-    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/"/>
-    <id>www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/</id>
-    <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:11:22.286Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>使用CommandLineRunner或ApplicationRunner</strong></p><a id="more"></a><p>如果需要在     SpringApplication    启动后执行一些特殊的代码，你可以实<br>现     ApplicationRunner    或     CommandLineRunner    接口，这两个接口工作方式相<br>同，都只提供单一的     run    方法，该方法仅在     SpringApplication.run(…)    完成<br>之前调用。<br>     CommandLineRunner    接口能够访问string数组类型的应用参数，<br>而     ApplicationRunner    使用的是上面描述过的     ApplicationArguments    接口：</p><pre><code>import    org.springframework.boot.*import    org.springframework.stereotype.*@Componentpublic    class    MyBean    implements    CommandLineRunner    {                public    void    run(String...    args)    {                                //    Do    something...                }}</code></pre><p>如果某些定义的     CommandLineRunner    或     ApplicationRunner        beans需要以特定<br>的顺序调用，你可以实现     <strong>org.springframework.core.Ordered</strong>    接口或使<br>用     <strong>org.springframework.core.annotation.Order</strong>    注解。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;使用CommandLineRunner或ApplicationRunner&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="http://www.zhz.gift/tags/SpringBoot/"/>
     
   </entry>
   
   <entry>
     <title>SpringBoot日志</title>
-    <link href="www.zhz.gift/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/"/>
-    <id>www.zhz.gift/2017/12/17/SpringBoot日志/</id>
+    <link href="http://www.zhz.gift/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/"/>
+    <id>http://www.zhz.gift/2017/12/17/SpringBoot日志/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:12:51.622Z</updated>
     
@@ -114,60 +72,58 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="http://www.zhz.gift/tags/SpringBoot/"/>
     
-      <category term="log" scheme="www.zhz.gift/tags/log/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spring WebMVC框架</title>
-    <link href="www.zhz.gift/2017/12/17/Spring_Web_MVC%E6%A1%86%E6%9E%B6/"/>
-    <id>www.zhz.gift/2017/12/17/Spring_Web_MVC框架/</id>
-    <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:11:43.347Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>Spring WebMVC框架</strong></p><a id="more"></a><p>Spring    Web    MVC框架（通常简称为”SpringMVC”）是一个富“模型，视图，控制器”web框架，    允许用户创建特定的     @Controller    或     @RestController        beans来处理传入的HTTP请求，通过@RequestMapping注解可以将控制器中的方法映射到相应的HTTP请求。<br>示例：</p><pre><code>@RestController@RequestMapping(value=&quot;/users&quot;)public    class    MyRestController    {                @RequestMapping(value=&quot;/{user}&quot;,    method=RequestMethod.GET)                public    User    getUser(@PathVariable    Long    user)    {                                //    ...                }                @RequestMapping(value=&quot;/{user}/customers&quot;,    method=RequestMethod.GET)                List&lt;Customer&gt;    getUserCustomers(@PathVariable    Long    user)    {                                //    ...                }                @RequestMapping(value=&quot;/{user}&quot;,    method=RequestMethod.DELETE)                public    User    deleteUser(@PathVariable    Long    user)    {                                //    ...                }}</code></pre><p>Spring    MVC是Spring框架的核心部分，详细信息可以参考reference<br>documentation，spring.io/guides也有一些可用的指导覆盖Spring    MVC。</p><h2 id="Spring-MVC自动配置"><a href="#Spring-MVC自动配置" class="headerlink" title="Spring    MVC自动配置"></a>Spring    MVC自动配置</h2><p>Spring    Boot为Spring    MVC提供的auto-configuration适用于大多数应用，并在<br>Spring默认功能上添加了以下特性：</p><ol><li>引入     ContentNegotiatingViewResolver    和     BeanNameViewResolver<br>beans。</li><li>对静态资源的支持，包括对WebJars的支持。</li><li>自动注册     Converter    ，     GenericConverter    ，     Formatter        beans。</li><li>对     HttpMessageConverters    的支持。</li><li>自动注册     MessageCodeResolver    。</li><li>对静态     index.html    的支持。</li><li>对自定义     Favicon    的支持。</li><li>自动使用     ConfigurableWebBindingInitializer        bean。</li></ol><p>如果保留Spring    Boot    MVC特性，你只需添加其他的MVC配置（拦截器，格式化处理器，视图控制器等）。你可以添加自己的     WebMvcConfigurerAdapter    类型的@Configuration类，而不需要注解@EnableWebMvc。如果希望使用自定义的     RequestMappingHandlerMapping    ，RequestMappingHandlerAdapter    ，或     ExceptionHandlerExceptionResolver，你可以声明一个WebMvcRegistrationsAdapter    实例提供这些组件。</p><p>如果想全面控制Spring    MVC，你可以添加自己的     @Configuration    ，并使用     @EnableWebMvc    注解。</p><p>##HttpMessageConverters##</p><p>Spring    MVC使用     HttpMessageConverter    接口转换HTTP请求和响应，合适的默认配置可以开箱即用，例如对象自动转换为JSON（使用Jackson库）或XML（如果Jackson XML扩展可用，否则使用JAXB），字符串默认使用     UTF-8    编码。<br>可以使用Spring    Boot的     HttpMessageConverters    类添加或自定义转换类：</p><pre><code>import    org.springframework.boot.autoconfigure.web.HttpMessageConverters;import    org.springframework.context.annotation.*;import    org.springframework.http.converter.*;@Configurationpublic    class    MyConfiguration    {                @Bean                public    HttpMessageConverters    customConverters()    {                                HttpMessageConverter&lt;?&gt;    additional    =    ...                                HttpMessageConverter&lt;?&gt;    another    =    ...                                return    new    HttpMessageConverters(additional,    another);                }}</code></pre><p>上下文中出现的所有     HttpMessageConverter        bean都将添加到converters列表，你可以通过这种方式覆盖默认的转换器列表（converters）。    </p><p>##自定义JSON序列化器和反序列化器##</p><p>如果使用Jackson序列化，反序列化JSON数据，你可能想编写自己的     JsonSerializer    和     JsonDeserializer    类。自定义序列化器（serializers）通常通过Module注册到Jackson，但Spring    Boot提供了     @JsonComponent    注解这一替代方式，它能轻松的将序列化器注册为Spring    Beans。</p><p>##MessageCodesResolver##</p><p>Spring    MVC有一个实现策略，用于从绑定的errors产生用来渲染错误信息的错误码：     MessageCodesResolver    。SpringBoot会自动为你创建该实现，只要设置spring.mvc.message-codes-resolver.format    属性为     PREFIX_ERROR_CODE    或     POSTFIX_ERROR_CODE    （具体查看     DefaultMessageCodesResolver.Format    枚举值）。</p><p>##静态内容##</p><p>默认情况下，Spring    Boot从classpath下的     /static    （     /public    ，     /resources    或     /META-INF/resources    ）文件夹，或从ServletContext    根目录提供静态内容。</p><p>这是通过Spring    MVC的     ResourceHttpRequestHandler    实现的，你可以自定义WebMvcConfigurerAdapter    并覆写addResourceHandlers    方法来改变该行为（加载静态文件）。</p><p>在单机web应用中，容器会启动默认的servlet，并用它加载     ServletContext    根目录下的内容以响应那些Spring不处理的请求。大多数情况下这都不会发生（除非你修改默认的MVC配置），因为Spring总能够通过     DispatcherServlet    处理这些请求。</p><p>你可以设置     spring.resources.staticLocations    属性自定义静态资源的位置（配置一系列目录位置代替默认的值），如果你这样做，默认的欢迎页面将从自定义位置加载，所以只要这些路径中的任何地方有一个     index.html    ，它都会成为应用的主页。</p><p>此外，除了上述标准的静态资源位置，有个例外情况是Webjars内容。任何在 /webjars/**    路径下的资源都将从jar文件中提供，只要它们以Webjars的格式<br>打包。</p><p>注    如果你的应用将被打包成jar，那就不要使用     src/main/webapp文件夹。尽管该文件夹是通常的标准格式，但它仅在打包成war的情况下起作用，在打包成jar时，多数构建工具都会默认忽略它。</p><p>Spring    Boot也支持SpringMVC提供的高级资源处理特性，可用于清除缓存的静态资源或对WebJar使用版本无感知的URLs。</p><p>如果想使用针对WebJars版本无感知的URLs（version    agnostic），只需要添<br>加     webjars-locator    依赖，然后声明你的Webjar。以jQuery为例，     “/webjars/jquery/dist/jquery.min.js”    实际<br>为     “/webjars/jquery/x.y.z/dist/jquery.min.js”    ，     x.y.z为Webjar的版<br>本。</p><p>注    如果使用JBoss，你需要声明     webjars-locator-jboss-vfs    依赖而不是     webjars-locator    ，否则所有的Webjars将解析为     404    。</p><p>以下的配置为所有的静态资源提供一种缓存清除（cache    busting）方案，实际上是<br>将内容hash添加到URLs中，比如     <link href="/css/spring-2a2d595e6ed9a0b24f027f2b63b134d6.css">    ：</p><pre><code>spring.resources.chain.strategy.content.enabled=truespring.resources.chain.strategy.content.paths=/**</code></pre><p>注    实现该功能的是     ResourceUrlEncodingFilter    ，它在模板运行期会重写资源链接，Thymeleaf，Velocity和FreeMarker会自动配置该filter，JSP需要手动配置。<br>其他模板引擎还没自动支持，不过你可以使用ResourceUrlProvider自定义模块宏或<br>帮助类。<br>当使用比如JavaScript模块加载器动态加载资源时，重命名文件是不行的，这也是提供其他策略并能结合使用的原因。下面是一个”fixed”策略，在URL中添加一个静态version字符串而不需要改变文件名：    </p><pre><code>spring.resources.chain.strategy.content.enabled=truespring.resources.chain.strategy.content.paths=/**spring.resources.chain.strategy.fixed.enabled=truespring.resources.chain.strategy.fixed.paths=/js/lib/spring.resources.chain.strategy.fixed.version=v12</code></pre><p>使用以上策略，JavaScript模块加载器加载     “/js/lib/“下的文件时会使用一个固定的版本策略     “/v12/js/lib/mymodule.js”    ，其他资源仍旧使用内容hash的方式     <link href="/css/spring-2a2d595e6ed9a0b24f027f2b63b134d6.css">    。</p><p>查看ResourceProperties获取更多支持的选项。<br>注    该特性在一个专门的博文和Spring框架参考文档中有透彻描述。    </p><p>##ConfigurableWebBindingInitializer##</p><p>Spring    MVC使用     WebBindingInitializer    为每个特殊的请求初始化相应的WebDataBinder    ，如果你创建自己的     ConfigurableWebBindingInitializer @Bean    ，Spring    Boot会自动配置Spring    MVC使用它。</p><p>##模板引擎##</p><p>正如REST    web服务，你也可以使用Spring    MVC提供动态HTML内容。Spring    MVC<br>支持各种各样的模板技术，包括Velocity,    FreeMarker和JSPs，很多其他的模板引擎也提供它们自己的Spring    MVC集成。</p><p>Spring    Boot为以下的模板引擎提供自动配置支持：</p><ol><li>FreeMarker</li><li>Groovy</li><li>Thymeleaf</li><li>Velocity（1.4已不再支持）</li><li>Mustache</li><li>注：由于在内嵌servlet容器中使用JSPs存在一些已知的限制，所以建议尽量不使用它们。</li></ol><p>使用以上引擎中的任何一种，并采用默认配置，则模块会从src/main/resources/templates    自动加载。</p><p>注：IntelliJ    IDEA根据你运行应用的方式会对classpath进行不同的排序。<br>在IDE里通过main方法运行应用，跟从Maven，或Gradle，或打包好的jar中运行相比会导致不同的顺序，这可能导致SpringBoot不能从classpath下成功地找到模板。<br>如果遇到这个问题，你可以在IDE里重新对classpath进行排序，将模块的类和资源放到第一位。<br>或者，你可以配置模块的前缀为     classpath*:/templates/    ，这样会查找<br>classpath下的所有模板目录。</p><p>##错误处理##</p><p>Spring    Boot默认提供一个     /error    映射用来以合适的方式处理所有的错误，并将它注册为servlet容器中全局的    错误页面。<br>对于机器客户端（相对于浏览器而言，浏览器偏重于人的行为），它会产生一个具有详细错误，HTTP状态，异常信息的JSON响应。对于浏览器客户端，它会产生一个白色标签样式（whitelabel）的错误视图，该视图将以HTML格式显示同样的数据（可以添加一个解析为’error’的View来自定义它）。<br>为了完全替换默认的行为，你可以实现     ErrorController    ，并注册一个该类型的bean定义，或简单地添加一个     ErrorAttributes    类型的bean以使用现存的机制，只是替换显示的内容。</p><p>注          BasicErrorController    可以作为自定义     ErrorController    的基类，如果你想添加对新context    type的处理（默认处理     text/html    ），这会很有帮助。<br>你只需要继承     BasicErrorController，添加一个public方法，并注解带有     produces    属性的     @RequestMapping，然后创建该新类型的bean。<br>你也可以定义一个@ControllerAdvice去自定义某个特殊controller或exception类型的JSON文档：</p><pre><code>@ControllerAdvice(basePackageClasses    =    FooController.class)public    class    FooControllerAdvice    extends    ResponseEntityExceptionHandler    {                @ExceptionHandler(YourException.class)                @ResponseBody                ResponseEntity&lt;?&gt;    handleControllerException(HttpServletRequest    request,    Throwable    ex)    {                                HttpStatus    status    =    getStatus(request);                                return    new    ResponseEntity&lt;&gt;(new    CustomErrorType(status.value(),    ex.getMessage()),    status);                }                private    HttpStatus    getStatus(HttpServletRequest    request)    {                                Integer    statusCode    =    (Integer)    request.getAttribute(&quot;javax.servlet.error.status_code&quot;);                                if    (statusCode    ==    null)    {                                                return    HttpStatus.INTERNAL_SERVER_ERROR;                                }                                return    HttpStatus.valueOf(statusCode);                }}</code></pre><p>在以上示例中，如果跟     FooController相同package的某个controller抛出     YourException    ，一个     CustomerErrorType    类型的POJO的json展示将代替     ErrorAttributes    展示。</p><p>自定义错误页面</p><p>如果想为某个给定的状态码展示一个自定义的HTML错误页面，你需要将文件添加到     /error    文件夹下。错误页面既可以是静态HTML（比如，任何静态资源文件夹下添加的），也可以是使用模板构建的，文件名必须是明确的状态码或一系列标签。</p><p>例如，映射     404    到一个静态HTML文件，你的目录结构可能如下：    </p><pre><code>src/    +-    main/            +-    java/            |            +    &lt;source    code&gt;            +-    resources/                        +-    public/                            +-    error/                                |    +-    404.html                            +-    &lt;other    public    assets&gt;    </code></pre><p>使用FreeMarker模板映射所有     5xx    错误，你需要如下的目录结构：</p><pre><code>src/    +-    main/            +-    java/            |            +    &lt;source    code&gt;            +-    resources/                    +-    templates/                            +-    error/                            |            +-    5xx.ftl                            +-    &lt;other    templates&gt;</code></pre><p>对于更复杂的映射，你可以添加实现     ErrorViewResolver接口的beans：</p><pre><code>public    class    MyErrorViewResolver    implements    ErrorViewResolver    {                @Override    public    ModelAndViewresolveErrorView(HttpServletRequest    request,HttpStatus    status,Map&lt;String,    Object&gt;    model)    {    //    Use    the    request    or    status    to    optionally    return    a    ModelAndView                    return    ...    }}</code></pre><p>你也可以使用Spring    MVC特性，比如@ExceptionHandler方法和@ControllerAdvice，ErrorController    将处理所有未处理的异常。</p><p>映射Spring    MVC以外的错误页面</p><p>对于不使用Spring    MVC的应用，你可以通过     ErrorPageRegistrar    接口直接注册     ErrorPages。<br>该抽象直接工作于底层内嵌servlet容器，即使你没有SpringMVC的DispatcherServlet    ，它们仍旧可以工作。    </p><pre><code>@Beanpublic    ErrorPageRegistrar    errorPageRegistrar(){                return    new    MyErrorPageRegistrar();}//    ...private    static    class    MyErrorPageRegistrar    implements    ErrorPageRegistrar    {                @Override                public    void    registerErrorPages(ErrorPageRegistry    registry)    {                                registry.addErrorPages(new    ErrorPage(HttpStatus.BAD_REQUEST,    &quot;/400&quot;));                }}</code></pre><p>注.如果你注册一个     ErrorPage    ，该页面需要被一个     Filter    处理（在一些非Spring    web框架中很常见，比如Jersey，Wicket），那么该     Filter    需要明确注册为一个     ERROR    分发器（dispatcher），例如：    </p><pre><code>@Beanpublic    FilterRegistrationBean    myFilter()    {                FilterRegistrationBean    registration    =    new    FilterRegistrationBean();                registration.setFilter(new    MyFilter());                ...                registration.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));                return    registration;}</code></pre><p>（默认的     FilterRegistrationBean    不包含     ERROR        dispatcher类型）。</p><p>WebSphere应用服务器的错误处理当部署到一个servlet容器时，Spring    Boot通过它的错误页面过滤器将带有错误状态的请求转发到恰当的错误页面。</p><p>request只有在response还没提交时才能转发（forwarded）到正确的错误页面，而WebSphere应用服务器8.0及后续版本默认情况会在servlet方法成功执行后提交response，你需要设置     com.ibm.ws.webcontainer.invokeFlushAfterService    属性为     false    来关闭该行为。    </p><p>##Spring HATEOAS##</p><p>如果正在开发基于超媒体的RESTful    API，你可能需要Spring    HATEOAS，而Spring<br>Boot会为其提供自动配置，这在大多数应用中都运作良好。</p><p>自动配置取代了     @EnableHypermediaSupport    ，只需注册一定数量的beans就能轻松构建基于超媒体的应用，这些beans包括     LinkDiscoverers    （客户端支持），     ObjectMapper    （用于将响应编排为想要的形式）。</p><p>ObjectMapper    可以根据     spring.jackson.*    属性或     Jackson2ObjectMapperBuilder        bean进行自定义。</p><p>通过注解     @EnableHypermediaSupport    ，你可以控制Spring    HATEOAS的配置，<br>但这会禁用上述     ObjectMapper    的自定义功能。</p><p>##CORS支持##</p><p>跨域资源共享（CORS）是一个大多数浏览器都实现了的W3C标准，它允许你以灵活的方式指定跨域请求如何被授权，而不是采用那些不安全，性能低的方式，比如IFRAME或JSONP。</p><p>从4.2版本开始，Spring MVC对CORS提供开箱即用的支持。不用添加任何特殊配置，只需要在Spring    Boot应用的controller方法上注解     @CrossOrigin    ，并添加CORS配置。<br>通过注册一个自定义     addCorsMappings(CorsRegistry)    方法的WebMvcConfigurer        bean可以指定全局CORS配置：</p><pre><code>@Configurationpublic    class    MyConfiguration    {            @Bean            public    WebMvcConfigurer    corsConfigurer()    {                                return    new    WebMvcConfigurerAdapter()    {                                                @Override            public    void    addCorsMappings(CorsRegistry    registry)    {                                                                registry.addMapping(&quot;/api/**&quot;);                                                }                                };            }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;Spring WebMVC框架&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
-    
-      <category term="MVC" scheme="www.zhz.gift/tags/MVC/"/>
+      <category term="log" scheme="http://www.zhz.gift/tags/log/"/>
     
   </entry>
   
   <entry>
-    <title>使用YAML代替Properties</title>
-    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8YAML%E4%BB%A3%E6%9B%BFProperties/"/>
-    <id>www.zhz.gift/2017/12/17/使用YAML代替Properties/</id>
+    <title>SpringBoot应用启动事件</title>
+    <link href="http://www.zhz.gift/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/"/>
+    <id>http://www.zhz.gift/2017/12/17/SpringBoot应用启动事件/</id>
     <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:12:19.322Z</updated>
+    <updated>2017-12-17T12:10:53.646Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>使用YAML代替Properties</strong></p><a id="more"></a><p>##SpringBoot支持YAML##<br>YAML是JSON的一个超集，也是一种方便的定义层次配置数据的格式。只要你<br>将SnakeYAML    库放到classpath下，     SpringApplication    就会自动支持YAML，<br>以作为properties的替换。<br>注    如果你使用’Starters’，添加     spring-boot-starter    依赖会自动加载<br>SnakeYAML。</p><p>##加载YAML##</p><p>Spring框架提供两个便利的类用于加载YAML文档，YamlPropertiesFactoryBean    会将YAML加载为     Properties    ，     YamlMapFactoryBean    会将YAML加载为     Map    。<br>例如，下面的YAML文档：</p><pre><code>environments:                dev:                                url:    http://dev.bar.com                                name:    Developer    Setup                prod:                                url:    http://foo.bar.com                                name:    My    Cool    App</code></pre><p>会被转化到这些属性：</p><pre><code>environments.dev.url=http://dev.bar.comenvironments.dev.name=Developer    Setupenvironments.prod.url=http://foo.bar.comenvironments.prod.name=My    Cool    App</code></pre><p>YAML列表被表示成使用[index]间接引用作为属性keys的形式，例如下面的<br>YAML：</p><pre><code>my:            servers:                            -    dev.bar.com                            -    foo.bar.com</code></pre><p>将会转化到这些属性:</p><pre><code>my.servers[0]=dev.bar.commy.servers[1]=foo.bar.com</code></pre><p>使用Spring          DataBinder    工具集绑定这些属性（这是@ConfigurationProperties    做的事）时，你需要确保目标bean有个     java.util.List    或     Set    类型的属性，并且需要提供一个setter或使用可变的值初始化它，比如，下面的代码将绑定上面的属性：</p><pre><code>@ConfigurationProperties(prefix=&quot;my&quot;)public    class    Config    {        private    List&lt;String&gt;    servers    =    new    ArrayList&lt;String&gt;();        public    List&lt;String&gt;    getServers(){                return    this.servers;        }}</code></pre><p>##在Spring环境中使用YAML暴露属性##</p><p>YamlPropertySourceLoader类能够将YAML作为PropertySource导出到SprigEnvironment    ，这允许你使用常用的    @Value注解配合占位符语法访问YAML属<br>性。</p><p>##Multi-profile    YAML文档##</p><p>你可以在单个文件中定义多个特定配置（profile-specific）的YAML文档，并通过     spring.profiles    标示生效的文档，例如：</p><pre><code>server:                address:    192.168.1.100---spring:                profiles:    developmentserver:                address:    127.0.0.1---spring:                profiles:    productionserver:                address:    192.168.1.120</code></pre><p>在以上例子中，如果     development        profile被激活，     server.address    属性将是     127.0.0.1    ；如果     development    和     production        profiles没有启用，则该属性的值将是     192.168.1.100    。<br>在应用上下文启动时，如果没有明确指定激活的profiles，则默认的profiles将生效。所以，在下面的文档中我们为     security.user.password    设置了一个值，该<br>值只在”default”    profile中有效：                    </p><pre><code>server:        port:    8000---spring:        profiles:    defaultsecurity:        user:                password:    weak</code></pre><p>然而，在这个示例中，由于没有关联任何profile，密码总是会设置，并且如果有必要的话可以在其他profiles中显式重置：                    </p><pre><code>server:        port:    8000security:        user:                password:    weak                    </code></pre><p>通过     !    可以对     spring.profiles指定的profiles进行取反（negated，跟java中的     !    作用一样），如果negated和non-negated    profiles都指定一个单一文件，至少需要匹配一个non-negated    profile，可能不会匹配任何negated    profiles。                    </p><p>##YAML缺点##                    </p><p>YAML文件不能通过     @PropertySource    注解加载，如果需要使用该方式，那就必须使用properties文件。</p><p>##合并YAML列表##</p><p>正如上面看到的，所有YAML最终都转换为properties，在通过一个profile覆<br>盖”list”属性时这个过程可能不够直观（counter    intuitive）。例如，假设有一<br>个     MyPojo    对象，默认它的     name    和     description    属性都为     null    ，下面我们<br>将从     FooProperties    暴露一个     MyPojo    对象列表（list）：</p><pre><code>@ConfigurationProperties(&quot;foo&quot;)public    class    FooProperties    {        private    final    List&lt;MyPojo&gt;    list    =    new    ArrayList&lt;&gt;();        public    List&lt;MyPojo&gt;    getList()    {                return    this.list;        }}</code></pre><p>考虑如下配置：</p><pre><code>foo:        list:                -    name:    my    name                        description:    my    description---spring:        profiles:    devfoo:        list:                -    name:    my    another    name</code></pre><p> 如果     dev        profile没有激活，     FooProperties.list    将包括一个如上述定义的     MyPojo    实体，即使     dev    生效，该     list    仍旧只包含一个实体（     name    值为     my    another    name    ，description    值为     null    ）。<br>此配置不会向该列表添加第二个     MyPojo    实例，也不会对该项进行合并。<br>当一个集合定义在多个profiles时，只使用优先级最高的：       </p><pre><code>foo:        list:                -    name:    my    name                        description:    my    description                -    name:    another    name                        description:    another    description---spring:        profiles:    devfoo:        list:                    -    name:    my    another    name</code></pre><p> 在以上示例中，如果     dev        profile激活，     FooProperties.list将包含一个     MyPojo    实体（     name    值为     my    another    name    ，     description    值为     null    ）。   </p>]]></content>
+    <content type="html"><![CDATA[<p><strong>SpringBoot应用启动事件</strong></p><a id="more"></a><p><strong>监听Spring boot应用的事件只需实现ApplicationListener接口来监听对应事件.</strong></p><p>有些事件实际上是在    ApplicationContext    创建前触发的，所以你不能在那些</p><p>事件（处理类）中通过    @Bean    注册监听器，只能通</p><p>过    SpringApplication.addListeners(…)    或    SpringApplicationBuilder.lis</p><p>teners(…)    方法注册.</p><p>应用运行时，事件会以下面的次序发送：</p><ol><li>在运行开始，但除了监听器注册和初始化以外的任何处理之前，会发送一</li></ol><p>个    ApplicationStartedEvent    。</p><ol><li>在Environment将被用于已知的上下文，但在上下文被创建前，会发送一</li></ol><p>个    ApplicationEnvironmentPreparedEvent    。</p><ol><li>在refresh开始前，但在bean定义已被加载后，会发送一</li></ol><p>个    ApplicationPreparedEvent    。</p><ol><li>在refresh之后，相关的回调处理完，会发送一个    ApplicationReadyEvent    ，</li></ol><p>表示应用准备好接收请求了。</p><ol><li>启动过程中如果出现异常，会发送一个    ApplicationFailedEvent    。</li></ol><p>注    通常不需要使用application事件，但知道它们的存在是有用的（在某些场合可能</p><p>会使用到），比如，在Spring    Boot内部会使用事件处理各种任务。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;strong&gt;使用YAML代替Properties&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;SpringBoot应用启动事件&lt;/strong&gt;&lt;/p&gt;
     
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="http://www.zhz.gift/tags/SpringBoot/"/>
     
-      <category term="YAML" scheme="www.zhz.gift/tags/YAML/"/>
+      <category term="event" scheme="http://www.zhz.gift/tags/event/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用CommandLineRunner或ApplicationRunner</title>
+    <link href="http://www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/"/>
+    <id>http://www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/</id>
+    <published>2017-12-16T16:07:42.000Z</published>
+    <updated>2017-12-17T12:11:22.286Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>使用CommandLineRunner或ApplicationRunner</strong></p><a id="more"></a><p>如果需要在     SpringApplication    启动后执行一些特殊的代码，你可以实<br>现     ApplicationRunner    或     CommandLineRunner    接口，这两个接口工作方式相<br>同，都只提供单一的     run    方法，该方法仅在     SpringApplication.run(…)    完成<br>之前调用。<br>     CommandLineRunner    接口能够访问string数组类型的应用参数，<br>而     ApplicationRunner    使用的是上面描述过的     ApplicationArguments    接口：</p><pre><code>import    org.springframework.boot.*import    org.springframework.stereotype.*@Componentpublic    class    MyBean    implements    CommandLineRunner    {                public    void    run(String...    args)    {                                //    Do    something...                }}</code></pre><p>如果某些定义的     CommandLineRunner    或     ApplicationRunner        beans需要以特定<br>的顺序调用，你可以实现     <strong>org.springframework.core.Ordered</strong>    接口或使<br>用     <strong>org.springframework.core.annotation.Order</strong>    注解。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;使用CommandLineRunner或ApplicationRunner&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringBoot" scheme="http://www.zhz.gift/tags/SpringBoot/"/>
     
   </entry>
   
   <entry>
     <title>第三方配置</title>
-    <link href="www.zhz.gift/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/"/>
-    <id>www.zhz.gift/2017/12/17/第三方配置/</id>
+    <link href="http://www.zhz.gift/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/"/>
+    <id>http://www.zhz.gift/2017/12/17/第三方配置/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:12:37.019Z</updated>
     
@@ -180,16 +136,16 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="http://www.zhz.gift/tags/SpringBoot/"/>
     
-      <category term="config" scheme="www.zhz.gift/tags/config/"/>
+      <category term="config" scheme="http://www.zhz.gift/tags/config/"/>
     
   </entry>
   
   <entry>
     <title>WEB环境下进行单元测试</title>
-    <link href="www.zhz.gift/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
-    <id>www.zhz.gift/2017/12/17/WEB环境下进行单元测试/</id>
+    <link href="http://www.zhz.gift/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+    <id>http://www.zhz.gift/2017/12/17/WEB环境下进行单元测试/</id>
     <published>2017-12-16T16:07:42.000Z</published>
     <updated>2017-12-17T12:11:06.369Z</updated>
     
@@ -202,14 +158,58 @@
     </summary>
     
     
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+      <category term="SpringBoot" scheme="http://www.zhz.gift/tags/SpringBoot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用YAML代替Properties</title>
+    <link href="http://www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8YAML%E4%BB%A3%E6%9B%BFProperties/"/>
+    <id>http://www.zhz.gift/2017/12/17/使用YAML代替Properties/</id>
+    <published>2017-12-16T16:07:42.000Z</published>
+    <updated>2017-12-17T12:12:19.322Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>使用YAML代替Properties</strong></p><a id="more"></a><p>##SpringBoot支持YAML##<br>YAML是JSON的一个超集，也是一种方便的定义层次配置数据的格式。只要你<br>将SnakeYAML    库放到classpath下，     SpringApplication    就会自动支持YAML，<br>以作为properties的替换。<br>注    如果你使用’Starters’，添加     spring-boot-starter    依赖会自动加载<br>SnakeYAML。</p><p>##加载YAML##</p><p>Spring框架提供两个便利的类用于加载YAML文档，YamlPropertiesFactoryBean    会将YAML加载为     Properties    ，     YamlMapFactoryBean    会将YAML加载为     Map    。<br>例如，下面的YAML文档：</p><pre><code>environments:                dev:                                url:    http://dev.bar.com                                name:    Developer    Setup                prod:                                url:    http://foo.bar.com                                name:    My    Cool    App</code></pre><p>会被转化到这些属性：</p><pre><code>environments.dev.url=http://dev.bar.comenvironments.dev.name=Developer    Setupenvironments.prod.url=http://foo.bar.comenvironments.prod.name=My    Cool    App</code></pre><p>YAML列表被表示成使用[index]间接引用作为属性keys的形式，例如下面的<br>YAML：</p><pre><code>my:            servers:                            -    dev.bar.com                            -    foo.bar.com</code></pre><p>将会转化到这些属性:</p><pre><code>my.servers[0]=dev.bar.commy.servers[1]=foo.bar.com</code></pre><p>使用Spring          DataBinder    工具集绑定这些属性（这是@ConfigurationProperties    做的事）时，你需要确保目标bean有个     java.util.List    或     Set    类型的属性，并且需要提供一个setter或使用可变的值初始化它，比如，下面的代码将绑定上面的属性：</p><pre><code>@ConfigurationProperties(prefix=&quot;my&quot;)public    class    Config    {        private    List&lt;String&gt;    servers    =    new    ArrayList&lt;String&gt;();        public    List&lt;String&gt;    getServers(){                return    this.servers;        }}</code></pre><p>##在Spring环境中使用YAML暴露属性##</p><p>YamlPropertySourceLoader类能够将YAML作为PropertySource导出到SprigEnvironment    ，这允许你使用常用的    @Value注解配合占位符语法访问YAML属<br>性。</p><p>##Multi-profile    YAML文档##</p><p>你可以在单个文件中定义多个特定配置（profile-specific）的YAML文档，并通过     spring.profiles    标示生效的文档，例如：</p><pre><code>server:                address:    192.168.1.100---spring:                profiles:    developmentserver:                address:    127.0.0.1---spring:                profiles:    productionserver:                address:    192.168.1.120</code></pre><p>在以上例子中，如果     development        profile被激活，     server.address    属性将是     127.0.0.1    ；如果     development    和     production        profiles没有启用，则该属性的值将是     192.168.1.100    。<br>在应用上下文启动时，如果没有明确指定激活的profiles，则默认的profiles将生效。所以，在下面的文档中我们为     security.user.password    设置了一个值，该<br>值只在”default”    profile中有效：                    </p><pre><code>server:        port:    8000---spring:        profiles:    defaultsecurity:        user:                password:    weak</code></pre><p>然而，在这个示例中，由于没有关联任何profile，密码总是会设置，并且如果有必要的话可以在其他profiles中显式重置：                    </p><pre><code>server:        port:    8000security:        user:                password:    weak                    </code></pre><p>通过     !    可以对     spring.profiles指定的profiles进行取反（negated，跟java中的     !    作用一样），如果negated和non-negated    profiles都指定一个单一文件，至少需要匹配一个non-negated    profile，可能不会匹配任何negated    profiles。                    </p><p>##YAML缺点##                    </p><p>YAML文件不能通过     @PropertySource    注解加载，如果需要使用该方式，那就必须使用properties文件。</p><p>##合并YAML列表##</p><p>正如上面看到的，所有YAML最终都转换为properties，在通过一个profile覆<br>盖”list”属性时这个过程可能不够直观（counter    intuitive）。例如，假设有一<br>个     MyPojo    对象，默认它的     name    和     description    属性都为     null    ，下面我们<br>将从     FooProperties    暴露一个     MyPojo    对象列表（list）：</p><pre><code>@ConfigurationProperties(&quot;foo&quot;)public    class    FooProperties    {        private    final    List&lt;MyPojo&gt;    list    =    new    ArrayList&lt;&gt;();        public    List&lt;MyPojo&gt;    getList()    {                return    this.list;        }}</code></pre><p>考虑如下配置：</p><pre><code>foo:        list:                -    name:    my    name                        description:    my    description---spring:        profiles:    devfoo:        list:                -    name:    my    another    name</code></pre><p> 如果     dev        profile没有激活，     FooProperties.list    将包括一个如上述定义的     MyPojo    实体，即使     dev    生效，该     list    仍旧只包含一个实体（     name    值为     my    another    name    ，description    值为     null    ）。<br>此配置不会向该列表添加第二个     MyPojo    实例，也不会对该项进行合并。<br>当一个集合定义在多个profiles时，只使用优先级最高的：       </p><pre><code>foo:        list:                -    name:    my    name                        description:    my    description                -    name:    another    name                        description:    another    description---spring:        profiles:    devfoo:        list:                    -    name:    my    another    name</code></pre><p> 在以上示例中，如果     dev        profile激活，     FooProperties.list将包含一个     MyPojo    实体（     name    值为     my    another    name    ，     description    值为     null    ）。   </p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;使用YAML代替Properties&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringBoot" scheme="http://www.zhz.gift/tags/SpringBoot/"/>
+    
+      <category term="YAML" scheme="http://www.zhz.gift/tags/YAML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spring WebMVC框架</title>
+    <link href="http://www.zhz.gift/2017/12/17/Spring_Web_MVC%E6%A1%86%E6%9E%B6/"/>
+    <id>http://www.zhz.gift/2017/12/17/Spring_Web_MVC框架/</id>
+    <published>2017-12-16T16:07:42.000Z</published>
+    <updated>2017-12-17T12:11:43.347Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>Spring WebMVC框架</strong></p><a id="more"></a><p>Spring    Web    MVC框架（通常简称为”SpringMVC”）是一个富“模型，视图，控制器”web框架，    允许用户创建特定的     @Controller    或     @RestController        beans来处理传入的HTTP请求，通过@RequestMapping注解可以将控制器中的方法映射到相应的HTTP请求。<br>示例：</p><pre><code>@RestController@RequestMapping(value=&quot;/users&quot;)public    class    MyRestController    {                @RequestMapping(value=&quot;/{user}&quot;,    method=RequestMethod.GET)                public    User    getUser(@PathVariable    Long    user)    {                                //    ...                }                @RequestMapping(value=&quot;/{user}/customers&quot;,    method=RequestMethod.GET)                List&lt;Customer&gt;    getUserCustomers(@PathVariable    Long    user)    {                                //    ...                }                @RequestMapping(value=&quot;/{user}&quot;,    method=RequestMethod.DELETE)                public    User    deleteUser(@PathVariable    Long    user)    {                                //    ...                }}</code></pre><p>Spring    MVC是Spring框架的核心部分，详细信息可以参考reference<br>documentation，spring.io/guides也有一些可用的指导覆盖Spring    MVC。</p><h2 id="Spring-MVC自动配置"><a href="#Spring-MVC自动配置" class="headerlink" title="Spring    MVC自动配置"></a>Spring    MVC自动配置</h2><p>Spring    Boot为Spring    MVC提供的auto-configuration适用于大多数应用，并在<br>Spring默认功能上添加了以下特性：</p><ol><li>引入     ContentNegotiatingViewResolver    和     BeanNameViewResolver<br>beans。</li><li>对静态资源的支持，包括对WebJars的支持。</li><li>自动注册     Converter    ，     GenericConverter    ，     Formatter        beans。</li><li>对     HttpMessageConverters    的支持。</li><li>自动注册     MessageCodeResolver    。</li><li>对静态     index.html    的支持。</li><li>对自定义     Favicon    的支持。</li><li>自动使用     ConfigurableWebBindingInitializer        bean。</li></ol><p>如果保留Spring    Boot    MVC特性，你只需添加其他的MVC配置（拦截器，格式化处理器，视图控制器等）。你可以添加自己的     WebMvcConfigurerAdapter    类型的@Configuration类，而不需要注解@EnableWebMvc。如果希望使用自定义的     RequestMappingHandlerMapping    ，RequestMappingHandlerAdapter    ，或     ExceptionHandlerExceptionResolver，你可以声明一个WebMvcRegistrationsAdapter    实例提供这些组件。</p><p>如果想全面控制Spring    MVC，你可以添加自己的     @Configuration    ，并使用     @EnableWebMvc    注解。</p><p>##HttpMessageConverters##</p><p>Spring    MVC使用     HttpMessageConverter    接口转换HTTP请求和响应，合适的默认配置可以开箱即用，例如对象自动转换为JSON（使用Jackson库）或XML（如果Jackson XML扩展可用，否则使用JAXB），字符串默认使用     UTF-8    编码。<br>可以使用Spring    Boot的     HttpMessageConverters    类添加或自定义转换类：</p><pre><code>import    org.springframework.boot.autoconfigure.web.HttpMessageConverters;import    org.springframework.context.annotation.*;import    org.springframework.http.converter.*;@Configurationpublic    class    MyConfiguration    {                @Bean                public    HttpMessageConverters    customConverters()    {                                HttpMessageConverter&lt;?&gt;    additional    =    ...                                HttpMessageConverter&lt;?&gt;    another    =    ...                                return    new    HttpMessageConverters(additional,    another);                }}</code></pre><p>上下文中出现的所有     HttpMessageConverter        bean都将添加到converters列表，你可以通过这种方式覆盖默认的转换器列表（converters）。    </p><p>##自定义JSON序列化器和反序列化器##</p><p>如果使用Jackson序列化，反序列化JSON数据，你可能想编写自己的     JsonSerializer    和     JsonDeserializer    类。自定义序列化器（serializers）通常通过Module注册到Jackson，但Spring    Boot提供了     @JsonComponent    注解这一替代方式，它能轻松的将序列化器注册为Spring    Beans。</p><p>##MessageCodesResolver##</p><p>Spring    MVC有一个实现策略，用于从绑定的errors产生用来渲染错误信息的错误码：     MessageCodesResolver    。SpringBoot会自动为你创建该实现，只要设置spring.mvc.message-codes-resolver.format    属性为     PREFIX_ERROR_CODE    或     POSTFIX_ERROR_CODE    （具体查看     DefaultMessageCodesResolver.Format    枚举值）。</p><p>##静态内容##</p><p>默认情况下，Spring    Boot从classpath下的     /static    （     /public    ，     /resources    或     /META-INF/resources    ）文件夹，或从ServletContext    根目录提供静态内容。</p><p>这是通过Spring    MVC的     ResourceHttpRequestHandler    实现的，你可以自定义WebMvcConfigurerAdapter    并覆写addResourceHandlers    方法来改变该行为（加载静态文件）。</p><p>在单机web应用中，容器会启动默认的servlet，并用它加载     ServletContext    根目录下的内容以响应那些Spring不处理的请求。大多数情况下这都不会发生（除非你修改默认的MVC配置），因为Spring总能够通过     DispatcherServlet    处理这些请求。</p><p>你可以设置     spring.resources.staticLocations    属性自定义静态资源的位置（配置一系列目录位置代替默认的值），如果你这样做，默认的欢迎页面将从自定义位置加载，所以只要这些路径中的任何地方有一个     index.html    ，它都会成为应用的主页。</p><p>此外，除了上述标准的静态资源位置，有个例外情况是Webjars内容。任何在 /webjars/**    路径下的资源都将从jar文件中提供，只要它们以Webjars的格式<br>打包。</p><p>注    如果你的应用将被打包成jar，那就不要使用     src/main/webapp文件夹。尽管该文件夹是通常的标准格式，但它仅在打包成war的情况下起作用，在打包成jar时，多数构建工具都会默认忽略它。</p><p>Spring    Boot也支持SpringMVC提供的高级资源处理特性，可用于清除缓存的静态资源或对WebJar使用版本无感知的URLs。</p><p>如果想使用针对WebJars版本无感知的URLs（version    agnostic），只需要添<br>加     webjars-locator    依赖，然后声明你的Webjar。以jQuery为例，     “/webjars/jquery/dist/jquery.min.js”    实际<br>为     “/webjars/jquery/x.y.z/dist/jquery.min.js”    ，     x.y.z为Webjar的版<br>本。</p><p>注    如果使用JBoss，你需要声明     webjars-locator-jboss-vfs    依赖而不是     webjars-locator    ，否则所有的Webjars将解析为     404    。</p><p>以下的配置为所有的静态资源提供一种缓存清除（cache    busting）方案，实际上是<br>将内容hash添加到URLs中，比如     <link href="/css/spring-2a2d595e6ed9a0b24f027f2b63b134d6.css">    ：</p><pre><code>spring.resources.chain.strategy.content.enabled=truespring.resources.chain.strategy.content.paths=/**</code></pre><p>注    实现该功能的是     ResourceUrlEncodingFilter    ，它在模板运行期会重写资源链接，Thymeleaf，Velocity和FreeMarker会自动配置该filter，JSP需要手动配置。<br>其他模板引擎还没自动支持，不过你可以使用ResourceUrlProvider自定义模块宏或<br>帮助类。<br>当使用比如JavaScript模块加载器动态加载资源时，重命名文件是不行的，这也是提供其他策略并能结合使用的原因。下面是一个”fixed”策略，在URL中添加一个静态version字符串而不需要改变文件名：    </p><pre><code>spring.resources.chain.strategy.content.enabled=truespring.resources.chain.strategy.content.paths=/**spring.resources.chain.strategy.fixed.enabled=truespring.resources.chain.strategy.fixed.paths=/js/lib/spring.resources.chain.strategy.fixed.version=v12</code></pre><p>使用以上策略，JavaScript模块加载器加载     “/js/lib/“下的文件时会使用一个固定的版本策略     “/v12/js/lib/mymodule.js”    ，其他资源仍旧使用内容hash的方式     <link href="/css/spring-2a2d595e6ed9a0b24f027f2b63b134d6.css">    。</p><p>查看ResourceProperties获取更多支持的选项。<br>注    该特性在一个专门的博文和Spring框架参考文档中有透彻描述。    </p><p>##ConfigurableWebBindingInitializer##</p><p>Spring    MVC使用     WebBindingInitializer    为每个特殊的请求初始化相应的WebDataBinder    ，如果你创建自己的     ConfigurableWebBindingInitializer @Bean    ，Spring    Boot会自动配置Spring    MVC使用它。</p><p>##模板引擎##</p><p>正如REST    web服务，你也可以使用Spring    MVC提供动态HTML内容。Spring    MVC<br>支持各种各样的模板技术，包括Velocity,    FreeMarker和JSPs，很多其他的模板引擎也提供它们自己的Spring    MVC集成。</p><p>Spring    Boot为以下的模板引擎提供自动配置支持：</p><ol><li>FreeMarker</li><li>Groovy</li><li>Thymeleaf</li><li>Velocity（1.4已不再支持）</li><li>Mustache</li><li>注：由于在内嵌servlet容器中使用JSPs存在一些已知的限制，所以建议尽量不使用它们。</li></ol><p>使用以上引擎中的任何一种，并采用默认配置，则模块会从src/main/resources/templates    自动加载。</p><p>注：IntelliJ    IDEA根据你运行应用的方式会对classpath进行不同的排序。<br>在IDE里通过main方法运行应用，跟从Maven，或Gradle，或打包好的jar中运行相比会导致不同的顺序，这可能导致SpringBoot不能从classpath下成功地找到模板。<br>如果遇到这个问题，你可以在IDE里重新对classpath进行排序，将模块的类和资源放到第一位。<br>或者，你可以配置模块的前缀为     classpath*:/templates/    ，这样会查找<br>classpath下的所有模板目录。</p><p>##错误处理##</p><p>Spring    Boot默认提供一个     /error    映射用来以合适的方式处理所有的错误，并将它注册为servlet容器中全局的    错误页面。<br>对于机器客户端（相对于浏览器而言，浏览器偏重于人的行为），它会产生一个具有详细错误，HTTP状态，异常信息的JSON响应。对于浏览器客户端，它会产生一个白色标签样式（whitelabel）的错误视图，该视图将以HTML格式显示同样的数据（可以添加一个解析为’error’的View来自定义它）。<br>为了完全替换默认的行为，你可以实现     ErrorController    ，并注册一个该类型的bean定义，或简单地添加一个     ErrorAttributes    类型的bean以使用现存的机制，只是替换显示的内容。</p><p>注          BasicErrorController    可以作为自定义     ErrorController    的基类，如果你想添加对新context    type的处理（默认处理     text/html    ），这会很有帮助。<br>你只需要继承     BasicErrorController，添加一个public方法，并注解带有     produces    属性的     @RequestMapping，然后创建该新类型的bean。<br>你也可以定义一个@ControllerAdvice去自定义某个特殊controller或exception类型的JSON文档：</p><pre><code>@ControllerAdvice(basePackageClasses    =    FooController.class)public    class    FooControllerAdvice    extends    ResponseEntityExceptionHandler    {                @ExceptionHandler(YourException.class)                @ResponseBody                ResponseEntity&lt;?&gt;    handleControllerException(HttpServletRequest    request,    Throwable    ex)    {                                HttpStatus    status    =    getStatus(request);                                return    new    ResponseEntity&lt;&gt;(new    CustomErrorType(status.value(),    ex.getMessage()),    status);                }                private    HttpStatus    getStatus(HttpServletRequest    request)    {                                Integer    statusCode    =    (Integer)    request.getAttribute(&quot;javax.servlet.error.status_code&quot;);                                if    (statusCode    ==    null)    {                                                return    HttpStatus.INTERNAL_SERVER_ERROR;                                }                                return    HttpStatus.valueOf(statusCode);                }}</code></pre><p>在以上示例中，如果跟     FooController相同package的某个controller抛出     YourException    ，一个     CustomerErrorType    类型的POJO的json展示将代替     ErrorAttributes    展示。</p><p>自定义错误页面</p><p>如果想为某个给定的状态码展示一个自定义的HTML错误页面，你需要将文件添加到     /error    文件夹下。错误页面既可以是静态HTML（比如，任何静态资源文件夹下添加的），也可以是使用模板构建的，文件名必须是明确的状态码或一系列标签。</p><p>例如，映射     404    到一个静态HTML文件，你的目录结构可能如下：    </p><pre><code>src/    +-    main/            +-    java/            |            +    &lt;source    code&gt;            +-    resources/                        +-    public/                            +-    error/                                |    +-    404.html                            +-    &lt;other    public    assets&gt;    </code></pre><p>使用FreeMarker模板映射所有     5xx    错误，你需要如下的目录结构：</p><pre><code>src/    +-    main/            +-    java/            |            +    &lt;source    code&gt;            +-    resources/                    +-    templates/                            +-    error/                            |            +-    5xx.ftl                            +-    &lt;other    templates&gt;</code></pre><p>对于更复杂的映射，你可以添加实现     ErrorViewResolver接口的beans：</p><pre><code>public    class    MyErrorViewResolver    implements    ErrorViewResolver    {                @Override    public    ModelAndViewresolveErrorView(HttpServletRequest    request,HttpStatus    status,Map&lt;String,    Object&gt;    model)    {    //    Use    the    request    or    status    to    optionally    return    a    ModelAndView                    return    ...    }}</code></pre><p>你也可以使用Spring    MVC特性，比如@ExceptionHandler方法和@ControllerAdvice，ErrorController    将处理所有未处理的异常。</p><p>映射Spring    MVC以外的错误页面</p><p>对于不使用Spring    MVC的应用，你可以通过     ErrorPageRegistrar    接口直接注册     ErrorPages。<br>该抽象直接工作于底层内嵌servlet容器，即使你没有SpringMVC的DispatcherServlet    ，它们仍旧可以工作。    </p><pre><code>@Beanpublic    ErrorPageRegistrar    errorPageRegistrar(){                return    new    MyErrorPageRegistrar();}//    ...private    static    class    MyErrorPageRegistrar    implements    ErrorPageRegistrar    {                @Override                public    void    registerErrorPages(ErrorPageRegistry    registry)    {                                registry.addErrorPages(new    ErrorPage(HttpStatus.BAD_REQUEST,    &quot;/400&quot;));                }}</code></pre><p>注.如果你注册一个     ErrorPage    ，该页面需要被一个     Filter    处理（在一些非Spring    web框架中很常见，比如Jersey，Wicket），那么该     Filter    需要明确注册为一个     ERROR    分发器（dispatcher），例如：    </p><pre><code>@Beanpublic    FilterRegistrationBean    myFilter()    {                FilterRegistrationBean    registration    =    new    FilterRegistrationBean();                registration.setFilter(new    MyFilter());                ...                registration.setDispatcherTypes(EnumSet.allOf(DispatcherType.class));                return    registration;}</code></pre><p>（默认的     FilterRegistrationBean    不包含     ERROR        dispatcher类型）。</p><p>WebSphere应用服务器的错误处理当部署到一个servlet容器时，Spring    Boot通过它的错误页面过滤器将带有错误状态的请求转发到恰当的错误页面。</p><p>request只有在response还没提交时才能转发（forwarded）到正确的错误页面，而WebSphere应用服务器8.0及后续版本默认情况会在servlet方法成功执行后提交response，你需要设置     com.ibm.ws.webcontainer.invokeFlushAfterService    属性为     false    来关闭该行为。    </p><p>##Spring HATEOAS##</p><p>如果正在开发基于超媒体的RESTful    API，你可能需要Spring    HATEOAS，而Spring<br>Boot会为其提供自动配置，这在大多数应用中都运作良好。</p><p>自动配置取代了     @EnableHypermediaSupport    ，只需注册一定数量的beans就能轻松构建基于超媒体的应用，这些beans包括     LinkDiscoverers    （客户端支持），     ObjectMapper    （用于将响应编排为想要的形式）。</p><p>ObjectMapper    可以根据     spring.jackson.*    属性或     Jackson2ObjectMapperBuilder        bean进行自定义。</p><p>通过注解     @EnableHypermediaSupport    ，你可以控制Spring    HATEOAS的配置，<br>但这会禁用上述     ObjectMapper    的自定义功能。</p><p>##CORS支持##</p><p>跨域资源共享（CORS）是一个大多数浏览器都实现了的W3C标准，它允许你以灵活的方式指定跨域请求如何被授权，而不是采用那些不安全，性能低的方式，比如IFRAME或JSONP。</p><p>从4.2版本开始，Spring MVC对CORS提供开箱即用的支持。不用添加任何特殊配置，只需要在Spring    Boot应用的controller方法上注解     @CrossOrigin    ，并添加CORS配置。<br>通过注册一个自定义     addCorsMappings(CorsRegistry)    方法的WebMvcConfigurer        bean可以指定全局CORS配置：</p><pre><code>@Configurationpublic    class    MyConfiguration    {            @Bean            public    WebMvcConfigurer    corsConfigurer()    {                                return    new    WebMvcConfigurerAdapter()    {                                                @Override            public    void    addCorsMappings(CorsRegistry    registry)    {                                                                registry.addMapping(&quot;/api/**&quot;);                                                }                                };            }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;Spring WebMVC框架&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringBoot" scheme="http://www.zhz.gift/tags/SpringBoot/"/>
+    
+      <category term="MVC" scheme="http://www.zhz.gift/tags/MVC/"/>
     
   </entry>
   
   <entry>
     <title>spring boot简介</title>
-    <link href="www.zhz.gift/2017/12/02/spring-boot%E7%AE%80%E4%BB%8B/"/>
-    <id>www.zhz.gift/2017/12/02/spring-boot简介/</id>
+    <link href="http://www.zhz.gift/2017/12/02/spring-boot%E7%AE%80%E4%BB%8B/"/>
+    <id>http://www.zhz.gift/2017/12/02/spring-boot简介/</id>
     <published>2017-12-02T14:22:54.000Z</published>
     <updated>2017-12-03T10:38:50.690Z</updated>
     
@@ -223,16 +223,16 @@
     </summary>
     
     
-      <category term="spring" scheme="www.zhz.gift/tags/spring/"/>
+      <category term="spring" scheme="http://www.zhz.gift/tags/spring/"/>
     
-      <category term="框架" scheme="www.zhz.gift/tags/%E6%A1%86%E6%9E%B6/"/>
+      <category term="框架" scheme="http://www.zhz.gift/tags/%E6%A1%86%E6%9E%B6/"/>
     
   </entry>
   
   <entry>
     <title>快速排序</title>
-    <link href="www.zhz.gift/2017/12/02/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/12/02/快速排序/</id>
+    <link href="http://www.zhz.gift/2017/12/02/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/"/>
+    <id>http://www.zhz.gift/2017/12/02/快速排序/</id>
     <published>2017-12-01T16:24:16.000Z</published>
     <updated>2017-12-01T16:24:49.088Z</updated>
     
@@ -246,16 +246,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="http://www.zhz.gift/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>堆排序</title>
-    <link href="www.zhz.gift/2017/12/01/%E5%A0%86%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/12/01/堆排序/</id>
+    <link href="http://www.zhz.gift/2017/12/01/%E5%A0%86%E6%8E%92%E5%BA%8F/"/>
+    <id>http://www.zhz.gift/2017/12/01/堆排序/</id>
     <published>2017-11-30T16:07:42.000Z</published>
     <updated>2017-11-30T16:53:14.523Z</updated>
     
@@ -269,16 +269,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="http://www.zhz.gift/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>归并排序</title>
-    <link href="www.zhz.gift/2017/11/21/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/11/21/归并排序/</id>
+    <link href="http://www.zhz.gift/2017/11/21/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F/"/>
+    <id>http://www.zhz.gift/2017/11/21/归并排序/</id>
     <published>2017-11-20T16:15:34.000Z</published>
     <updated>2017-11-20T16:32:40.377Z</updated>
     
@@ -292,16 +292,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="http://www.zhz.gift/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>希尔排序</title>
-    <link href="www.zhz.gift/2017/11/20/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/11/20/希尔排序/</id>
+    <link href="http://www.zhz.gift/2017/11/20/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/"/>
+    <id>http://www.zhz.gift/2017/11/20/希尔排序/</id>
     <published>2017-11-20T15:57:35.000Z</published>
     <updated>2017-11-20T16:14:06.358Z</updated>
     
@@ -315,16 +315,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="http://www.zhz.gift/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>插入排序</title>
-    <link href="www.zhz.gift/2017/11/20/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/11/20/插入排序/</id>
+    <link href="http://www.zhz.gift/2017/11/20/%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/"/>
+    <id>http://www.zhz.gift/2017/11/20/插入排序/</id>
     <published>2017-11-20T15:52:15.000Z</published>
     <updated>2017-11-20T15:57:39.472Z</updated>
     
@@ -338,16 +338,16 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="http://www.zhz.gift/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>冒泡排序</title>
-    <link href="www.zhz.gift/2017/11/20/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/"/>
-    <id>www.zhz.gift/2017/11/20/冒泡排序/</id>
+    <link href="http://www.zhz.gift/2017/11/20/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/"/>
+    <id>http://www.zhz.gift/2017/11/20/冒泡排序/</id>
     <published>2017-11-20T15:14:53.000Z</published>
     <updated>2017-11-20T15:51:10.068Z</updated>
     
@@ -360,9 +360,9 @@
     </summary>
     
     
-      <category term="java" scheme="www.zhz.gift/tags/java/"/>
+      <category term="java" scheme="http://www.zhz.gift/tags/java/"/>
     
-      <category term="算法" scheme="www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="http://www.zhz.gift/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
