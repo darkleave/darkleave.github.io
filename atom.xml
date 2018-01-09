@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="www.zhz.gift/"/>
-  <updated>2018-01-09T12:48:32.222Z</updated>
+  <updated>2018-01-09T13:45:00.293Z</updated>
   <id>www.zhz.gift/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="www.zhz.gift/2018/01/09/jooq%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%BB%8B%E7%BB%8D/"/>
     <id>www.zhz.gift/2018/01/09/jooq基本操作介绍/</id>
     <published>2018-01-08T16:07:42.000Z</published>
-    <updated>2018-01-09T12:48:32.222Z</updated>
+    <updated>2018-01-09T13:45:00.293Z</updated>
     
     <content type="html"><![CDATA[<p><strong>jooq基本操作介绍</strong></p><a id="more"></a><h2 id="1-1jooq-select查询"><a href="#1-1jooq-select查询" class="headerlink" title="1.1jooq select查询"></a>1.1jooq select查询</h2><p>select方法接受一个SelectField查询字段集合,org.jooq.Field可以通过<br>生成的任意jooq.tables.*(eg:AudienceItem extends TableImpl<audienceitemrecord>)的Fields方法获取该Table的所有Field字段或者通过该Table的公共成员变量获取部分字段(eg: AUDIENCE_ITEM.ID).</audienceitemrecord></p><p>select方法返回一个<strong>SelectSelectStep</strong><record> 查询步骤对象,一般通过该对象调用from方法完成接下来的表拼接.eg:.from(AUDIENCE_OBJECT).</record></p><p>from方法接受一个TableLike&lt;?&gt;对象，该对象可以是表也可以是视图,最后返回一个<strong>SelectJoinStep</strong><r>对象.</r></p><p>SelectJoinStep对象继承自<strong>SelectWhereStep</strong>对象,通过该对象我们既可以直接后接where方法条件，也可以通过SelectJoinStep对象的join,innerjoin等方法继续关联表进行查询.</p><p>SelectJoinStep对象调用join等方法后(eg:.leftJoin(AUDIENCE_ITEM))返回SelectJoinPartitionByStep<r>对象,该对象继承自<strong>SelectOnStep</strong>对象.</r></p><p><strong>SelectOnStep</strong>对象的主要方法是on,通过on方法来完成join之后的条件拼装(eg:.on(AUDIENCE_OBJECT.ITEM_ID.eq(AUDIENCE_ITEM.ID)),调用完成之后返回SelectOnConditionStep<r>对象.</r></p><p>通过<strong>SelectOnConditionStep</strong><r>对象,可以继续接join,where或者直接调用fetch方法结束sql拼接.</r></p><p>fetch方法返回一个泛型结果集Result<r>,一般通过该结果集的into方法直接转化得到实体列表,具体实例如下:</r></p><pre><code>DSLContext dsl = DSL.using(configuration);dsl.select(Fields.start().add(AUDIENCE_ITEM).end())                .from(AUDIENCE_OBJECT).leftJoin(AUDIENCE_ITEM)                .on(AUDIENCE_OBJECT.ITEM_ID.eq(AUDIENCE_ITEM.ID).and(AUDIENCE_OBJECT.BUSINESS_TYPE.eq(businessType)))                .where(AUDIENCE_OBJECT.BUSINESS_ID.eq(id).and(AUDIENCE_ITEM.ID.isNotNull())).fetch()                .into(AudienceItem.class)</code></pre><p>另:on方法和where方法都是接受一个Condition可变数组为入参,Condition条件对象可由TableImpl对象的TableField字段调用and,eq等条件方法得到.</p><h2 id="1-2-使用DSLContext进行新增-修改-删除"><a href="#1-2-使用DSLContext进行新增-修改-删除" class="headerlink" title="1.2 使用DSLContext进行新增,修改,删除"></a>1.2 使用DSLContext进行新增,修改,删除</h2><pre><code>//新增DSL.using(conf).insertInto(AUDIENCE_OBJECT,AUDIENCE_OBJECT.ID).values(&quot;1&quot;).execute();//更新        DSL.using(conf).update(AUDIENCE_OBJECT).set(AUDIENCE_OBJECT.BUSINESS_ID, AUDIENCE_OBJECT.BUSINESS_ID.add(1)).execute();//删除        DSL.using(conf).delete(AUDIENCE_OBJECT).where(AUDIENCE_OBJECT.BUSINESS_ID.eq(&quot;1&quot;)).execute();</code></pre><h2 id="2-1-使用UpdatableRecord完成新增-修改-删除"><a href="#2-1-使用UpdatableRecord完成新增-修改-删除" class="headerlink" title="2.1 使用UpdatableRecord完成新增,修改,删除"></a>2.1 使用UpdatableRecord完成新增,修改,删除</h2><p>jooq的新增，修改，删除方法都可以通过<strong>UpdatableRecord</strong>对象完成,示例如下:</p><pre><code>DSLContext dsl = DSL.using(conf);UpdatableRecord r = (UpdatableRecord) dsl.newRecord(AUDIENCE_OBJECT, objects.get(0));        //只有不为空的才进行更新        int size = r.size();        for (int i = 0; i &lt; size; ++i) {            if (r.getValue(i) != null || r.field(i).getDataType().nullable())                continue;            r.changed(i, false);//标记该字段不更新        }        r.update();        r.insert();        r.delete();</code></pre><h2 id="2-2-批量方法"><a href="#2-2-批量方法" class="headerlink" title="2.2 批量方法"></a>2.2 批量方法</h2><p>新增,修改,删除批量方法都是接受一个UpdatableRecord对象集合来进行批量新增或批量修改.</p><pre><code>//批量添加DSL.using(conf).batchInsert(rs).execute();//批量修改DSL.using(conf).batchUpdate(rs).execute();//批量删除DSL.using(conf).batchDelete(rs).execute();</code></pre>]]></content>
     
@@ -37,17 +37,17 @@
   </entry>
   
   <entry>
-    <title>使用CommandLineRunner或ApplicationRunner</title>
-    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/"/>
-    <id>www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/</id>
+    <title>Application属性文件</title>
+    <link href="www.zhz.gift/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/"/>
+    <id>www.zhz.gift/2017/12/17/Application属性文件/</id>
     <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:11:22.286Z</updated>
+    <updated>2017-12-17T12:10:39.804Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>使用CommandLineRunner或ApplicationRunner</strong></p><a id="more"></a><p>如果需要在     SpringApplication    启动后执行一些特殊的代码，你可以实<br>现     ApplicationRunner    或     CommandLineRunner    接口，这两个接口工作方式相<br>同，都只提供单一的     run    方法，该方法仅在     SpringApplication.run(…)    完成<br>之前调用。<br>     CommandLineRunner    接口能够访问string数组类型的应用参数，<br>而     ApplicationRunner    使用的是上面描述过的     ApplicationArguments    接口：</p><pre><code>import    org.springframework.boot.*import    org.springframework.stereotype.*@Componentpublic    class    MyBean    implements    CommandLineRunner    {                public    void    run(String...    args)    {                                //    Do    something...                }}</code></pre><p>如果某些定义的     CommandLineRunner    或     ApplicationRunner        beans需要以特定<br>的顺序调用，你可以实现     <strong>org.springframework.core.Ordered</strong>    接口或使<br>用     <strong>org.springframework.core.annotation.Order</strong>    注解。</p>]]></content>
+    <content type="html"><![CDATA[<p><strong>Application属性文件</strong></p><a id="more"></a><p>SpringApplication    将从以下位置加载     application.properties    文件，并把<br>它们添加到Spring          Environment    中：</p><ol><li><p>当前目录下的     /config    子目录。</p></li><li><p>当前目录。</p></li><li><p>classpath下的     /config    包。</p></li><li><p>classpath根路径（root）。</p></li></ol><p>该列表是按优先级排序的（列表中位置高的路径下定义的属性将覆盖位置低的）。<br>注    你可以使用YAML（’.yml’）文件替代’.properties’。</p><p>如果不喜欢将     application.properties    作为配置文件名，你可以通过指<br>定     spring.config.name    环境属性来切换其他的名称，也可以使<br>用     spring.config.location    环境属性引用一个明确的路径（目录位置或文件路<br>径列表以逗号分割）。</p><pre><code>$    java    -jar    myproject.jar    --spring.config.name=myproject或$    java    -jar    myproject.jar    --spring.config.location=classpath:/default.properties,classpath:/override.properties</code></pre><p>注    在初期需要根据     spring.config.name    和     spring.config.location    决定加<br>载哪个文件，所以它们必须定义为environment属性（通常为OS    env，系统属性或<br>命令行参数）。</p><p>如果     spring.config.location    包含目录（相对于文件），那它们应该以     /    结尾<br>（在被加载前，     spring.config.name    关联的名称将被追加到后面，包括profile-<br>specific的文件名）。     spring.config.location    下定义的文件使用方法跟往常一<br>样，没有profile-specific变量支持的属性，将被profile-specific的属性覆盖。</p><p>不管     spring.config.location    配置什么值，默认总会按<br>照     classpath:,classpath:/config,file:,file:config/    的顺序进行搜索，优<br>先级由低到高，也就是     file:config/    获胜。<br>如果你指定自己的位置，它们会优先于所有的默认位置（locations），并使用相同的由低到高的优先级顺序。<br>那样，你就可以在     application.properties    为应用设置默认值，然后在运行的时候使<br>用不同的文件覆盖它，同时保留默认配置。</p><p>注    如果使用环境变量而不是系统属性，需要注意多数操作系统的key名称不允许以<br>句号分割（period-separated），但你可以使用下划线（underscores）代替（比<br>如，使用     SPRING_CONFIG_NAME    代替     spring.config.name    ）。<br>注    如果应用运行在容器中，那么JNDI属性（java:comp/env）或servlet上下文初始<br>化参数可以用来代替环境变量或系统属性，当然也可以使用环境变量或系统属性。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;strong&gt;使用CommandLineRunner或ApplicationRunner&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Application属性文件&lt;/strong&gt;&lt;/p&gt;
     
     </summary>
     
@@ -79,6 +79,46 @@
   </entry>
   
   <entry>
+    <title>WEB环境下进行单元测试</title>
+    <link href="www.zhz.gift/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
+    <id>www.zhz.gift/2017/12/17/WEB环境下进行单元测试/</id>
+    <published>2017-12-16T16:07:42.000Z</published>
+    <updated>2017-12-17T12:11:06.369Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p><a id="more"></a><p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;WEB环境下进行单元测试&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用CommandLineRunner或ApplicationRunner</title>
+    <link href="www.zhz.gift/2017/12/17/%E4%BD%BF%E7%94%A8CommandLineRunner%E6%88%96ApplicationRunner/"/>
+    <id>www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/</id>
+    <published>2017-12-16T16:07:42.000Z</published>
+    <updated>2017-12-17T12:11:22.286Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>使用CommandLineRunner或ApplicationRunner</strong></p><a id="more"></a><p>如果需要在     SpringApplication    启动后执行一些特殊的代码，你可以实<br>现     ApplicationRunner    或     CommandLineRunner    接口，这两个接口工作方式相<br>同，都只提供单一的     run    方法，该方法仅在     SpringApplication.run(…)    完成<br>之前调用。<br>     CommandLineRunner    接口能够访问string数组类型的应用参数，<br>而     ApplicationRunner    使用的是上面描述过的     ApplicationArguments    接口：</p><pre><code>import    org.springframework.boot.*import    org.springframework.stereotype.*@Componentpublic    class    MyBean    implements    CommandLineRunner    {                public    void    run(String...    args)    {                                //    Do    something...                }}</code></pre><p>如果某些定义的     CommandLineRunner    或     ApplicationRunner        beans需要以特定<br>的顺序调用，你可以实现     <strong>org.springframework.core.Ordered</strong>    接口或使<br>用     <strong>org.springframework.core.annotation.Order</strong>    注解。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;使用CommandLineRunner或ApplicationRunner&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Spring WebMVC框架</title>
     <link href="www.zhz.gift/2017/12/17/Spring_Web_MVC%E6%A1%86%E6%9E%B6/"/>
     <id>www.zhz.gift/2017/12/17/Spring_Web_MVC框架/</id>
@@ -101,26 +141,6 @@
   </entry>
   
   <entry>
-    <title>WEB环境下进行单元测试</title>
-    <link href="www.zhz.gift/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
-    <id>www.zhz.gift/2017/12/17/WEB环境下进行单元测试/</id>
-    <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:11:06.369Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p><a id="more"></a><p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;WEB环境下进行单元测试&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
-    
-  </entry>
-  
-  <entry>
     <title>SpringBoot应用启动事件</title>
     <link href="www.zhz.gift/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/"/>
     <id>www.zhz.gift/2017/12/17/SpringBoot应用启动事件/</id>
@@ -139,26 +159,6 @@
       <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
     
       <category term="event" scheme="www.zhz.gift/tags/event/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Application属性文件</title>
-    <link href="www.zhz.gift/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/"/>
-    <id>www.zhz.gift/2017/12/17/Application属性文件/</id>
-    <published>2017-12-16T16:07:42.000Z</published>
-    <updated>2017-12-17T12:10:39.804Z</updated>
-    
-    <content type="html"><![CDATA[<p><strong>Application属性文件</strong></p><a id="more"></a><p>SpringApplication    将从以下位置加载     application.properties    文件，并把<br>它们添加到Spring          Environment    中：</p><ol><li><p>当前目录下的     /config    子目录。</p></li><li><p>当前目录。</p></li><li><p>classpath下的     /config    包。</p></li><li><p>classpath根路径（root）。</p></li></ol><p>该列表是按优先级排序的（列表中位置高的路径下定义的属性将覆盖位置低的）。<br>注    你可以使用YAML（’.yml’）文件替代’.properties’。</p><p>如果不喜欢将     application.properties    作为配置文件名，你可以通过指<br>定     spring.config.name    环境属性来切换其他的名称，也可以使<br>用     spring.config.location    环境属性引用一个明确的路径（目录位置或文件路<br>径列表以逗号分割）。</p><pre><code>$    java    -jar    myproject.jar    --spring.config.name=myproject或$    java    -jar    myproject.jar    --spring.config.location=classpath:/default.properties,classpath:/override.properties</code></pre><p>注    在初期需要根据     spring.config.name    和     spring.config.location    决定加<br>载哪个文件，所以它们必须定义为environment属性（通常为OS    env，系统属性或<br>命令行参数）。</p><p>如果     spring.config.location    包含目录（相对于文件），那它们应该以     /    结尾<br>（在被加载前，     spring.config.name    关联的名称将被追加到后面，包括profile-<br>specific的文件名）。     spring.config.location    下定义的文件使用方法跟往常一<br>样，没有profile-specific变量支持的属性，将被profile-specific的属性覆盖。</p><p>不管     spring.config.location    配置什么值，默认总会按<br>照     classpath:,classpath:/config,file:,file:config/    的顺序进行搜索，优<br>先级由低到高，也就是     file:config/    获胜。<br>如果你指定自己的位置，它们会优先于所有的默认位置（locations），并使用相同的由低到高的优先级顺序。<br>那样，你就可以在     application.properties    为应用设置默认值，然后在运行的时候使<br>用不同的文件覆盖它，同时保留默认配置。</p><p>注    如果使用环境变量而不是系统属性，需要注意多数操作系统的key名称不允许以<br>句号分割（period-separated），但你可以使用下划线（underscores）代替（比<br>如，使用     SPRING_CONFIG_NAME    代替     spring.config.name    ）。<br>注    如果应用运行在容器中，那么JNDI属性（java:comp/env）或servlet上下文初始<br>化参数可以用来代替环境变量或系统属性，当然也可以使用环境变量或系统属性。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;Application属性文件&lt;/strong&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="SpringBoot" scheme="www.zhz.gift/tags/SpringBoot/"/>
     
   </entry>
   
