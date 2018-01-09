@@ -112,10 +112,10 @@
     },
     algolia: {
       applicationID: 'MZF9ZS9GXL',
-      apiKey: '',
+      apiKey: '71b4ec727c0816672d93fec5d3747c8f',
       indexName: 'darkleave',
       hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"我们在这个鱼塘没有找到任何你想要的咸鱼: ${query}","hits_stats":"${hits} 条咸鱼已发现 在 ${time} ms"}
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
   };
 </script>
@@ -147,6 +147,23 @@
     
   
 
+  
+    
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script type="text/javascript" src="/js/src/algolia.js?v=5.1.4"></script>
+
+  
+  
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
@@ -402,8 +419,8 @@ public    class    MyBean    implements    CommandLineRunner    {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/17/WEB环境下进行单元测试/" rel="next" title="WEB环境下进行单元测试">
-                <i class="fa fa-chevron-left"></i> WEB环境下进行单元测试
+              <a href="/2017/12/17/SpringBoot日志/" rel="next" title="SpringBoot日志">
+                <i class="fa fa-chevron-left"></i> SpringBoot日志
               </a>
             
           </div>
@@ -412,8 +429,8 @@ public    class    MyBean    implements    CommandLineRunner    {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/17/Application属性文件/" rel="prev" title="Application属性文件">
-                Application属性文件 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/17/SpringBoot应用启动事件/" rel="prev" title="SpringBoot应用启动事件">
+                SpringBoot应用启动事件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
