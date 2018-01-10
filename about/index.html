@@ -387,7 +387,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -623,8 +623,8 @@
 <!-- LOCAL: You can save these files to your site and update links -->
     
         
-        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
-        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+        <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
     
 <!-- END LOCAL -->
 
@@ -633,19 +633,17 @@
     
       <script type="text/javascript">
       function renderGitment(){
-        var gitment = new Gitmint({
+        var gitment = new Gitment({
             id: window.location.pathname, 
-            owner: 'darkleave# MUST HAVE, Your Github ID',
-            repo: 'darkleave.github.io# MUST HAVE, The repo you use to store Gitment comments',
-            
-            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            owner: '13645612',
+            repo: 'darkleave.github.io',
             
             oauth: {
             
             
-                client_secret: '2aa61bfda1aba5fb7127311f57e4235d7e9f3519# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+                client_secret: '2aa61bfda1aba5fb7127311f57e4235d7e9f3519',
             
-                client_id: '2fd1724a64a63d3adeb8# MUST HAVE, Github client id for the Gitment'
+                client_id: '2fd1724a64a63d3adeb8'
             }});
         gitment.render('gitment-container');
       }

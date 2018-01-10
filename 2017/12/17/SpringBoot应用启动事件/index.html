@@ -353,16 +353,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/17/SpringBoot应用启动事件/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/12/17/SpringBoot应用启动事件/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -459,8 +449,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/17/SpringBoot日志/" rel="next" title="SpringBoot日志">
-                <i class="fa fa-chevron-left"></i> SpringBoot日志
+              <a href="/2017/12/17/使用YAML代替Properties/" rel="next" title="使用YAML代替Properties">
+                <i class="fa fa-chevron-left"></i> 使用YAML代替Properties
               </a>
             
           </div>
@@ -469,8 +459,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/09/jooq基本操作介绍/" rel="prev" title="jooq基本操作介绍">
-                jooq基本操作介绍 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/17/Spring_Web_MVC框架/" rel="prev" title="Spring WebMVC框架">
+                Spring WebMVC框架 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -550,7 +540,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -786,8 +776,8 @@
 <!-- LOCAL: You can save these files to your site and update links -->
     
         
-        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
-        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+        <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
     
 <!-- END LOCAL -->
 
@@ -796,19 +786,17 @@
     
       <script type="text/javascript">
       function renderGitment(){
-        var gitment = new Gitmint({
+        var gitment = new Gitment({
             id: window.location.pathname, 
-            owner: 'darkleave# MUST HAVE, Your Github ID',
-            repo: 'darkleave.github.io# MUST HAVE, The repo you use to store Gitment comments',
-            
-            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            owner: '13645612',
+            repo: 'darkleave.github.io',
             
             oauth: {
             
             
-                client_secret: '2aa61bfda1aba5fb7127311f57e4235d7e9f3519# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+                client_secret: '2aa61bfda1aba5fb7127311f57e4235d7e9f3519',
             
-                client_id: '2fd1724a64a63d3adeb8# MUST HAVE, Github client id for the Gitment'
+                client_id: '2fd1724a64a63d3adeb8'
             }});
         gitment.render('gitment-container');
       }
