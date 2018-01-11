@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="SpringBoot,YAML," />
+  <meta name="keywords" content="Maven," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="使用YAML代替Properties">
-<meta name="keywords" content="SpringBoot,YAML">
+<meta name="description" content="Maven setting.xml详细配置说明">
+<meta name="keywords" content="Maven">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用YAML代替Properties">
-<meta property="og:url" content="http://www.zhz.gift/2017/12/17/使用YAML代替Properties/index.html">
+<meta property="og:title" content="setting.xml详解">
+<meta property="og:url" content="http://www.zhz.gift/2018/01/11/setting.xml详解/index.html">
 <meta property="og:site_name" content="静默的魔法书">
-<meta property="og:description" content="使用YAML代替Properties">
+<meta property="og:description" content="Maven setting.xml详细配置说明">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-17T12:12:19.322Z">
+<meta property="og:updated_time" content="2018-01-11T15:27:17.915Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用YAML代替Properties">
-<meta name="twitter:description" content="使用YAML代替Properties">
+<meta name="twitter:title" content="setting.xml详解">
+<meta name="twitter:description" content="Maven setting.xml详细配置说明">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://www.zhz.gift/2017/12/17/使用YAML代替Properties/"/>
+  <link rel="canonical" href="http://www.zhz.gift/2018/01/11/setting.xml详解/"/>
 
 
 
 
 
-  <title>使用YAML代替Properties | 静默的魔法书</title>
+  <title>setting.xml详解 | 静默的魔法书</title>
   
 
 
@@ -310,7 +310,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/使用YAML代替Properties/">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/01/11/setting.xml详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hans Chung">
@@ -327,7 +327,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用YAML代替Properties</h1>
+          <h1 class="post-title" itemprop="name headline">setting.xml详解</h1>
         
 
         <div class="post-meta">
@@ -339,8 +339,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:07:42+08:00">
-                2017-12-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T00:07:42+08:00">
+                2018-01-11
               </time>
             
 
@@ -357,7 +357,7 @@
 
           
           
-             <span id="/2017/12/17/使用YAML代替Properties/" class="leancloud_visitors" data-flag-title="使用YAML代替Properties">
+             <span id="/2018/01/11/setting.xml详解/" class="leancloud_visitors" data-flag-title="setting.xml详解">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -388,107 +388,187 @@
       
 
       
-        <p><strong>使用YAML代替Properties</strong></p>
+        <p>Maven setting.xml详细配置说明</p>
 <a id="more"></a>
-<p>##SpringBoot支持YAML##<br>YAML是JSON的一个超集，也是一种方便的定义层次配置数据的格式。只要你<br>将SnakeYAML    库放到classpath下，     SpringApplication    就会自动支持YAML，<br>以作为properties的替换。<br>注    如果你使用’Starters’，添加     spring-boot-starter    依赖会自动加载<br>SnakeYAML。</p>
-<p>##加载YAML##</p>
-<p>Spring框架提供两个便利的类用于加载YAML文档，YamlPropertiesFactoryBean    会将YAML加载为     Properties    ，     YamlMapFactoryBean    会将YAML加载为     Map    。<br>例如，下面的YAML文档：</p>
-<pre><code>environments:
-                dev:
-                                url:    http://dev.bar.com
-                                name:    Developer    Setup
-                prod:
-                                url:    http://foo.bar.com
-                                name:    My    Cool    App
-</code></pre><p>会被转化到这些属性：</p>
-<pre><code>environments.dev.url=http://dev.bar.com
-environments.dev.name=Developer    Setup
-environments.prod.url=http://foo.bar.com
-environments.prod.name=My    Cool    App
-</code></pre><p>YAML列表被表示成使用[index]间接引用作为属性keys的形式，例如下面的<br>YAML：</p>
-<pre><code>my:
-            servers:
-                            -    dev.bar.com
-                            -    foo.bar.com
-</code></pre><p>将会转化到这些属性:</p>
-<pre><code>my.servers[0]=dev.bar.com
-my.servers[1]=foo.bar.com
-</code></pre><p>使用Spring          DataBinder    工具集绑定这些属性（这是@ConfigurationProperties    做的事）时，你需要确保目标bean有个     java.util.List    或     Set    类型的属性，并且需要提供一个setter或使用可变的值初始化它，比如，下面的代码将绑定上面的属性：</p>
-<pre><code>@ConfigurationProperties(prefix=&quot;my&quot;)
-public    class    Config    {
-        private    List&lt;String&gt;    servers    =    new    ArrayList&lt;String&gt;();
-        public    List&lt;String&gt;    getServers(){
-                return    this.servers;
-        }
-}
-</code></pre><p>##在Spring环境中使用YAML暴露属性##</p>
-<p>YamlPropertySourceLoader类能够将YAML作为PropertySource导出到SprigEnvironment    ，这允许你使用常用的    @Value注解配合占位符语法访问YAML属<br>性。</p>
-<p>##Multi-profile    YAML文档##</p>
-<p>你可以在单个文件中定义多个特定配置（profile-specific）的YAML文档，并通过     spring.profiles    标示生效的文档，例如：</p>
-<pre><code>server:
-                address:    192.168.1.100
----
-spring:
-                profiles:    development
-server:
-                address:    127.0.0.1
----
-spring:
-                profiles:    production
-server:
-                address:    192.168.1.120
-</code></pre><p>在以上例子中，如果     development        profile被激活，     server.address    属性将是     127.0.0.1    ；如果     development    和     production        profiles没有启用，则该属性的值将是     192.168.1.100    。<br>在应用上下文启动时，如果没有明确指定激活的profiles，则默认的profiles将生效。所以，在下面的文档中我们为     security.user.password    设置了一个值，该<br>值只在”default”    profile中有效：                    </p>
-<pre><code>server:
-        port:    8000
----
-spring:
-        profiles:    default
-security:
-        user:
-                password:    weak
-</code></pre><p>然而，在这个示例中，由于没有关联任何profile，密码总是会设置，并且如果有必要的话可以在其他profiles中显式重置：                    </p>
-<pre><code>server:
-        port:    8000
-security:
-        user:
-                password:    weak                    
-</code></pre><p>通过     !    可以对     spring.profiles指定的profiles进行取反（negated，跟java中的     !    作用一样），如果negated和non-negated    profiles都指定一个单一文件，至少需要匹配一个non-negated    profile，可能不会匹配任何negated    profiles。                    </p>
-<p>##YAML缺点##                    </p>
-<p>YAML文件不能通过     @PropertySource    注解加载，如果需要使用该方式，那就必须使用properties文件。</p>
-<p>##合并YAML列表##</p>
-<p>正如上面看到的，所有YAML最终都转换为properties，在通过一个profile覆<br>盖”list”属性时这个过程可能不够直观（counter    intuitive）。例如，假设有一<br>个     MyPojo    对象，默认它的     name    和     description    属性都为     null    ，下面我们<br>将从     FooProperties    暴露一个     MyPojo    对象列表（list）：</p>
-<pre><code>@ConfigurationProperties(&quot;foo&quot;)
-public    class    FooProperties    {
-        private    final    List&lt;MyPojo&gt;    list    =    new    ArrayList&lt;&gt;();
-        public    List&lt;MyPojo&gt;    getList()    {
-                return    this.list;
-        }
-}
-</code></pre><p>考虑如下配置：</p>
-<pre><code>foo:
-        list:
-                -    name:    my    name
-                        description:    my    description
----
-spring:
-        profiles:    dev
-foo:
-        list:
-                -    name:    my    another    name
-</code></pre><p> 如果     dev        profile没有激活，     FooProperties.list    将包括一个如上述定义的     MyPojo    实体，即使     dev    生效，该     list    仍旧只包含一个实体（     name    值为     my    another    name    ，description    值为     null    ）。<br>此配置不会向该列表添加第二个     MyPojo    实例，也不会对该项进行合并。<br>当一个集合定义在多个profiles时，只使用优先级最高的：       </p>
-<pre><code>foo:
-        list:
-                -    name:    my    name
-                        description:    my    description
-                -    name:    another    name
-                        description:    another    description
----
-spring:
-        profiles:    dev
-foo:
-        list:
-                    -    name:    my    another    name
-</code></pre><p> 在以上示例中，如果     dev        profile激活，     FooProperties.list将包含一个     MyPojo    实体（     name    值为     my    another    name    ，     description    值为     null    ）。   </p>
+<h2 id="1-文件概览"><a href="#1-文件概览" class="headerlink" title="1.文件概览"></a>1.文件概览</h2><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0
+            http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;
+    &lt;localRepository/&gt;
+    &lt;interactiveMode/&gt;
+    &lt;offline/&gt;
+    &lt;pluginGroups/&gt;
+    &lt;servers/&gt;
+    &lt;mirrors/&gt;
+    &lt;proxies/&gt;
+    &lt;profiles/&gt;
+    &lt;activeProfiles/&gt;
+&lt;/settings&gt;
+</code></pre><p>通过配置文件中的注释，我们可以看到，有两种配置此文件的方法</p>
+<pre><code>1.用户级别
+${user.home}/.m2/settings.xml
+可以通过指令 -s /path/to/user/settings.xml
+
+2.全局级别
+${maven.home}/conf/settings.xml.
+可以通过指令 -gs /path/to/global/settings.xml
+</code></pre><h2 id="2-localRepository"><a href="#2-localRepository" class="headerlink" title="2.localRepository"></a>2.localRepository</h2><p>localRepository用于构建系统的本地仓库的路径。<br>默认的值是${user.home}/.m2/repository。</p>
+<pre><code>Default: ${user.home}/.m2/repository
+ &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+</code></pre><h2 id="3-interactiveMode"><a href="#3-interactiveMode" class="headerlink" title="3.interactiveMode"></a>3.interactiveMode</h2><p>interactiveMode 用于决定maven是否在需要输出的时候提示你，默认true。如果是false，它将使用合理的默认值，或者基于一些设置。</p>
+<h2 id="4-offline"><a href="#4-offline" class="headerlink" title="4.offline"></a>4.offline</h2><p>决定maven是否在构建的时候进行网络传输。<br>默认false，表示联网状态，true为取消联网。<br>在某些情况下设置为true是很有用的，比如jar无法从网上下载等</p>
+<h2 id="5-pluginGroups"><a href="#5-pluginGroups" class="headerlink" title="5.pluginGroups"></a>5.pluginGroups</h2><p>pluginGroups 插件组</p>
+<pre><code>&lt;pluginGroups&gt;
+    &lt;pluginGroup&gt;org.mortbay.jetty&lt;/pluginGroup&gt;
+ &lt;/pluginGroups&gt;
+</code></pre><p>这样Maven可以使用简单的命令执行org.morbay.jetty:jetty-maven-plugin:run</p>
+<pre><code>mvn jetty run
+</code></pre><p>我们同样可以在pom文件中看到相似的配置，只是在这配置了就起到全局的作用，而不用每个项目中pom配置jetty   </p>
+<h2 id="6-proxies"><a href="#6-proxies" class="headerlink" title="6.proxies"></a>6.proxies</h2><p>此项用于设置http代理<br>有时候由于安全问题，需要配置http代理，通过代理服务才能正常访问外部仓库下载资源可以ping repo1.maven.org来访问中央仓库<br>telnet 218.14.227.197 3128 来查看代理地址以及端口是否畅通</p>
+<pre><code>&lt;proxies&gt;
+    &lt;proxy&gt;
+      &lt;id&gt;optional&lt;/id&gt;
+      &lt;active&gt;true&lt;/active&gt;
+      &lt;protocol&gt;http&lt;/protocol&gt;&lt;!--代理协议--&gt;
+      &lt;username&gt;proxyuser&lt;/username&gt;
+      &lt;password&gt;proxypass&lt;/password&gt;
+      &lt;host&gt;proxy.host.net&lt;/host&gt;
+      &lt;port&gt;80&lt;/port&gt;
+     &lt;nonProxyHosts&gt;local.net|some.host.com&lt;/nonProxyHosts&gt;
+    &lt;/proxy&gt;
+  &lt;/proxies&gt;
+</code></pre><ul>
+<li>id：proxy的唯一标识，用来区别proxy元素。</li>
+<li>active：表示是否激活代理，如果配置多个，默认是第一个生效</li>
+<li>username，password：提供连接代理服务器时的认证。</li>
+<li>host，port：主机地址，端口号</li>
+<li>nonProxyHosts：用来表示哪些主机名不需要代理，可以用|来分<br>割多个，此外也支持通配符，<br>如：*.goole.com表示所有以goole.com结尾的都不需要通过代理      </li>
+</ul>
+<h2 id="7-servers"><a href="#7-servers" class="headerlink" title="7.servers"></a>7.servers</h2><p>这是一个认证配置的列表,根据系统中使用的server-id控制。认证配置在maven连接到远程服务时使用。</p>
+<pre><code>&lt;servers&gt;
+    &lt;!--使用登录方式--&gt;
+    &lt;server&gt;
+          &lt;id&gt;deploymentRepo&lt;/id&gt;
+          &lt;username&gt;repouser&lt;/username&gt;
+          &lt;password&gt;repopwd&lt;/password&gt;
+        &lt;/server&gt;
+
+        &lt;!-- 使用秘钥认证 --&gt;
+        &lt;server&gt;
+          &lt;id&gt;siteServer&lt;/id&gt;
+          &lt;privateKey&gt;/path/to/private/key&lt;/privateKey&gt;
+          &lt;passphrase&gt;可空&lt;/passphrase&gt;
+        &lt;/server&gt;
+&lt;/servers&gt;
+</code></pre><h2 id="8-mirrors"><a href="#8-mirrors" class="headerlink" title="8.mirrors"></a>8.mirrors</h2><p>指定镜像仓库位置用于从远程仓库下载资源</p>
+<pre><code>&lt;mirrors&gt;
+    &lt;mirror&gt;
+      &lt;id&gt;mirrorId&lt;/id&gt;
+      &lt;mirrorOf&gt;repositoryId&lt;/mirrorOf&gt;
+      &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;
+      &lt;url&gt;http://my.repository.com/repo/path&lt;/url&gt;
+    &lt;/mirror&gt;
+&lt;/mirrors&gt;
+</code></pre><ul>
+<li>id：用于继承和直接查找，唯一</li>
+<li>mirrorOf：镜像所包含的仓库的Id</li>
+<li>name：唯一标识，用于区分镜像站</li>
+<li>url：镜像路径    </li>
+</ul>
+<h2 id="9-profiles"><a href="#9-profiles" class="headerlink" title="9.profiles"></a>9.profiles</h2><ol>
+<li>settings.xml中时意味着该profile是全局的，所以只能配置范围宽泛一点配置信息，比如远程仓库等。而一些比较细致一点的需要定义在项目的pom.xml中。</li>
+<li>profile可以让我们定义一系列的配置信息，然后指定其激活条件。<br>根据每个profile对应不同的激活条件和配置信息，从而达到不同环境使用不同配置。</li>
+<li>例子：通过profile定义jdk1.5以上使用一套配置，jdk1.5以下使用另外一套配置；或者通过操作系统来使用不同的配置信息。</li>
+<li>settings.xml中的信息有repositories、pluginRepositories和properties。定义在properties的值可以在pom.xml中使用。</li>
+</ol>
+<p>Activation</p>
+<pre><code>&lt;profiles&gt;
+    &lt;profile&gt;
+              &lt;id&gt;test&lt;/id&gt;
+              &lt;activation&gt;
+                 &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;
+                 &lt;jdk&gt;1.5&lt;/jdk&gt;
+                 &lt;os&gt;
+                     &lt;name&gt;Windows XP&lt;/name&gt;
+                     &lt;family&gt;Windows&lt;/family&gt;
+                     &lt;arch&gt;x86&lt;/arch&gt;
+                     &lt;version&gt;5.1.2600&lt;/version&gt;
+                 &lt;/os&gt;
+                 &lt;property&gt;
+                     &lt;name&gt;mavenVersion&lt;/name&gt;
+                     &lt;value&gt;2.0.3&lt;/value&gt;
+                 &lt;/property&gt;
+                 &lt;file&gt;
+                &lt;exists&gt;${basedir}/file2.properties&lt;/exists&gt;
+               &lt;missing&gt;${basedir}/file1.properties&lt;/missing&gt;
+                &lt;/file&gt;
+             &lt;/activation&gt;
+         &lt;/profile&gt;
+&lt;/profiles&gt;
+</code></pre><ul>
+<li>jdk：检测到对应jdk版本就激活</li>
+<li>os：针对不同操作系统</li>
+<li>property：当maven检测到property（pom中如${name}这样的）profile将被激活</li>
+<li>file：如果存在文件，激活，不存在文件激活    </li>
+</ul>
+<p>通过以下命令查看哪些profile将生效</p>
+<pre><code>mvn help:active-profiles
+</code></pre><p>properites</p>
+<p>Maven的属性是值占位符，就像Ant中的一样。如果X是一个属性的话，在POM中可以使用${X}来进行任意地方的访问。他们来自于五种不同的风格，所有都可以从settings.xml文件中访问到。</p>
+<pre><code>1. env.x：“env.”前缀会返回当前的环境变量。如${env.PATH}就是使用了$path环境变量（windosws中的%PATH%）。
+2. project.x：一个点“.”分割的路径，在POM中就是相关的元素的值。例如：&lt;project&gt;&lt;version&gt;1.0&lt;/version&gt;&lt;/project&gt;就可以通过${project.version}来访问。
+3. settings.x：一个点“.”分割的路径，在settings.xml中就是相对应的元素的值，例如：&lt;settings&gt;&lt;offline&gt;false&lt;/offline&gt;&lt;/settings&gt;就可以通过${settings.offline}来访问。
+4. Java系统属性：通过java.lang.System.getProperties()来访问的属性都可以像POM中的属性一样访问，例如：${java.home}
+</code></pre><ol>
+<li><p>x：被<properties>或者外部文件定义的属性，值可以这样访问${someVar}    </properties></p>
+ <profiles><br>     <profile><br>       …<br>       <properties><br>         <user.install>${user.home}/our-project</user.install><br>       </properties><br>       …<br>     </profile><br>  </profiles>
+
+</li>
+</ol>
+<p>上面这个profile如果被激活，那么在pom中${user.install}就可以被访问了。</p>
+<p>Repositories</p>
+<p>Repositories是远程项目集合maven用来移植到本地仓库用于构建系统。如果来自本地仓库，Maven调用它的插件和依赖关系。不同的远程仓库可能包含不同的项目，当profile被激活，他们就会需找匹配的release或者snapshot构件。</p>
+<pre><code>&lt;profiles&gt;
+    &lt;profile&gt;
+      ...
+      &lt;repositories&gt;
+        &lt;repository&gt;
+          &lt;id&gt;codehausSnapshots&lt;/id&gt;
+          &lt;name&gt;Codehaus Snapshots&lt;/name&gt;
+          &lt;releases&gt;
+            &lt;enabled&gt;false&lt;/enabled&gt;
+            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+          &lt;/releases&gt;
+          &lt;snapshots&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
+          &lt;/snapshots&gt;
+          &lt;url&gt;http://snapshots.maven.codehaus.org/maven2&lt;/url&gt;
+          &lt;layout&gt;default&lt;/layout&gt;
+        &lt;/repository&gt;
+      &lt;/repositories&gt;
+      &lt;pluginRepositories&gt;
+        ...
+      &lt;/pluginRepositories&gt;
+      ...
+    &lt;/profile&gt;
+  &lt;/profiles&gt;
+</code></pre><ol>
+<li>releases，snapshots：这是各种构件的策略，release或者snapshot。这两个集合，POM就可以根据独立仓库任意类型的依赖改变策略。如：一个人可能只激活下载snapshot用来开发。</li>
+<li>enable：true或者false，决定仓库是否对于各自的类型激活(release 或者 snapshot)。</li>
+<li>updatePolicy: 这个元素决定更新频率。maven将比较本地pom的时间戳（存储在仓库的maven数据文件中）和远程的. 有以下选择: always, daily (默认), interval:X (x是代表分钟的整型) ， never.</li>
+<li>checksumPolicy：当Maven向仓库部署文件的时候，它也部署了相应的校验和文件。可选的为：ignore，fail，warn，或者不正确的校验和。</li>
+<li>layout：在上面描述仓库的时候，提到他们有统一的布局。Maven 2有它仓库默认布局。然而，Maven 1.x有不同布局。使用这个元素来表明它是default还是legacy。      </li>
+</ol>
+<h2 id="10-activeProfiles"><a href="#10-activeProfiles" class="headerlink" title="10.activeProfiles"></a>10.activeProfiles</h2><pre><code>&lt;activeProfiles&gt;
+    &lt;activeProfile&gt;alwaysActiveProfile&lt;/activeProfile&gt;
+    &lt;activeProfile&gt;anotherAlwaysActiveProfile&lt;/activeProfile&gt;
+&lt;/activeProfiles&gt;
+</code></pre><p>每个activeProfile元素对应一个profile id的值，任何profile id被定义到activeProfile的profile将被激活。</p>
+<p><strong>原文:<a href="http://blog.csdn.net/odeviloo/article/details/51999878" target="_blank" rel="external">http://blog.csdn.net/odeviloo/article/details/51999878</a></strong></p>
+<p><strong>参考：<a href="http://maven.apache.org/settings.html" target="_blank" rel="external">http://maven.apache.org/settings.html</a></strong></p>
 
       
     </div>
@@ -506,9 +586,7 @@ foo:
       
         <div class="post-tags">
           
-            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
-          
-            <a href="/tags/YAML/" rel="tag"># YAML</a>
+            <a href="/tags/Maven/" rel="tag"># Maven</a>
           
         </div>
       
@@ -521,8 +599,8 @@ foo:
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/02/spring-boot简介/" rel="next" title="spring boot简介">
-                <i class="fa fa-chevron-left"></i> spring boot简介
+              <a href="/2018/01/09/jooq基本操作介绍/" rel="next" title="jooq基本操作介绍">
+                <i class="fa fa-chevron-left"></i> jooq基本操作介绍
               </a>
             
           </div>
@@ -531,8 +609,8 @@ foo:
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/17/SpringBoot日志/" rel="prev" title="SpringBoot日志">
-                SpringBoot日志 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/11/Pom.xml详解/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -590,8 +668,17 @@ foo:
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -663,6 +750,22 @@ foo:
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-文件概览"><span class="nav-number">1.</span> <span class="nav-text">1.文件概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-localRepository"><span class="nav-number">2.</span> <span class="nav-text">2.localRepository</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-interactiveMode"><span class="nav-number">3.</span> <span class="nav-text">3.interactiveMode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-offline"><span class="nav-number">4.</span> <span class="nav-text">4.offline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-pluginGroups"><span class="nav-number">5.</span> <span class="nav-text">5.pluginGroups</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-proxies"><span class="nav-number">6.</span> <span class="nav-text">6.proxies</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-servers"><span class="nav-number">7.</span> <span class="nav-text">7.servers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-mirrors"><span class="nav-number">8.</span> <span class="nav-text">8.mirrors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-profiles"><span class="nav-number">9.</span> <span class="nav-text">9.profiles</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-activeProfiles"><span class="nav-number">10.</span> <span class="nav-text">10.activeProfiles</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
