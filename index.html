@@ -310,648 +310,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/01/11/Pom.xml详解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hans Chung">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="静默的魔法书">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/11/Pom.xml详解/" itemprop="url">未命名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T23:24:23+08:00">
-                2018-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/01/11/Pom.xml详解/" class="leancloud_visitors" data-flag-title="">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Pom-xml详解"><a href="#Pom-xml详解" class="headerlink" title="Pom.xml详解"></a>Pom.xml详解</h1><p>Tags： [Maven]</p>
-<hr>
-<h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><p>pom中节点如下分布</p>
-<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
-         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0
-            http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;!-- 基本配置 --&gt;
-    &lt;groupId&gt;...&lt;/groupId&gt;
-    &lt;artifactId&gt;...&lt;/artifactId&gt;
-    &lt;version&gt;...&lt;/version&gt;
-    &lt;packaging&gt;...&lt;/packaging&gt;
-
-
-    &lt;!-- 依赖配置 --&gt;
-    &lt;dependencies&gt;...&lt;/dependencies&gt;
-    &lt;parent&gt;...&lt;/parent&gt;
-    &lt;dependencyManagement&gt;...&lt;/dependencyManagement&gt;
-    &lt;modules&gt;...&lt;/modules&gt;
-    &lt;properties&gt;...&lt;/properties&gt;
-
-    &lt;!-- 构建配置 --&gt;
-    &lt;build&gt;...&lt;/build&gt;
-    &lt;reporting&gt;...&lt;/reporting&gt;
-
-    &lt;!-- 项目信息 --&gt;
-    &lt;name&gt;...&lt;/name&gt;
-    &lt;description&gt;...&lt;/description&gt;
-    &lt;url&gt;...&lt;/url&gt;
-    &lt;inceptionYear&gt;...&lt;/inceptionYear&gt;
-    &lt;licenses&gt;...&lt;/licenses&gt;
-    &lt;organization&gt;...&lt;/organization&gt;
-    &lt;developers&gt;...&lt;/developers&gt;
-    &lt;contributors&gt;...&lt;/contributors&gt;
-
-    &lt;!-- 环境设置 --&gt;
-    &lt;issueManagement&gt;...&lt;/issueManagement&gt;
-    &lt;ciManagement&gt;...&lt;/ciManagement&gt;
-    &lt;mailingLists&gt;...&lt;/mailingLists&gt;
-    &lt;scm&gt;...&lt;/scm&gt;
-    &lt;prerequisites&gt;...&lt;/prerequisites&gt;
-    &lt;repositories&gt;...&lt;/repositories&gt;
-    &lt;pluginRepositories&gt;...&lt;/pluginRepositories&gt;
-    &lt;distributionManagement&gt;...&lt;/distributionManagement&gt;
-    &lt;profiles&gt;...&lt;/profiles&gt;
-&lt;/project&gt;
-</code></pre><h2 id="2-基本配置"><a href="#2-基本配置" class="headerlink" title="2.基本配置"></a>2.基本配置</h2><ul>
-<li>modelVersion：pom模型版本，maven2和3只能为4.0.0</li>
-<li>groupId：组ID，maven用于定位</li>
-<li>artifactId：在组中的唯一ID用于定位</li>
-<li>version：项目版本</li>
-<li>packaging：项目打包方式，有以下值：pom, jar, maven-plugin, ejb, war, ear, rar, par</li>
-</ul>
-<h2 id="3-依赖配置"><a href="#3-依赖配置" class="headerlink" title="3.依赖配置"></a>3.依赖配置</h2><p>parent</p>
-<p>用于确定父项目的坐标。</p>
-<pre><code>&lt;parent&gt;
-    &lt;groupId&gt;com.learnPro&lt;/groupId&gt;
-    &lt;artifactId&gt;SIP-parent&lt;/artifactId&gt;
-    &lt;relativePath&gt;&lt;/relativePath&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-&lt;/parent&gt;
-</code></pre><ul>
-<li>groupId：父项目的构件标识符</li>
-<li>artifactId：父项目的唯一标识符</li>
-<li>relativePath：Maven首先在当前项目的找父项目的pom，然后在文件系统的这个位置（relativePath），然后在本地仓库，再在远程仓库找。</li>
-<li>version：父项目的版本</li>
-</ul>
-<p>modules</p>
-<p>有些maven项目会做成多模块的，这个标签用于指定当前项目所包含的所有模块。之后对这个项目进行的maven操作，会让所有子模块也进行相同操作。</p>
-<pre><code>&lt;modules&gt;
-   &lt;module&gt;com-a&lt;/module&gt;
-   &lt;module&gt;com-b&lt;/module&gt;
-   &lt;module&gt;com-c&lt;/module&gt;
-&lt;/modules&gt;
-</code></pre><p>properties</p>
-<p>用于定义pom常量</p>
-<pre><code>&lt;properties&gt;
-    &lt;java.version&gt;1.7&lt;/java.version&gt;
-&lt;/properties&gt;
-</code></pre><p>上面这个常量可以在pom文件的任意地方通过${java.version}来引用</p>
-<p>dependencies</p>
-<p>项目相关依赖配置，如果在父项目写的依赖，会被子项目引用，一般父项目会将子项目公用的依赖引入（将在之后详细讲解）</p>
-<pre><code>&lt;dependencies&gt;
-    &lt;dependency&gt;
-            &lt;groupId&gt;junit&lt;/groupId&gt;
-            &lt;artifactId&gt;junit&lt;/artifactId&gt;
-            &lt;version&gt;4.12&lt;/version&gt;
-    &lt;/dependency&gt;
-&lt;/dependencies&gt;
-</code></pre><p>这边依赖和中央仓库中的一致，就可以引入对应的jar</p>
-<p>dependencyManagement</p>
-<p>配置写法同dependencies</p>
-<pre><code>&lt;dependencyManagement&gt;
-    &lt;dependencies&gt;
-    .....
-    &lt;/dependencies&gt;
-&lt;/dependencyManagement&gt;
-</code></pre><p>在父模块中定义后，子模块不会直接使用对应依赖，但是在使用相同依赖的时候可以不加版本号：</p>
-<pre><code>父项目：
-&lt;dependencyManagement&gt;
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;junit&lt;/groupId&gt;
-            &lt;artifactId&gt;junit&lt;/artifactId&gt;
-            &lt;version&gt;4.12&lt;/version&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-&lt;/dependencyManagement&gt;
-
-子项目：
-
-&lt;dependency&gt;
-    &lt;groupId&gt;junit&lt;/groupId&gt;
-    &lt;artifactId&gt;junit&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre><p>这样的好处是，父项目统一了版本，而且子项目可以在需要的时候才引用对应的依赖    </p>
-<h2 id="4-构建配置"><a href="#4-构建配置" class="headerlink" title="4.构建配置"></a>4.构建配置</h2><p>build</p>
-<p>用于配置项目构建相关信息</p>
-<pre><code>&lt;build&gt;    
-    &lt;!--该元素设置了项目源码目录，当构建项目的时候，构建系统会编译目录里的源码。该路径是相对于pom.xml的相对路径。--&gt;    
-    &lt;sourceDirectory/&gt;    
-    &lt;!--该元素设置了项目脚本源码目录，该目录和源码目录不同：绝大多数情况下，该目录下的内容 会被拷贝到输出目录(因为脚本是被解释的，而不是被编译的)。--&gt;    
-  &lt;scriptSourceDirectory/&gt;    
-  &lt;!--该元素设置了项目单元测试使用的源码目录，当测试项目的时候，构建系统会编译目录里的源码。该路径是相对于pom.xml的相对路径。--&gt;    
-  &lt;testSourceDirectory/&gt;    
-  &lt;!--被编译过的应用程序class文件存放的目录。--&gt;    
-  &lt;outputDirectory/&gt;    
-  &lt;!--被编译过的测试class文件存放的目录。--&gt;    
-  &lt;testOutputDirectory/&gt;    
-  &lt;!--使用来自该项目的一系列构建扩展--&gt;    
-  &lt;extensions&gt;    
-   &lt;!--描述使用到的构建扩展。--&gt;    
-   &lt;extension&gt;    
-    &lt;!--构建扩展的groupId--&gt;    
-    &lt;groupId/&gt;    
-    &lt;!--构建扩展的artifactId--&gt;    
-    &lt;artifactId/&gt;    
-    &lt;!--构建扩展的版本--&gt;    
-    &lt;version/&gt;    
-   &lt;/extension&gt;    
-  &lt;/extensions&gt;    
-  &lt;!--当项目没有规定目标（Maven2 叫做阶段）时的默认值--&gt;    
-  &lt;defaultGoal/&gt;    
-  &lt;!--这个元素描述了项目相关的所有资源路径列表，例如和项目相关的属性文件，这些资源被包含在最终的打包文件里。--&gt;    
-  &lt;resources&gt;    
-   &lt;!--这个元素描述了项目相关或测试相关的所有资源路径--&gt;    
-   &lt;resource&gt;    
-    &lt;!-- 描述了资源的目标路径。该路径相对target/classes目录（例如${project.build.outputDirectory}）。举个例 子，如果你想资源在特定的包里(org.apache.maven.messages)，你就必须该元素设置为org/apache/maven /messages。然而，如果你只是想把资源放到源码目录结构里，就不需要该配置。--&gt;    
-    &lt;targetPath/&gt;    
-    &lt;!--是否使用参数值代替参数名。参数值取自properties元素或者文件里配置的属性，文件在filters元素里列出。--&gt;    
-    &lt;filtering/&gt;    
-    &lt;!--描述存放资源的目录，该路径相对POM路径--&gt;    
-    &lt;directory/&gt;    
-    &lt;!--包含的模式列表，例如**/*.xml.--&gt;    
-    &lt;includes/&gt;    
-    &lt;!--排除的模式列表，例如**/*.xml--&gt;    
-    &lt;excludes/&gt;    
-   &lt;/resource&gt;    
-  &lt;/resources&gt;    
-  &lt;!--这个元素描述了单元测试相关的所有资源路径，例如和单元测试相关的属性文件。--&gt;    
-  &lt;testResources&gt;    
-   &lt;!--这个元素描述了测试相关的所有资源路径，参见build/resources/resource元素的说明--&gt;    
-   &lt;testResource&gt;    
-    &lt;targetPath/&gt;&lt;filtering/&gt;&lt;directory/&gt;&lt;includes/&gt;&lt;excludes/&gt;    
-   &lt;/testResource&gt;    
-  &lt;/testResources&gt;    
-  &lt;!--构建产生的所有文件存放的目录--&gt;    
-  &lt;directory/&gt;    
-  &lt;!--产生的构件的文件名，默认值是${artifactId}-${version}。--&gt;    
-  &lt;finalName/&gt;    
-  &lt;!--当filtering开关打开时，使用到的过滤器属性文件列表--&gt;    
-  &lt;filters/&gt;    
-  &lt;!--子项目可以引用的默认插件信息。该插件配置项直到被引用时才会被解析或绑定到生命周期。给定插件的任何本地配置都会覆盖这里的配置--&gt;    
-  &lt;pluginManagement&gt;    
-   &lt;!--使用的插件列表 。--&gt;    
-   &lt;plugins&gt;    
-    &lt;!--plugin元素包含描述插件所需要的信息。--&gt;    
-    &lt;plugin&gt;    
-     &lt;!--插件在仓库里的group ID--&gt;    
-     &lt;groupId/&gt;    
-     &lt;!--插件在仓库里的artifact ID--&gt;    
-     &lt;artifactId/&gt;    
-     &lt;!--被使用的插件的版本（或版本范围）--&gt;    
-     &lt;version/&gt;    
-     &lt;!--是否从该插件下载Maven扩展（例如打包和类型处理器），由于性能原因，只有在真需要下载时，该元素才被设置成enabled。--&gt;    
-     &lt;extensions/&gt;    
-     &lt;!--在构建生命周期中执行一组目标的配置。每个目标可能有不同的配置。--&gt;    
-     &lt;executions&gt;    
-      &lt;!--execution元素包含了插件执行需要的信息--&gt;    
-      &lt;execution&gt;    
-       &lt;!--执行目标的标识符，用于标识构建过程中的目标，或者匹配继承过程中需要合并的执行目标--&gt;    
-       &lt;id/&gt;    
-       &lt;!--绑定了目标的构建生命周期阶段，如果省略，目标会被绑定到源数据里配置的默认阶段--&gt;    
-       &lt;phase/&gt;    
-       &lt;!--配置的执行目标--&gt;    
-       &lt;goals/&gt;    
-       &lt;!--配置是否被传播到子POM--&gt;    
-       &lt;inherited/&gt;    
-       &lt;!--作为DOM对象的配置--&gt;    
-       &lt;configuration/&gt;    
-      &lt;/execution&gt;    
-     &lt;/executions&gt;    
-     &lt;!--项目引入插件所需要的额外依赖--&gt;    
-     &lt;dependencies&gt;    
-      &lt;!--参见dependencies/dependency元素--&gt;    
-      &lt;dependency&gt;    
-       ......    
-      &lt;/dependency&gt;    
-     &lt;/dependencies&gt;         
-     &lt;!--任何配置是否被传播到子项目--&gt;    
-     &lt;inherited/&gt;    
-     &lt;!--作为DOM对象的配置--&gt;    
-     &lt;configuration/&gt;    
-    &lt;/plugin&gt;    
-   &lt;/plugins&gt;    
-  &lt;/pluginManagement&gt;    
-  &lt;!--使用的插件列表--&gt;    
-  &lt;plugins&gt;    
-   &lt;!--参见build/pluginManagement/plugins/plugin元素--&gt;    
-   &lt;plugin&gt;    
-    &lt;groupId/&gt;&lt;artifactId/&gt;&lt;version/&gt;&lt;extensions/&gt;    
-    &lt;executions&gt;    
-     &lt;execution&gt;    
-      &lt;id/&gt;&lt;phase/&gt;&lt;goals/&gt;&lt;inherited/&gt;&lt;configuration/&gt;    
-     &lt;/execution&gt;    
-    &lt;/executions&gt;    
-    &lt;dependencies&gt;    
-     &lt;!--参见dependencies/dependency元素--&gt;    
-     &lt;dependency&gt;    
-      ......    
-     &lt;/dependency&gt;    
-    &lt;/dependencies&gt;    
-    &lt;goals/&gt;&lt;inherited/&gt;&lt;configuration/&gt;    
-   &lt;/plugin&gt;    
-  &lt;/plugins&gt;    
- &lt;/build&gt;
-</code></pre><p>reporting</p>
-<p>该元素描述使用报表插件产生报表的规范。当用户执行“mvn site”，这些报表就会运行。 在页面导航栏能看到所有报表的链接。</p>
-<pre><code>&lt;reporting&gt;    
-  &lt;!--true，则，网站不包括默认的报表。这包括“项目信息”菜单中的报表。--&gt;    
-  &lt;excludeDefaults/&gt;    
-  &lt;!--所有产生的报表存放到哪里。默认值是${project.build.directory}/site。--&gt;    
-  &lt;outputDirectory/&gt;    
-  &lt;!--使用的报表插件和他们的配置。--&gt;    
-  &lt;plugins&gt;    
-   &lt;!--plugin元素包含描述报表插件需要的信息--&gt;    
-   &lt;plugin&gt;    
-    &lt;!--报表插件在仓库里的group ID--&gt;    
-    &lt;groupId/&gt;    
-    &lt;!--报表插件在仓库里的artifact ID--&gt;    
-    &lt;artifactId/&gt;    
-    &lt;!--被使用的报表插件的版本（或版本范围）--&gt;    
-    &lt;version/&gt;    
-    &lt;!--任何配置是否被传播到子项目--&gt;    
-    &lt;inherited/&gt;    
-    &lt;!--报表插件的配置--&gt;    
-    &lt;configuration/&gt;    
-    &lt;!--一组报表的多重规范，每个规范可能有不同的配置。一个规范（报表集）对应一个执行目标 。例如，有1，2，3，4，5，6，7，8，9个报表。1，2，5构成A报表集，对应一个执行目标。2，5，8构成B报表集，对应另一个执行目标--&gt;    
-    &lt;reportSets&gt;    
-     &lt;!--表示报表的一个集合，以及产生该集合的配置--&gt;    
-     &lt;reportSet&gt;    
-      &lt;!--报表集合的唯一标识符，POM继承时用到--&gt;    
-      &lt;id/&gt;    
-      &lt;!--产生报表集合时，被使用的报表的配置--&gt;    
-      &lt;configuration/&gt;    
-      &lt;!--配置是否被继承到子POMs--&gt;    
-      &lt;inherited/&gt;    
-      &lt;!--这个集合里使用到哪些报表--&gt;    
-      &lt;reports/&gt;    
-     &lt;/reportSet&gt;    
-    &lt;/reportSets&gt;    
-   &lt;/plugin&gt;    
-  &lt;/plugins&gt;    
- &lt;/reporting&gt;
-</code></pre><h2 id="5-项目信息"><a href="#5-项目信息" class="headerlink" title="5.项目信息"></a>5.项目信息</h2><ul>
-<li>name：给用户提供更为友好的项目名</li>
-<li>description：项目描述，maven文档中保存</li>
-<li>url：主页的URL，maven文档中保存</li>
-<li>inceptionYear：项目创建年份，4位数字。当产生版权信息时需要使用这个值</li>
-<li>licenses：该元素描述了项目所有License列表。 应该只列出该项目的license列表，不要列出依赖项目的 license列表。如果列出多个license，用户可以选择它们中的一个而不是接受所有license。（如下）</li>
-</ul>
-<pre><code>&lt;license&gt;  
-
-    &lt;!--license用于法律上的名称--&gt;    
-    &lt;name&gt;...&lt;/name&gt;     
-    &lt;!--官方的license正文页面的URL--&gt;    
-    &lt;url&gt;....&lt;/url&gt;
-    &lt;!--项目分发的主要方式：repo，可以从Maven库下载 manual， 用户必须手动下载和安装依赖--&gt;    
-    &lt;distribution&gt;repo&lt;/distribution&gt;     
-    &lt;!--关于license的补充信息--&gt;    
-    &lt;comments&gt;....&lt;/comments&gt;     
-&lt;/license&gt; 
-</code></pre><ul>
-<li>organization：1.name 组织名 2.url 组织主页url</li>
-<li>developers：项目开发人员列表（如下）</li>
-<li>contributors：项目其他贡献者列表，同developers    </li>
-</ul>
-<pre><code>&lt;developers&gt;  
-
-&lt;!--某个开发者信息--&gt;
-&lt;developer&gt;  
-    &lt;!--开发者的唯一标识符--&gt;
-    &lt;id&gt;....&lt;/id&gt;  
-    &lt;!--开发者的全名--&gt;
-    &lt;name&gt;...&lt;/name&gt;  
-    &lt;!--开发者的email--&gt;
-    &lt;email&gt;...&lt;/email&gt;  
-    &lt;!--开发者的主页--&gt;
-    &lt;url&gt;...&lt;url/&gt;
-    &lt;!--开发者在项目中的角色--&gt;
-    &lt;roles&gt;  
-        &lt;role&gt;Java Dev&lt;/role&gt;  
-        &lt;role&gt;Web UI&lt;/role&gt;  
-    &lt;/roles&gt; 
-    &lt;!--开发者所属组织--&gt; 
-    &lt;organization&gt;sun&lt;/organization&gt;  
-    &lt;!--开发者所属组织的URL--&gt;
-    &lt;organizationUrl&gt;...&lt;/organizationUrl&gt;  
-    &lt;!--开发者属性，如即时消息如何处理等--&gt;
-    &lt;properties&gt;
-        &lt;!-- 和主标签中的properties一样，可以随意定义子标签 --&gt;
-    &lt;/properties&gt; 
-    &lt;!--开发者所在时区， -11到12范围内的整数。--&gt; 
-    &lt;timezone&gt;-5&lt;/timezone&gt;  
-&lt;/developer&gt;  
-&lt;/developers&gt;  
-</code></pre><h2 id="6-环境设置"><a href="#6-环境设置" class="headerlink" title="6.环境设置"></a>6.环境设置</h2><p>issueManagement</p>
-<p>目的问题管理系统(Bugzilla, Jira, Scarab)的名称和URL</p>
-<pre><code>&lt;issueManagement&gt;
-    &lt;system&gt;Bugzilla&lt;/system&gt;
-    &lt;url&gt;http://127.0.0.1/bugzilla/&lt;/url&gt;
-&lt;/issueManagement&gt;
-</code></pre><ul>
-<li>system：系统类型</li>
-<li>url：路径    </li>
-</ul>
-<p>ciManagement</p>
-<p>项目的持续集成信息</p>
-<pre><code>&lt;ciManagement&gt;
-    &lt;system&gt;continuum&lt;/system&gt;
-    &lt;url&gt;http://127.0.0.1:8080/continuum&lt;/url&gt;
-    &lt;notifiers&gt;
-      &lt;notifier&gt;
-        &lt;type&gt;mail&lt;/type&gt;
-        &lt;sendOnError&gt;true&lt;/sendOnError&gt;
-        &lt;sendOnFailure&gt;true&lt;/sendOnFailure&gt;
-        &lt;sendOnSuccess&gt;false&lt;/sendOnSuccess&gt;
-        &lt;sendOnWarning&gt;false&lt;/sendOnWarning&gt;
-        &lt;address&gt;continuum@127.0.0.1&lt;/address&gt;
-        &lt;configuration&gt;&lt;/configuration&gt;
-      &lt;/notifier&gt;
-    &lt;/notifiers&gt;
-  &lt;/ciManagement&gt;
-</code></pre><ul>
-<li>system：持续集成系统的名字</li>
-<li>url：持续集成系统的URL</li>
-<li>notifiers：构建完成时，需要通知的开发者/用户的配置项。包括被通知者信息和通知条件（错误，失败，成功，警告） <ul>
-<li>type：通知方式</li>
-<li>sendOnError：错误时是否通知</li>
-<li>sendOnFailure：失败时是否通知</li>
-<li>sendOnSuccess：成功时是否通知</li>
-<li>sendOnWarning：警告时是否通知</li>
-<li>address：通知发送到的地址</li>
-<li>configuration：扩展项      </li>
-</ul>
-</li>
-</ul>
-<p>mailingLists</p>
-<p>项目相关邮件列表信息</p>
-<pre><code>&lt;mailingLists&gt;
-    &lt;mailingList&gt;
-      &lt;name&gt;User List&lt;/name&gt;
-      &lt;subscribe&gt;user-subscribe@127.0.0.1&lt;/subscribe&gt;
-      &lt;unsubscribe&gt;user-unsubscribe@127.0.0.1&lt;/unsubscribe&gt;
-      &lt;post&gt;user@127.0.0.1&lt;/post&gt;
-      &lt;archive&gt;http://127.0.0.1/user/&lt;/archive&gt;
-      &lt;otherArchives&gt;
-        &lt;otherArchive&gt;http://base.google.com/base/1/127.0.0.1&lt;/otherArchive&gt;
-      &lt;/otherArchives&gt;
-    &lt;/mailingList&gt;
-    .....
-  &lt;/mailingLists&gt;
-</code></pre><ul>
-<li>subscribe, unsubscribe: 订阅邮件（取消订阅）的地址或链接，如果是邮件地址，创建文档时，mailto: 链接会被自动创建</li>
-<li>archive：浏览邮件信息的URL</li>
-<li>post：接收邮件的地址      </li>
-</ul>
-<p>scm</p>
-<p>允许你配置你的代码库，供Maven web站点和其它插件使用</p>
-<pre><code>&lt;scm&gt;
-    &lt;connection&gt;scm:svn:http://127.0.0.1/svn/my-project&lt;/connection&gt;
-    &lt;developerConnection&gt;scm:svn:https://127.0.0.1/svn/my-project&lt;/developerConnection&gt;
-    &lt;tag&gt;HEAD&lt;/tag&gt;
-    &lt;url&gt;http://127.0.0.1/websvn/my-project&lt;/url&gt;
-&lt;/scm&gt;
-</code></pre><ul>
-<li>connection, developerConnection：这两个表示我们如何连接到maven的版本库。connection只提供读，developerConnection将提供写的请求 <ul>
-<li>写法如：scm:[provider]:[provider_specific]</li>
-<li>如果连接到CVS仓库，可以配置如下：scm:cvs:pserver:127.0.0.1:/cvs/root:my-project</li>
-</ul>
-</li>
-<li>tag：项目标签，默认HEAD</li>
-<li>url：共有仓库路径    </li>
-</ul>
-<p>prerequisites</p>
-<p>项目构建的前提</p>
-<pre><code>&lt;prerequisites&gt;
-    &lt;maven&gt;2.0.6&lt;/maven&gt;
-&lt;/prerequisites&gt;
-</code></pre><p>repositories,pluginRepositories</p>
-<p>依赖和扩展的远程仓库列表，同上篇文章，setting.xml配置中介绍的。</p>
-<pre><code>&lt;repositories&gt;
-    &lt;repository&gt;
-      &lt;releases&gt;
-        &lt;enabled&gt;false&lt;/enabled&gt;
-        &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-        &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-      &lt;/releases&gt;
-      &lt;snapshots&gt;
-        &lt;enabled&gt;true&lt;/enabled&gt;
-        &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-        &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-      &lt;/snapshots&gt;
-      &lt;id&gt;codehausSnapshots&lt;/id&gt;
-      &lt;name&gt;Codehaus Snapshots&lt;/name&gt;
-      &lt;url&gt;http://snapshots.maven.codehaus.org/maven2&lt;/url&gt;
-      &lt;layout&gt;default&lt;/layout&gt;
-    &lt;/repository&gt;
-  &lt;/repositories&gt;
-  &lt;pluginRepositories&gt;
-    ...
-  &lt;/pluginRepositories&gt;
-</code></pre><ul>
-<li>releases, snapshots:这是各种构件的策略，release或者snapshot。这两个集合，POM就可以根据独立仓库任意类型的依赖改变策略。如：一个人可能只激活下载snapshot用来开发。</li>
-<li>enable：true或者false，决定仓库是否对于各自的类型激活(release 或者 snapshot)。</li>
-<li>updatePolicy: 这个元素决定更新频率。maven将比较本地pom的时间戳（存储在仓库的maven数据文件中）和远程的. 有以下选择: always, daily (默认), interval:X (x是代表分钟的整型) ， never.</li>
-<li>checksumPolicy：当Maven向仓库部署文件的时候，它也部署了相应的校验和文件。可选的为：ignore，fail，warn，或者不正确的校验和。</li>
-<li>layout：在上面描述仓库的时候，提到他们有统一的布局。Maven 2有它仓库默认布局。然而，Maven 1.x有不同布局。使用这个元素来表明它是default还是legacy。      </li>
-</ul>
-<p>distributionManagement</p>
-<p>它管理的分布在整个构建过程生成的工件和支持文件</p>
-<pre><code>&lt;distributionManagement&gt;
-    ...
-    &lt;downloadUrl&gt;http://mojo.codehaus.org/my-project&lt;/downloadUrl&gt;
-    &lt;status&gt;deployed&lt;/status&gt;
-&lt;/distributionManagement&gt;
-</code></pre><ul>
-<li>downloadUrl: 其他pom可以通过此url的仓库抓取组件</li>
-<li>status：给出该构件在远程仓库的状态 <ul>
-<li>none: 默认</li>
-<li>converted: 将被早期Maven 2 POM转换过来</li>
-<li>partner: 这个项目会从合作者仓库同步过来</li>
-<li>deployed: 从Maven 2或3实例部署</li>
-<li>verified: 被核实时正确的和最终的    </li>
-</ul>
-</li>
-</ul>
-<p>Repository</p>
-<p>指定Maven pom从远程下载控件到当前项目的位置和方式，如果snapshotRepository没有被定义则使用repository相关的配置</p>
-<pre><code>&lt;distributionManagement&gt;
-   &lt;repository&gt;
-     &lt;uniqueVersion&gt;false&lt;/uniqueVersion&gt;
-     &lt;id&gt;corp1&lt;/id&gt;
-     &lt;name&gt;Corporate Repository&lt;/name&gt;
-     &lt;url&gt;scp://repo/maven2&lt;/url&gt;
-     &lt;layout&gt;default&lt;/layout&gt;
-   &lt;/repository&gt;
-   &lt;snapshotRepository&gt;
-     &lt;uniqueVersion&gt;true&lt;/uniqueVersion&gt;
-     &lt;id&gt;propSnap&lt;/id&gt;
-     &lt;name&gt;Propellors Snapshots&lt;/name&gt;
-     &lt;url&gt;sftp://propellers.net/maven&lt;/url&gt;
-     &lt;layout&gt;legacy&lt;/layout&gt;
-   &lt;/snapshotRepository&gt;
-   ...
- &lt;/distributionManagement&gt;
-</code></pre><ul>
-<li>id, name：仓库的唯一标识</li>
-<li>uniqueVersion：true或false，指明控件部署的时候是否获取独立的版本号。</li>
-<li>url：repository元素的核心。指定位置和部署协议发布控件到仓库。</li>
-<li>layout：布局，default或legacy</li>
-</ul>
-<p>Site Distribution</p>
-<p>多分布存储库,distributionManagement负责定义如何部署项目的网站和文档。</p>
-<pre><code>&lt;distributionManagement&gt;
-   ...
-   &lt;site&gt;
-     &lt;id&gt;mojo.website&lt;/id&gt;
-     &lt;name&gt;Mojo Website&lt;/name&gt;
-     &lt;url&gt;scp://beaver.codehaus.org/home/projects/mojo/public_html/&lt;/url&gt;
-   &lt;/site&gt;
-   ...
- &lt;/distributionManagement&gt;
-</code></pre><ul>
-<li>id, name, url: 这些元素与distributionManagement repository中的相同</li>
-</ul>
-<p>Relocation</p>
-<p>重新部署-项目不是静态的，是活的。他们需要被搬到更合适的地方。如：当你的下个成功的开源项目移到Apache下，重命名为org.apache:my-project:1.0 对你项目更有好处。</p>
-<pre><code>&lt;distributionManagement&gt;
-    ...
-    &lt;relocation&gt;
-      &lt;groupId&gt;org.apache&lt;/groupId&gt;
-      &lt;artifactId&gt;my-project&lt;/artifactId&gt;
-      &lt;version&gt;1.0&lt;/version&gt;
-      &lt;message&gt;We have moved the Project under Apache&lt;/message&gt;
-    &lt;/relocation&gt;
-    ...
- &lt;/distributionManagement&gt;
-</code></pre><p><strong>原文链接: <a href="http://blog.csdn.net/oDeviloo/article/details/52050277" target="_blank" rel="external">http://blog.csdn.net/oDeviloo/article/details/52050277</a></strong><br><strong>参考官方文档： <a href="http://maven.apache.org/pom.html" target="_blank" rel="external">http://maven.apache.org/pom.html</a></strong>   </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/01/11/setting.xml详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1037,6 +395,141 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/11/setting.xml详解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/01/11/Pom.xml详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hans Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静默的魔法书">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/11/Pom.xml详解/" itemprop="url">Pom.xml详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T00:07:42+08:00">
+                2018-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/11/Pom.xml详解/" class="leancloud_visitors" data-flag-title="Pom.xml详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Maven pom.xml详细配置说明</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/11/Pom.xml详解/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1222,7 +715,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/Spring_Web_MVC框架/">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/SpringBoot日志/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hans Chung">
@@ -1241,7 +734,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/17/Spring_Web_MVC框架/" itemprop="url">Spring WebMVC框架</a></h1>
+                <a class="post-title-link" href="/2017/12/17/SpringBoot日志/" itemprop="url">SpringBoot日志</a></h1>
         
 
         <div class="post-meta">
@@ -1271,7 +764,7 @@
 
           
           
-             <span id="/2017/12/17/Spring_Web_MVC框架/" class="leancloud_visitors" data-flag-title="Spring WebMVC框架">
+             <span id="/2017/12/17/SpringBoot日志/" class="leancloud_visitors" data-flag-title="SpringBoot日志">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1303,415 +796,10 @@
 
       
         
-          <p><strong>Spring WebMVC框架</strong></p>
+          <p><strong>SpringBoot日志</strong></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/17/Spring_Web_MVC框架/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/第三方配置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hans Chung">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="静默的魔法书">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/17/第三方配置/" itemprop="url">第三方配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:07:42+08:00">
-                2017-12-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/12/17/第三方配置/" class="leancloud_visitors" data-flag-title="第三方配置">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>第三方配置</strong></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/17/第三方配置/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/Application属性文件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hans Chung">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="静默的魔法书">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/17/Application属性文件/" itemprop="url">Application属性文件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:07:42+08:00">
-                2017-12-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/12/17/Application属性文件/" class="leancloud_visitors" data-flag-title="Application属性文件">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>Application属性文件</strong></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/17/Application属性文件/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/SpringBoot应用启动事件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hans Chung">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="静默的魔法书">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/17/SpringBoot应用启动事件/" itemprop="url">SpringBoot应用启动事件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:07:42+08:00">
-                2017-12-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/12/17/SpringBoot应用启动事件/" class="leancloud_visitors" data-flag-title="SpringBoot应用启动事件">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>SpringBoot应用启动事件</strong></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/17/SpringBoot应用启动事件/#more" rel="contents">
+            <a class="btn" href="/2017/12/17/SpringBoot日志/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1897,6 +985,141 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/Application属性文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hans Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静默的魔法书">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/17/Application属性文件/" itemprop="url">Application属性文件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:07:42+08:00">
+                2017-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/17/Application属性文件/" class="leancloud_visitors" data-flag-title="Application属性文件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong>Application属性文件</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/17/Application属性文件/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2032,7 +1255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/SpringBoot日志/">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/Spring_Web_MVC框架/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hans Chung">
@@ -2051,7 +1274,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/17/SpringBoot日志/" itemprop="url">SpringBoot日志</a></h1>
+                <a class="post-title-link" href="/2017/12/17/Spring_Web_MVC框架/" itemprop="url">Spring WebMVC框架</a></h1>
         
 
         <div class="post-meta">
@@ -2081,7 +1304,7 @@
 
           
           
-             <span id="/2017/12/17/SpringBoot日志/" class="leancloud_visitors" data-flag-title="SpringBoot日志">
+             <span id="/2017/12/17/Spring_Web_MVC框架/" class="leancloud_visitors" data-flag-title="Spring WebMVC框架">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -2113,10 +1336,280 @@
 
       
         
-          <p><strong>SpringBoot日志</strong></p>
+          <p><strong>Spring WebMVC框架</strong></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/17/SpringBoot日志/#more" rel="contents">
+            <a class="btn" href="/2017/12/17/Spring_Web_MVC框架/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/使用YAML代替Properties/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hans Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静默的魔法书">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/17/使用YAML代替Properties/" itemprop="url">使用YAML代替Properties</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:07:42+08:00">
+                2017-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/17/使用YAML代替Properties/" class="leancloud_visitors" data-flag-title="使用YAML代替Properties">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong>使用YAML代替Properties</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/17/使用YAML代替Properties/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/SpringBoot应用启动事件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hans Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静默的魔法书">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/17/SpringBoot应用启动事件/" itemprop="url">SpringBoot应用启动事件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:07:42+08:00">
+                2017-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/17/SpringBoot应用启动事件/" class="leancloud_visitors" data-flag-title="SpringBoot应用启动事件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong>SpringBoot应用启动事件</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/17/SpringBoot应用启动事件/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
