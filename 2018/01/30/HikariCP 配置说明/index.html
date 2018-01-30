@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="jooq," />
+  <meta name="keywords" content="pool," />
 
 
 
@@ -81,18 +81,24 @@
 
 
 
-<meta name="description" content="jooq基本操作介绍">
-<meta name="keywords" content="jooq">
+<meta name="description" content="Fast, simple, reliable. HikariCP is a “zero-overhead” production ready JDBC connection pool. At roughly 130Kb, the library is very light.">
+<meta name="keywords" content="pool">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jooq基本操作介绍">
-<meta property="og:url" content="http://www.zhz.gift/2018/01/09/jooq基本操作介绍/index.html">
+<meta property="og:title" content="HikariCP 配置说明">
+<meta property="og:url" content="http://www.zhz.gift/2018/01/30/HikariCP 配置说明/index.html">
 <meta property="og:site_name" content="静默的魔法书">
-<meta property="og:description" content="jooq基本操作介绍">
+<meta property="og:description" content="Fast, simple, reliable. HikariCP is a “zero-overhead” production ready JDBC connection pool. At roughly 130Kb, the library is very light.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-09T13:45:00.293Z">
+<meta property="og:image" content="https://github.com/darkleave/HikariCP">
+<meta property="og:image" content="https://www.jianshu.com/p/070f615dfb57">
+<meta property="og:image" content="https://baike.baidu.com/item/%E6%85%A2%E6%9F%A5%E8%AF%A2/9200910?fr=aladdin">
+<meta property="og:image" content="https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration">
+<meta property="og:image" content="http://blog.csdn.net/suwu150/article/details/52745055">
+<meta property="og:updated_time" content="2018-01-30T14:30:44.611Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jooq基本操作介绍">
-<meta name="twitter:description" content="jooq基本操作介绍">
+<meta name="twitter:title" content="HikariCP 配置说明">
+<meta name="twitter:description" content="Fast, simple, reliable. HikariCP is a “zero-overhead” production ready JDBC connection pool. At roughly 130Kb, the library is very light.">
+<meta name="twitter:image" content="https://github.com/darkleave/HikariCP">
 
 
 
@@ -122,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://www.zhz.gift/2018/01/09/jooq基本操作介绍/"/>
+  <link rel="canonical" href="http://www.zhz.gift/2018/01/30/HikariCP 配置说明/"/>
 
 
 
 
 
-  <title>jooq基本操作介绍 | 静默的魔法书</title>
+  <title>HikariCP 配置说明 | 静默的魔法书</title>
   
 
 
@@ -310,7 +316,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/01/09/jooq基本操作介绍/">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/01/30/HikariCP 配置说明/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hans Chung">
@@ -327,7 +333,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">jooq基本操作介绍</h1>
+          <h1 class="post-title" itemprop="name headline">HikariCP 配置说明</h1>
         
 
         <div class="post-meta">
@@ -339,8 +345,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-09T00:07:42+08:00">
-                2018-01-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T00:07:42+08:00">
+                2018-01-30
               </time>
             
 
@@ -357,7 +363,7 @@
 
           
           
-             <span id="/2018/01/09/jooq基本操作介绍/" class="leancloud_visitors" data-flag-title="jooq基本操作介绍">
+             <span id="/2018/01/30/HikariCP 配置说明/" class="leancloud_visitors" data-flag-title="HikariCP 配置说明">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -388,55 +394,62 @@
       
 
       
-        <p><strong>jooq基本操作介绍</strong></p>
+        <p>Fast, simple, reliable. HikariCP is a “zero-overhead” production ready JDBC connection pool. At roughly 130Kb, the library is very light.</p>
 <a id="more"></a>
-<h2 id="1-1jooq-select查询"><a href="#1-1jooq-select查询" class="headerlink" title="1.1jooq select查询"></a>1.1jooq select查询</h2><p>select方法接受一个SelectField查询字段集合,org.jooq.Field可以通过<br>生成的任意jooq.tables.*(eg:AudienceItem extends TableImpl<audienceitemrecord>)的Fields方法获取该Table的所有Field字段或者通过该Table的公共成员变量获取部分字段(eg: AUDIENCE_ITEM.ID).</audienceitemrecord></p>
-<p>select方法返回一个<strong>SelectSelectStep</strong><record> 查询步骤对象,一般通过该对象调用from方法完成接下来的表拼接.eg:.from(AUDIENCE_OBJECT).</record></p>
-<p>from方法接受一个TableLike&lt;?&gt;对象，该对象可以是表也可以是视图,最后返回一个<strong>SelectJoinStep</strong><r>对象.</r></p>
-<p>SelectJoinStep对象继承自<strong>SelectWhereStep</strong>对象,通过该对象我们既可以直接后接where方法条件，也可以通过SelectJoinStep对象的join,innerjoin等方法继续关联表进行查询.</p>
-<p>SelectJoinStep对象调用join等方法后(eg:.leftJoin(AUDIENCE_ITEM))返回SelectJoinPartitionByStep<r>对象,该对象继承自<strong>SelectOnStep</strong>对象.</r></p>
-<p><strong>SelectOnStep</strong>对象的主要方法是on,通过on方法来完成join之后的条件拼装(eg:.on(AUDIENCE_OBJECT.ITEM_ID.eq(AUDIENCE_ITEM.ID)),调用完成之后返回SelectOnConditionStep<r>对象.</r></p>
-<p>通过<strong>SelectOnConditionStep</strong><r>对象,可以继续接join,where或者直接调用fetch方法结束sql拼接.</r></p>
-<p>fetch方法返回一个泛型结果集Result<r>,一般通过该结果集的into方法直接转化得到实体列表,具体实例如下:</r></p>
-<pre><code>DSLContext dsl = DSL.using(configuration);
-dsl.select(Fields.start().add(AUDIENCE_ITEM).end())
-                .from(AUDIENCE_OBJECT).leftJoin(AUDIENCE_ITEM)
-                .on(AUDIENCE_OBJECT.ITEM_ID.eq(AUDIENCE_ITEM.ID).and(AUDIENCE_OBJECT.BUSINESS_TYPE.eq(businessType)))
-                .where(AUDIENCE_OBJECT.BUSINESS_ID.eq(id).and(AUDIENCE_ITEM.ID.isNotNull())).fetch()
-                .into(AudienceItem.class)
-</code></pre><p>另:on方法和where方法都是接受一个Condition可变数组为入参,Condition条件对象可由TableImpl对象的TableField字段调用and,eq等条件方法得到.</p>
-<h2 id="1-2-使用DSLContext进行新增-修改-删除"><a href="#1-2-使用DSLContext进行新增-修改-删除" class="headerlink" title="1.2 使用DSLContext进行新增,修改,删除"></a>1.2 使用DSLContext进行新增,修改,删除</h2><pre><code>//新增
-DSL.using(conf).insertInto(AUDIENCE_OBJECT,AUDIENCE_OBJECT.ID).values(&quot;1&quot;).execute();
-//更新        
-DSL.using(conf).update(AUDIENCE_OBJECT).set(AUDIENCE_OBJECT.BUSINESS_ID, AUDIENCE_OBJECT.BUSINESS_ID.add(1)).execute();
-//删除        
-DSL.using(conf).delete(AUDIENCE_OBJECT).where(AUDIENCE_OBJECT.BUSINESS_ID.eq(&quot;1&quot;)).execute();
-</code></pre><h2 id="2-1-使用UpdatableRecord完成新增-修改-删除"><a href="#2-1-使用UpdatableRecord完成新增-修改-删除" class="headerlink" title="2.1 使用UpdatableRecord完成新增,修改,删除"></a>2.1 使用UpdatableRecord完成新增,修改,删除</h2><p>jooq的新增，修改，删除方法都可以通过<strong>UpdatableRecord</strong>对象完成,示例如下:</p>
-<pre><code>DSLContext dsl = DSL.using(conf);
+<p><img src="https://github.com/darkleave/HikariCP" alt="官网连接"></p>
+<h2 id="必要配置"><a href="#必要配置" class="headerlink" title="必要配置"></a>必要配置</h2><ol>
+<li>dataSourceClassName 数据源驱动名</li>
+<li>jdbcUrl jdbc数据库连接</li>
+<li>username 用户名</li>
+<li>password 密码</li>
+</ol>
+<p>其中dataSourceClassName和jdbcUrl二选一，当使用比较老版本的驱动时，需要同时设置jdbcUrl和driverClassName，dataSourceClassName则不用进行设置</p>
+<h2 id="可选配置"><a href="#可选配置" class="headerlink" title="可选配置"></a>可选配置</h2><ol>
+<li><p>常用属性</p>
+<ul>
+<li>connectionTimeout 连接超时时间,最小时间为250 ms，默认为30000ms(30秒)</li>
+<li><p>idleTimeout 空闲超时时间，这个属性用来控制空闲连接允许保留在连接池中的最大时间，这个属性只有在minimumIdle（最小空闲连接数）小于maximumPoolSize(最大连接数)时才会生效,空闲连接断开会有15s-30s的延迟变动时间.在这个超时时间之前空闲连接永远不会断开,当连接池达到minimumIdle,连接将永远不会断开，即使处于闲置状态.值为0表示空闲连接将永远不会从连接池中移除，最小值为10000ms （10s),默认值为600000(10min)</p>
+</li>
+<li><p>maxLifetime 最大生命周期.这个属性用来控制连接池中连接的最大生命周期,一个使用中的连接永远不会被断开,只有当它处于关闭状态然后才会被移除.推荐设置比任何数据库或基础设施规定的连接时间限制少至少30秒。 值为0表示没有最大寿命（无限寿命）， 默认：1800000（30分钟）,由于HikariCP的housekeeper默认每30s运行一次,以维护minimumIdle最小空闲连接数，它可能添加新连接或者断开空闲连接，所以你必须设置maxLifetime属性比（mysql)wait_timeout时间少一些来避免 broken connection / exceptions.意思就是说比如mysql wait_timeout为10min,此时有一个连接由于达到超时时间，mysql主动断开了连接，而HakariCP仍然持有此连接，如果再使用此连接去请求数据库则会发生异常,设置maxLifetime最大生命周期比wait_timeout少30s后,就能确保再housekeeper运行期间提前断开此连接，避免发生异常.</p>
+</li>
+<li>connectionTestQuery 连接测试查询,如果你的驱动支持jdbc4，则不需要设置此属性，这个属性是为那些不支持Connection.isValid() API的古董级驱动准备的，这是一个查询，用来确保所有请求得到的连接都是alive有效的，尝试不设置这个属性运行连接池，如果你的驱动不支持jdbc4，HikariCP会有错误日志提示.Default:None</li>
+<li>minimumIdle 最小空闲连接，当空闲连接小于这个值并且总连接数小于maximumPoolSize（最大连接数)HikariCP会尽可能快速有效率地创建额外的连接，然而为了最大限度地提高性能和响应能力，不建议设置这个值，而是用固定大小的连接池取代.Default:与maximumPoolSize相同</li>
+<li>maximumPoolSize 最大连接池数量，包括使用中和空闲的连接，当达到最大连接池数量时，再尝试获取连接，只能得到connectionTimeout 超时信息.Default:10.</li>
+<li>metricRegistry 度量注册, Default: none <img src="https://www.jianshu.com/p/070f615dfb57" alt="参考链接"></li>
+<li>healthCheckRegistry 健康检查注册  Default: none</li>
+<li>poolName 连接池名字,一般用于日志输出 Default: auto-generated</li>
+</ul>
+</li>
+<li>不常使用<ul>
+<li>initializationFailTimeout 初始化失败超时时间 Default: 1</li>
+<li>isolateInternalQueries 是否隔离默认查询 Default: 1</li>
+<li>allowPoolSuspension 是否允许连接池暂停 Default: false</li>
+<li>readOnly 连接是否只读 Default: false</li>
+<li>registerMbeans 是否注册JMX Management Beans Default: false</li>
+<li>catalog 目录服务</li>
+<li>connectionInitSql 连接初始化sql Default: none</li>
+<li>driverClassName 驱动名称  Default: none</li>
+<li>transactionIsolation 事务隔离 Default: driver default</li>
+<li>validationTimeout 验证超时时间 Default: 5000 </li>
+<li>leakDetectionThreshold 最低发现阈值 Default: 0</li>
+<li>dataSource 数据源 Default: none</li>
+<li>schema 架构  Default: driver default</li>
+<li>threadFactory 线程工厂 Default: none </li>
+<li>scheduledExecutor 计划执行器 Default: none</li>
+</ul>
+</li>
+</ol>
+<h2 id="Statement-Cache"><a href="#Statement-Cache" class="headerlink" title="Statement Cache"></a>Statement Cache</h2><p>Many connection pools, including Apache DBCP, Vibur, c3p0 and others offer PreparedStatement caching. HikariCP does not. Why?<br>许多连接池，包括Aache DBCP,Vibur,c3p0 等都是提供PreparedStatement caching.HikariCP并不这样做，为什么？</p>
+<p>At the connection pool layer PreparedStatements can only be cached per connection. If your application has 250 commonly executed queries and a pool of 20 connections you are asking your database to hold on to 5000 query execution plans – and similarly the pool must cache this many PreparedStatements and their related graph of objects.</p>
+<p>在连接池中每个连接只能缓存各自的PreparedStatements对象.如果你的应用有250个要执行的普通查询和一个20个连接的连接池，然后你需要不间断地请求你的数据库去完成一个5000查询的执行计划，显然你的连接池必须缓存这所有的PreparedStatements对象和它们相关联的表对象.</p>
+<p>Most major database JDBC drivers already have a Statement cache that can be configured, including PostgreSQL, Oracle, Derby, MySQL, DB2, and many others. JDBC drivers are in a unique position to exploit database specific features, and nearly all of the caching implementations are capable of sharing execution plans across connections. This means that instead of 5000 statements in memory and associated execution plans, your 250 commonly executed queries result in exactly 250 execution plans in the database. Clever implementations do not even retain PreparedStatement objects in memory at the driver-level but instead merely attach new instances to existing plan IDs.</p>
+<p>许多主流的数据库，它们的jdbc驱动已经有了一个可配置的Statement缓存，包括PostgreSQL, Oracle, Derby, MySQL, DB2等等.JDBC驱动是唯一能利用数据库特定属性的方式，并且近乎所有的缓存实现都可以通过连接共享执行计划.这意味着你的250个普通查询结果在数据库中就是250个执行计划，而不是存储在内存中的5000个statements及其相关联的执行计划.聪明的缓存实现在驱动这一级别并不保持PreparedStatement对象在内存当中，而是为已存在的计划创建新的PreparedStatement实例.</p>
+<p>Using a statement cache at the pooling layer is an anti-pattern, and will negatively impact your application performance compared to driver-provided caches.</p>
+<p>在连接池层使用statement缓存是一个反面教材,并且相较驱动提供的缓存会对你的应用性能造成更大的消极影响.</p>
+<h2 id="Log-Statement-Text-Slow-Query-Logging"><a href="#Log-Statement-Text-Slow-Query-Logging" class="headerlink" title="Log Statement Text / Slow Query Logging"></a>Log Statement Text / Slow Query Logging</h2><p>Like Statement caching, most major database vendors support statement logging through properties of their own driver. This includes Oracle, MySQL, Derby, MSSQL, and others. Some even support slow query logging. For those few databases that do not support it, several options are available. We have received a report that p6spy works well, and also note the availability of log4jdbc and jdbcdslog-exp.</p>
+<p>就像Statement缓存，许多主流数据库供应商支持通过它们驱动的属性配置来添加statement logging的日志功能.这些数据库包括racle, MySQL, Derby, MSSQL等等.一些甚至支持<img src="https://baike.baidu.com/item/%E6%85%A2%E6%9F%A5%E8%AF%A2/9200910?fr=aladdin" alt="慢查询">日志记录功能.对于那些少数不支持的数据库,还有许多可用的其它方式.比如,p6spy,log4jdbc以及jdbcdslog-exp等等.</p>
+<p><img src="https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration" alt="mysql推荐配置"><br><img src="http://blog.csdn.net/suwu150/article/details/52745055" alt="Statement和PreparedStatement对象的区别"></p>
 
-UpdatableRecord r = (UpdatableRecord) dsl.newRecord(AUDIENCE_OBJECT, objects.get(0));
-        //只有不为空的才进行更新
-        int size = r.size();
-        for (int i = 0; i &lt; size; ++i) {
-            if (r.getValue(i) != null || r.field(i).getDataType().nullable())
-                continue;
-            r.changed(i, false);//标记该字段不更新
-        }
-        r.update();
-
-        r.insert();
-
-        r.delete();
-</code></pre><h2 id="2-2-批量方法"><a href="#2-2-批量方法" class="headerlink" title="2.2 批量方法"></a>2.2 批量方法</h2><p>新增,修改,删除批量方法都是接受一个UpdatableRecord对象集合来进行批量新增或批量修改.</p>
-<pre><code>//批量添加
-DSL.using(conf).batchInsert(rs).execute();
-
-//批量修改
-DSL.using(conf).batchUpdate(rs).execute();
-
-//批量删除
-DSL.using(conf).batchDelete(rs).execute();
-</code></pre>
       
     </div>
     
@@ -453,7 +466,7 @@ DSL.using(conf).batchDelete(rs).execute();
       
         <div class="post-tags">
           
-            <a href="/tags/jooq/" rel="tag"># jooq</a>
+            <a href="/tags/pool/" rel="tag"># pool</a>
           
         </div>
       
@@ -466,8 +479,8 @@ DSL.using(conf).batchDelete(rs).execute();
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/17/SpringBoot应用启动事件/" rel="next" title="SpringBoot应用启动事件">
-                <i class="fa fa-chevron-left"></i> SpringBoot应用启动事件
+              <a href="/2018/01/29/git 换行符LF与CRLF转换问题/" rel="next" title="git 换行符LF与CRLF转换问题">
+                <i class="fa fa-chevron-left"></i> git 换行符LF与CRLF转换问题
               </a>
             
           </div>
@@ -475,10 +488,6 @@ DSL.using(conf).batchDelete(rs).execute();
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/11/setting.xml详解/" rel="prev" title="setting.xml详解">
-                setting.xml详解 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -627,7 +636,7 @@ DSL.using(conf).batchDelete(rs).execute();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1jooq-select查询"><span class="nav-number">1.</span> <span class="nav-text">1.1jooq select查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-使用DSLContext进行新增-修改-删除"><span class="nav-number">2.</span> <span class="nav-text">1.2 使用DSLContext进行新增,修改,删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-使用UpdatableRecord完成新增-修改-删除"><span class="nav-number">3.</span> <span class="nav-text">2.1 使用UpdatableRecord完成新增,修改,删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-批量方法"><span class="nav-number">4.</span> <span class="nav-text">2.2 批量方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#必要配置"><span class="nav-number">1.</span> <span class="nav-text">必要配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可选配置"><span class="nav-number">2.</span> <span class="nav-text">可选配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Statement-Cache"><span class="nav-number">3.</span> <span class="nav-text">Statement Cache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Log-Statement-Text-Slow-Query-Logging"><span class="nav-number">4.</span> <span class="nav-text">Log Statement Text / Slow Query Logging</span></a></li></ol></div>
             
 
           </div>
