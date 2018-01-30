@@ -89,16 +89,10 @@
 <meta property="og:site_name" content="静默的魔法书">
 <meta property="og:description" content="Fast, simple, reliable. HikariCP is a “zero-overhead” production ready JDBC connection pool. At roughly 130Kb, the library is very light.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://github.com/darkleave/HikariCP">
-<meta property="og:image" content="https://www.jianshu.com/p/070f615dfb57">
-<meta property="og:image" content="https://baike.baidu.com/item/%E6%85%A2%E6%9F%A5%E8%AF%A2/9200910?fr=aladdin">
-<meta property="og:image" content="https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration">
-<meta property="og:image" content="http://blog.csdn.net/suwu150/article/details/52745055">
-<meta property="og:updated_time" content="2018-01-30T14:30:44.611Z">
+<meta property="og:updated_time" content="2018-01-30T14:37:52.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HikariCP 配置说明">
 <meta name="twitter:description" content="Fast, simple, reliable. HikariCP is a “zero-overhead” production ready JDBC connection pool. At roughly 130Kb, the library is very light.">
-<meta name="twitter:image" content="https://github.com/darkleave/HikariCP">
 
 
 
@@ -396,7 +390,7 @@
       
         <p>Fast, simple, reliable. HikariCP is a “zero-overhead” production ready JDBC connection pool. At roughly 130Kb, the library is very light.</p>
 <a id="more"></a>
-<p><img src="https://github.com/darkleave/HikariCP" alt="官网连接"></p>
+<p><a href="https://github.com/darkleave/HikariCP" target="_blank" rel="external">官网连接</a></p>
 <h2 id="必要配置"><a href="#必要配置" class="headerlink" title="必要配置"></a>必要配置</h2><ol>
 <li>dataSourceClassName 数据源驱动名</li>
 <li>jdbcUrl jdbc数据库连接</li>
@@ -415,7 +409,7 @@
 <li>connectionTestQuery 连接测试查询,如果你的驱动支持jdbc4，则不需要设置此属性，这个属性是为那些不支持Connection.isValid() API的古董级驱动准备的，这是一个查询，用来确保所有请求得到的连接都是alive有效的，尝试不设置这个属性运行连接池，如果你的驱动不支持jdbc4，HikariCP会有错误日志提示.Default:None</li>
 <li>minimumIdle 最小空闲连接，当空闲连接小于这个值并且总连接数小于maximumPoolSize（最大连接数)HikariCP会尽可能快速有效率地创建额外的连接，然而为了最大限度地提高性能和响应能力，不建议设置这个值，而是用固定大小的连接池取代.Default:与maximumPoolSize相同</li>
 <li>maximumPoolSize 最大连接池数量，包括使用中和空闲的连接，当达到最大连接池数量时，再尝试获取连接，只能得到connectionTimeout 超时信息.Default:10.</li>
-<li>metricRegistry 度量注册, Default: none <img src="https://www.jianshu.com/p/070f615dfb57" alt="参考链接"></li>
+<li>metricRegistry 度量注册, Default: none <a href="https://www.jianshu.com/p/070f615dfb57" target="_blank" rel="external">参考链接</a></li>
 <li>healthCheckRegistry 健康检查注册  Default: none</li>
 <li>poolName 连接池名字,一般用于日志输出 Default: auto-generated</li>
 </ul>
@@ -447,8 +441,8 @@
 <p>Using a statement cache at the pooling layer is an anti-pattern, and will negatively impact your application performance compared to driver-provided caches.</p>
 <p>在连接池层使用statement缓存是一个反面教材,并且相较驱动提供的缓存会对你的应用性能造成更大的消极影响.</p>
 <h2 id="Log-Statement-Text-Slow-Query-Logging"><a href="#Log-Statement-Text-Slow-Query-Logging" class="headerlink" title="Log Statement Text / Slow Query Logging"></a>Log Statement Text / Slow Query Logging</h2><p>Like Statement caching, most major database vendors support statement logging through properties of their own driver. This includes Oracle, MySQL, Derby, MSSQL, and others. Some even support slow query logging. For those few databases that do not support it, several options are available. We have received a report that p6spy works well, and also note the availability of log4jdbc and jdbcdslog-exp.</p>
-<p>就像Statement缓存，许多主流数据库供应商支持通过它们驱动的属性配置来添加statement logging的日志功能.这些数据库包括racle, MySQL, Derby, MSSQL等等.一些甚至支持<img src="https://baike.baidu.com/item/%E6%85%A2%E6%9F%A5%E8%AF%A2/9200910?fr=aladdin" alt="慢查询">日志记录功能.对于那些少数不支持的数据库,还有许多可用的其它方式.比如,p6spy,log4jdbc以及jdbcdslog-exp等等.</p>
-<p><img src="https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration" alt="mysql推荐配置"><br><img src="http://blog.csdn.net/suwu150/article/details/52745055" alt="Statement和PreparedStatement对象的区别"></p>
+<p>就像Statement缓存，许多主流数据库供应商支持通过它们驱动的属性配置来添加statement logging的日志功能.这些数据库包括racle, MySQL, Derby, MSSQL等等.一些甚至支持<a href="https://baike.baidu.com/item/%E6%85%A2%E6%9F%A5%E8%AF%A2/9200910?fr=aladdin" target="_blank" rel="external">慢查询</a>日志记录功能.对于那些少数不支持的数据库,还有许多可用的其它方式.比如,p6spy,log4jdbc以及jdbcdslog-exp等等.</p>
+<p><a href="https://github.com/brettwooldridge/HikariCP/wiki/MySQL-Configuration" target="_blank" rel="external">mysql推荐配置</a><br><a href="http://blog.csdn.net/suwu150/article/details/52745055" target="_blank" rel="external">Statement和PreparedStatement对象的区别</a></p>
 
       
     </div>
