@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="docker," />
 
 
 
@@ -81,17 +81,18 @@
 
 
 
-<meta name="description" content="A Salty Fish">
-<meta name="keywords" content="blog,Hans Chung,IT,钟汉忠,darkleave,java">
-<meta property="og:type" content="website">
-<meta property="og:title" content="静默的魔法书">
-<meta property="og:url" content="http://www.zhz.gift/page/3/index.html">
+<meta name="description" content="运行你的第一个容器现在你已经准备好了所有的东西,是时候开始实践了.在这个章节,我们将要运行一个 Alpine Linux 容器(一个轻量级的linux 发布版本)在你的系统上并且尝试一下docker的运行命令.">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="运行你的第一个容器">
+<meta property="og:url" content="http://www.zhz.gift/2018/02/04/运行你的第一个容器/index.html">
 <meta property="og:site_name" content="静默的魔法书">
-<meta property="og:description" content="A Salty Fish">
+<meta property="og:description" content="运行你的第一个容器现在你已经准备好了所有的东西,是时候开始实践了.在这个章节,我们将要运行一个 Alpine Linux 容器(一个轻量级的linux 发布版本)在你的系统上并且尝试一下docker的运行命令.">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-03T16:24:21.720Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="静默的魔法书">
-<meta name="twitter:description" content="A Salty Fish">
+<meta name="twitter:title" content="运行你的第一个容器">
+<meta name="twitter:description" content="运行你的第一个容器现在你已经准备好了所有的东西,是时候开始实践了.在这个章节,我们将要运行一个 Alpine Linux 容器(一个轻量级的linux 发布版本)在你的系统上并且尝试一下docker的运行命令.">
 
 
 
@@ -121,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://www.zhz.gift/page/3/"/>
+  <link rel="canonical" href="http://www.zhz.gift/2018/02/04/运行你的第一个容器/"/>
 
 
 
 
 
-  <title>静默的魔法书</title>
+  <title>运行你的第一个容器 | 静默的魔法书</title>
   
 
 
@@ -163,8 +164,7 @@
 
   
   
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -295,9 +295,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -310,7 +310,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/11/20/希尔排序/">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/02/04/运行你的第一个容器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hans Chung">
@@ -327,9 +327,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/20/希尔排序/" itemprop="url">希尔排序</a></h1>
+          <h1 class="post-title" itemprop="name headline">运行你的第一个容器</h1>
         
 
         <div class="post-meta">
@@ -341,8 +339,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T23:57:35+08:00">
-                2017-11-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-04T00:07:42+08:00">
+                2018-02-04
               </time>
             
 
@@ -359,7 +357,7 @@
 
           
           
-             <span id="/2017/11/20/希尔排序/" class="leancloud_visitors" data-flag-title="希尔排序">
+             <span id="/2018/02/04/运行你的第一个容器/" class="leancloud_visitors" data-flag-title="运行你的第一个容器">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -390,17 +388,97 @@
       
 
       
-        
-          <p><strong>希尔排序</strong></p>
-<p>希尔排序(ShellSort)的名称源于它的发明者Donald Shell.<br>它通过比较相距一定间隔(h[k])的元素来工作,各躺比较所用的距离随着算法的进行而减小(h[k-1]),直到只比较相邻元素的最后一趟排序为止,因此希尔排序也称为缩减增量排序.<br>希尔排序所使用的增量序列只要h[1]=1,任何增量序列都是可行的,但其时间复杂度会有所不同.<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/20/希尔排序/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <h2 id="运行你的第一个容器"><a href="#运行你的第一个容器" class="headerlink" title="运行你的第一个容器"></a>运行你的第一个容器</h2><p>现在你已经准备好了所有的东西,是时候开始实践了.<br>在这个章节,我们将要运行一个 Alpine Linux 容器(一个轻量级的linux 发布版本)在你的系统上并且尝试一下docker的运行命令.</p>
+<a id="more"></a>
+<p>首先运行以下命令:</p>
+<pre><code>$ docker pull alpine
+</code></pre><p>Note:根据你在系统中安装docker的方式,在运行以上命令后你可能会看到一个ermission denied的错误.尝试在安装教程中的命令去验证你的安装.如果你是Linux系统,你可能需要在你的命令前面加上sudo.或者你可以创建一个docker group来拜托这个问题.</p>
+<p>pull命令从Dcoker仓库获取 alpine 镜像并且保存在我们的系统中.你可以使用<strong>docker images</strong> 命令来查看在你系统中的所有镜像.</p>
+<pre><code>$ docker images
+</code></pre><table>
+<thead>
+<tr>
+<th style="text-align:center">REPOSITORY</th>
+<th style="text-align:center">TAG</th>
+<th style="text-align:center">IMAGE ID</th>
+<th style="text-align:center">CREATED</th>
+<th style="text-align:center">VIRTUAL SIZE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">alpine</td>
+<td style="text-align:center">latest</td>
+<td style="text-align:center">c51f86c28340</td>
+<td style="text-align:center">4 weeks ago</td>
+<td style="text-align:center">1.109 MB</td>
+</tr>
+<tr>
+<td style="text-align:center">hello-world</td>
+<td style="text-align:center">latest</td>
+<td style="text-align:center">690ed74de00f</td>
+<td style="text-align:center">5 months ago</td>
+<td style="text-align:center">960 B</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Docker-Run"><a href="#Docker-Run" class="headerlink" title="Docker Run"></a>Docker Run</h2><p>接下来基于这个镜像运行一个Docker 容器.只需要通过 <strong>docker run</strong>命令我们就能做到这一点.</p>
+<pre><code>$ docker run alpine ls -l
+total 48
+drwxr-xr-x    2 root     root          4096 Mar  2 16:20 bin
+drwxr-xr-x    5 root     root           360 Mar 18 09:47 dev
+drwxr-xr-x   13 root     root          4096 Mar 18 09:47 etc
+drwxr-xr-x    2 root     root          4096 Mar  2 16:20 home
+drwxr-xr-x    5 root     root          4096 Mar  2 16:20 lib
+......
+......
+</code></pre><ol>
+<li><p>当你运行 <strong>docker run</strong>命令的时候,Docker 客户端联系Docker守护进程.</p>
+</li>
+<li><p>Docker 守护进程会首先检查所有本地存储,确定镜像(本例是alpine)在本地可用,如果不可用的话，从Docker Store 下载.(直到我们发布<strong>docker pull alpine</strong> 之前,下载步骤不是必须的)</p>
+</li>
+<li><p>Docker 守护进程创建容器接下来在容器内运行一个命令.</p>
+</li>
+<li><p>Docker守护进程将该命令的输出以流的形式返回给客户端.</p>
+</li>
+</ol>
+<p>接下来运行如下命令:</p>
+<pre><code>$ docker run alpine echo &quot;hello from alpine&quot;
+hello from alpine
+</code></pre><p>“hello from alpine”就是实际的输出.在这个场景,Docker 客户端忠实地在我们的alpine容器运行echo命令然后自动退出.如果你多加注意的话，你会发现所有的一切发生的相当快.镜像在虚拟机中启动,运行一个命令然后销毁它.现在你知道为什么容器运行速度如此之快！</p>
+<p>接下来运行另一个命令:</p>
+<pre><code>$ docker run alpine /bin/sh
+</code></pre><p>什么都没有发生,这些交互式shell会在运行任意scripted命令之后退出.除非它们是在一个交互式终端中运行 - 所以为了让它不自动退出，你需要用<strong>docker run -it alpine /bin/sh</strong>命令来代替.</p>
+<p>你现在便处于容器 shell 当中 ,并且可以尝试使用一些命令比如:ls -l,uname -a 或者其它等等.通过<strong>exit</strong>命令来退出容器.</p>
+<p><strong>docker ps</strong>命令向你展示所有正确运行的容器.</p>
+<pre><code>$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES  
+</code></pre><p>因为没有运行中的容器,所以展示列表是空的.接下来尝试使用一个有用的变量,<br>运行 <strong>docker ps -a</strong>命令</p>
+<pre><code>$ docker ps -a
+</code></pre><p>$ docker ps -a<br>|CONTAINER ID        |IMAGE               |COMMAND                  |CREATED             |STATUS                     | PORTS               |NAMES|<br>|:—-:|:—-:|:—-:|:—-:|:—-:|:—-:|:—-:|<br>|36171a5da744        |alpine             | “/bin/sh”               | 5 minutes ago       |Exited (0) 2 minutes ago   |                     |fervent_newton|<br>|a6a9d46d0b2f       | alpine            | “echo ‘hello from alp”    |6 minutes ago       |Exited (0) 6 minutes ago    |                    |lonely_kilby<br>|ff0a5c3750b9       | alpine            | “ls -l”                   |8 minutes ago      | Exited (0) 8 minutes ago     |                   |elated_ramanujan<br>|c317d0a9e3d2       | hello-world        | “/hello”                 |34 seconds ago     |Exited (0) 12 minutes ago    |                   |stupefied_mcclintock    </p>
+<p>上面是所有你能够运行的容器.可以注意到<strong>STATUS</strong>列展示了容器是在几分钟前推出的.接下来尝试在一个容器中运行多条命令.</p>
+<pre><code>$ docker run -it alpine /bin/sh
+/ # ls
+bin      dev      etc      home     lib      linuxrc  media    mnt      proc     root     run      sbin     sys      tmp      usr      var
+/ # uname -a
+Linux 97916e8cb5dc 4.4.27-moby #1 SMP Wed Oct 26 14:01:48 UTC 2016 x86_64 Linux
+</code></pre><p>通过运行<strong>run</strong>命令附加<strong>-it</strong>标志的方式使我们能在容器中以交互式终端的方式进行交互.现在你能在容器运行任意数量的命令.</p>
+<p>如上述我们已经展示了你可能使用最频繁的命令,你可以通过使用<strong>docker run –help</strong>来展示该命令所有支持的附加选项.随着你继续深入的学习,我们也将会看到<strong>docker run</strong>命令支持的更多变量.</p>
+<h2 id="Terminology-术语"><a href="#Terminology-术语" class="headerlink" title="Terminology(术语)"></a>Terminology(术语)</h2><p>在上一小节,你已经看到了许多Docker 特殊的术语,你可能会对其中一些感到困惑.所以在我们继续深入之前,先阐述一下一些我们在Docker 生态系统(ecosystem)中经常性使用的术语.</p>
+<ul>
+<li><p>Images - 用来创建容器的属于我们应用的文件系统和相关配置.想要知道更多关于Docker镜像,运行<strong>docker inspect alpine</strong>命令.在上面的demo中,我们通过<strong>docker pull</strong>命令来下载alpine镜像.当你执行<strong>docker run hello-world</strong>命令,它同样会在后台运行<strong>docker pull</strong>命令以下载hello-world镜像.</p>
+</li>
+<li><p>Containers - 用以运行Docker镜像的实例 - 容器会运行实际的应用.一个容器包含一个应用和它的所有依赖.它和其它容器共享内核,并且在宿主操作系统上面的用户空间以一个隔离进程运行.你通过<strong>docker run</strong>命令创建一个容器以运行alpine image 的实例.通过<strong>docker ps</strong>命令来展示一系列正在运行的容器.</p>
+</li>
+<li><p>Docker daemon - Docker 守护进程是一个运行在主机上的后台服务,它用于提供管理构建,运行和分配Docker容器.</p>
+</li>
+<li><p>Docker client - Docker 客户端,这是一个命令行工具，允许用户和Docker守护进程进行交互.</p>
+</li>
+<li><p>Docker Store - Docker 商店,一个Docker镜像的登记处,在这个平台上你可以查询找到可信以及可供企业使用的容器,插件以及 其它Docker的特别版本.在这个教程中你将在之后使用到它.</p>
+</li>
+</ul>
+<p><a href="https://github.com/darkleave/labs/blob/master/beginner/chapters/alpine.md" target="_blank" rel="external">参考链接</a></p>
+
       
     </div>
     
@@ -415,285 +493,40 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/11/20/插入排序/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hans Chung">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="静默的魔法书">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/20/插入排序/" itemprop="url">插入排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T23:52:15+08:00">
-                2017-11-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/docker/" rel="tag"># docker</a>
           
-            
-          
-
-          
-          
-             <span id="/2017/11/20/插入排序/" class="leancloud_visitors" data-flag-title="插入排序">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <p><strong>插入排序</strong></p>
-<p>插入排序由N-1趟排序组成,对于p=1到N-1趟,插入排序保证从位置0到位置p上的元素为已排序状态.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/20/插入排序/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/30/HikariCP 配置说明/" rel="next" title="HikariCP 配置说明">
+                <i class="fa fa-chevron-left"></i> HikariCP 配置说明
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/11/20/冒泡排序/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Hans Chung">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="静默的魔法书">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/20/冒泡排序/" itemprop="url">冒泡排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T23:14:53+08:00">
-                2017-11-20
-              </time>
+              <a href="/2018/02/04/Ubuntu docker 安装/" rel="prev" title="Ubuntu docker 安装">
+                Ubuntu docker 安装 <i class="fa fa-chevron-right"></i>
+              </a>
             
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/11/20/冒泡排序/" class="leancloud_visitors" data-flag-title="冒泡排序">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p><strong>冒泡排序</strong><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/20/冒泡排序/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -703,14 +536,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -718,6 +548,15 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMzEyMy85Njgy"></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -738,8 +577,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -811,6 +659,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#运行你的第一个容器"><span class="nav-number">1.</span> <span class="nav-text">运行你的第一个容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-Run"><span class="nav-number">2.</span> <span class="nav-text">Docker Run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Terminology-术语"><span class="nav-number">3.</span> <span class="nav-text">Terminology(术语)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -951,6 +815,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -979,6 +847,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 

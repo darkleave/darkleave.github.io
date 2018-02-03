@@ -3,6 +3,183 @@
   
     
     <entry>
+      <title><![CDATA[Ubuntu docker 安装]]></title>
+      <url>/2018/02/04/Ubuntu%20docker%20%E5%AE%89%E8%A3%85/</url>
+      <content type="html"><![CDATA[<h2 id="Docker是什么"><a href="#Docker是什么" class="headerlink" title="Docker是什么?"></a>Docker是什么?</h2><p>Docker是一种容器技术.<br>Docker容器技术已在云计算市场上风靡一时了，使docker容器技术如此受欢迎的原因是，容器技术可实现不同云计算之间应用程序的可移植性，以及提供了一个把应用程序拆分为分布式组件的方法，此外，用户还可以管理和扩展这些组件成为集群.</p>
+<a id="more"></a>
+<p><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/" target="_blank" rel="external">官网链接</a></p>
+<p>一旦你完成docker的安装后,可以用如下命令对你的docker进行测试:</p>
+<pre><code>$ docker run hello-world
+Unable to find image &apos;hello-world:latest&apos; locally
+latest: Pulling from library/hello-world
+03f4658f8b78: Pull complete
+a3ed95caeb02: Pull complete
+Digest: sha256:8be990ef2aeb16dbcb9271ddfe2610fa6658d13f6dfb8bc72074cc1ca36966a7
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker.
+This message shows that your installation appears to be working correctly.
+...
+</code></pre><h3 id="卸载老版本"><a href="#卸载老版本" class="headerlink" title="卸载老版本"></a>卸载老版本</h3><p>老版本的Docker一般命名为 docker 或者 docker-engine.在安装新版本前需要对他们进行卸载.</p>
+<pre><code>$ sudo apt-get remove docker docker-engine docker.io
+</code></pre><p>即时apt-get命令提示没有上述的任意包被安装也没有影响.<br>/var/lib/docker/ 文件夹一般包含images, containers, volumes, and networks等.<br> Docker CE包现在被命名为: docker-ce</p>
+<h3 id="安装Docker-CE"><a href="#安装Docker-CE" class="headerlink" title="安装Docker CE"></a>安装Docker CE</h3><p>你可以根据需要选择以下合适的方式来安装Docker CE：</p>
+<ul>
+<li><p>通过repository进行安装<br>在你第一次在一台新主机上安装docker之前,你需要先设置Docker仓库,之后,你就可以直接通过仓库安装和更新Docker.<br><strong>设置仓库</strong></p>
+<ol>
+<li><p>更新apt命令的包索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装仓库使用所需的https依赖包</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install \</div><div class="line">apt-transport-https \</div><div class="line">ca-certificates \</div><div class="line">curl \</div><div class="line">software-properties-common</div></pre></td></tr></table></figure>
+</li>
+<li><p>添加Docker的官方GPG key</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</div></pre></td></tr></table></figure>
+<p>验证你现在拥有的指纹秘钥:(eg:)<br><code>9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88</code><br>搜索最后八个长度的指纹:</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">      $ sudo apt-key fingerprint 0EBFCD88</div><div class="line">      </div><div class="line">      pub   4096R/0EBFCD88 2017-02-22</div><div class="line">            Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</div><div class="line">      uid                  Docker Release (CE deb) &lt;docker@docker.com&gt;</div><div class="line">      sub   4096R/F273FCD8 2017-02-22</div><div class="line">      ```    </div><div class="line">4. 使用以下命令来设置你的stable repository(稳定仓库).你总是需要stable repository,即使你想要从edge或者test仓库安装构建也一样.想要添加edge或者test仓库,只需在以下命令的stable后面添加相应的edge或者test即可.</div></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<pre><code>   提示：lsb_release -cs 子命令返回你Ubuntu发布版本的名称,例如xenial.有时候,一些发布版本,比如Linux Mint,你可能需要把 $(lsb_release -cs)命令换成你对应的父级 Ubuntu 发布版本比如,如果你正在使用Linux Mint Rafaela,你可能要使用 trusty.
+
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">**x86_64 / amd64**</div></pre></td></tr></table></figure>
+
+$ sudo add-apt-repository \
+   &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable&quot;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">   **提示:从17.06版本开始,stable 发布时会同样推送到edge和test仓库.**</div><div class="line">   </div><div class="line">      [Learn about stable and edge channels.](https://docs.docker.com/install/)</div><div class="line">      </div><div class="line">**Docker CE安装步骤**</div><div class="line">  </div><div class="line">1. 更新apt包索引...</div></pre></td></tr></table></figure>
+
+    $ sudo apt-get update
+
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">      </div><div class="line">2. 安装最新版本的Docker CE或者直接到下一步安装特定版本的Docker CE.</div><div class="line">    任何当前的版本会被替换为安装的版本.</div></pre></td></tr></table></figure>
+
+    $ sudo apt-get install docker-ce
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"> </div></pre></td></tr></table></figure>
+
+
+  获取多个Docker仓库?
+  如果你有多个可用的Docker仓库,安装或者更新操作没有指定特定的版本,apt-get install 或者apt-get update 命令总是会按照最高的可用版本,可能并不满足你稳定性的需要.
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">     </div><div class="line"> 3. 在生产环境,你需要使用特定版本的Docker CE版本而不是一直使用最新的.</div><div class="line">    以下命令会列出所有可用版本(输出只展示了一部分):</div><div class="line"></div><div class="line">     ```  </div><div class="line">     </div><div class="line">     $ apt-cache madison docker-ce</div><div class="line">    docker-ce | 17.12.0~ce-0~ubuntu | https://download.docker.com/linux/ubuntu xenial/stable amd64 Packages</div><div class="line">     ```  </div><div class="line">    该列表数据依赖于你可用的仓库.选择一个特定的版本去安装.第二列是版本字符串.第三列是仓库名,用来表明该仓库的来源地址和稳定性等级,stable,edge或者test.想要安装特定的版本,只需在包名后面添加(=)后和版本字符串即可.</div><div class="line">    </div><div class="line">     ```  </div><div class="line">     $ sudo apt-get install docker-ce=&lt;VERSION&gt;   </div><div class="line">     ``` </div><div class="line">Docker守护进程在安装完成后会自动启动.</div><div class="line"></div><div class="line">4. 通过运行hello-world image 来验证Docker CE是否已经正确安装.</div><div class="line">``` </div><div class="line">$ sudo docker run hello-world</div><div class="line">  ```    </div><div class="line">这个命令会下载一个测试镜像并且在容器中运行它.当容器运行,它会打印提示信息并且退出.</div><div class="line"></div><div class="line">Dcoker CE 已经安装并且运行.docker group 已经创建但是没有用户添加到它上面.你需要通过使用sudo命令去运行Docker命令.继续到[Linux postinstall](https://docs.docker.com/install/linux/linux-postinstall/)去允许未授权的用户能够运行Docker命令和一些可选的配置步骤.</div><div class="line"></div><div class="line">**升级 DOCKER CE**</div><div class="line"></div><div class="line">升级Docker CE,首先同样通过sudo命令更新包索引apt-get update,然后按照按照指令,选择新的版本直接进行安装即可.</div><div class="line"></div><div class="line">**卸载Docker CE**</div><div class="line"></div><div class="line">1. 卸载Docker CE包:</div></pre></td></tr></table></figure>
+</code></pre><p>   $ sudo apt-get purge docker-ce<br>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">2. 手动删除镜像，容器等文件(Images, containers, volumes, or customized configuration files)</div></pre></td></tr></table></figure></p>
+<p>   $ sudo rm -rf /var/lib/docker<br>   ```<br>   你必须删除所有已编辑的配置文件.</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[运行你的第一个容器]]></title>
+      <url>/2018/02/04/%E8%BF%90%E8%A1%8C%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%AE%B9%E5%99%A8/</url>
+      <content type="html"><![CDATA[<h2 id="运行你的第一个容器"><a href="#运行你的第一个容器" class="headerlink" title="运行你的第一个容器"></a>运行你的第一个容器</h2><p>现在你已经准备好了所有的东西,是时候开始实践了.<br>在这个章节,我们将要运行一个 Alpine Linux 容器(一个轻量级的linux 发布版本)在你的系统上并且尝试一下docker的运行命令.</p>
+<a id="more"></a>
+<p>首先运行以下命令:</p>
+<pre><code>$ docker pull alpine
+</code></pre><p>Note:根据你在系统中安装docker的方式,在运行以上命令后你可能会看到一个ermission denied的错误.尝试在安装教程中的命令去验证你的安装.如果你是Linux系统,你可能需要在你的命令前面加上sudo.或者你可以创建一个docker group来拜托这个问题.</p>
+<p>pull命令从Dcoker仓库获取 alpine 镜像并且保存在我们的系统中.你可以使用<strong>docker images</strong> 命令来查看在你系统中的所有镜像.</p>
+<pre><code>$ docker images
+</code></pre><table>
+<thead>
+<tr>
+<th style="text-align:center">REPOSITORY</th>
+<th style="text-align:center">TAG</th>
+<th style="text-align:center">IMAGE ID</th>
+<th style="text-align:center">CREATED</th>
+<th style="text-align:center">VIRTUAL SIZE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">alpine</td>
+<td style="text-align:center">latest</td>
+<td style="text-align:center">c51f86c28340</td>
+<td style="text-align:center">4 weeks ago</td>
+<td style="text-align:center">1.109 MB</td>
+</tr>
+<tr>
+<td style="text-align:center">hello-world</td>
+<td style="text-align:center">latest</td>
+<td style="text-align:center">690ed74de00f</td>
+<td style="text-align:center">5 months ago</td>
+<td style="text-align:center">960 B</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Docker-Run"><a href="#Docker-Run" class="headerlink" title="Docker Run"></a>Docker Run</h2><p>接下来基于这个镜像运行一个Docker 容器.只需要通过 <strong>docker run</strong>命令我们就能做到这一点.</p>
+<pre><code>$ docker run alpine ls -l
+total 48
+drwxr-xr-x    2 root     root          4096 Mar  2 16:20 bin
+drwxr-xr-x    5 root     root           360 Mar 18 09:47 dev
+drwxr-xr-x   13 root     root          4096 Mar 18 09:47 etc
+drwxr-xr-x    2 root     root          4096 Mar  2 16:20 home
+drwxr-xr-x    5 root     root          4096 Mar  2 16:20 lib
+......
+......
+</code></pre><ol>
+<li><p>当你运行 <strong>docker run</strong>命令的时候,Docker 客户端联系Docker守护进程.</p>
+</li>
+<li><p>Docker 守护进程会首先检查所有本地存储,确定镜像(本例是alpine)在本地可用,如果不可用的话，从Docker Store 下载.(直到我们发布<strong>docker pull alpine</strong> 之前,下载步骤不是必须的)</p>
+</li>
+<li><p>Docker 守护进程创建容器接下来在容器内运行一个命令.</p>
+</li>
+<li><p>Docker守护进程将该命令的输出以流的形式返回给客户端.</p>
+</li>
+</ol>
+<p>接下来运行如下命令:</p>
+<pre><code>$ docker run alpine echo &quot;hello from alpine&quot;
+hello from alpine
+</code></pre><p>“hello from alpine”就是实际的输出.在这个场景,Docker 客户端忠实地在我们的alpine容器运行echo命令然后自动退出.如果你多加注意的话，你会发现所有的一切发生的相当快.镜像在虚拟机中启动,运行一个命令然后销毁它.现在你知道为什么容器运行速度如此之快！</p>
+<p>接下来运行另一个命令:</p>
+<pre><code>$ docker run alpine /bin/sh
+</code></pre><p>什么都没有发生,这些交互式shell会在运行任意scripted命令之后退出.除非它们是在一个交互式终端中运行 - 所以为了让它不自动退出，你需要用<strong>docker run -it alpine /bin/sh</strong>命令来代替.</p>
+<p>你现在便处于容器 shell 当中 ,并且可以尝试使用一些命令比如:ls -l,uname -a 或者其它等等.通过<strong>exit</strong>命令来退出容器.</p>
+<p><strong>docker ps</strong>命令向你展示所有正确运行的容器.</p>
+<pre><code>$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES  
+</code></pre><p>因为没有运行中的容器,所以展示列表是空的.接下来尝试使用一个有用的变量,<br>运行 <strong>docker ps -a</strong>命令</p>
+<pre><code>$ docker ps -a
+</code></pre><p>$ docker ps -a<br>|CONTAINER ID        |IMAGE               |COMMAND                  |CREATED             |STATUS                     | PORTS               |NAMES|<br>|:—-:|:—-:|:—-:|:—-:|:—-:|:—-:|:—-:|<br>|36171a5da744        |alpine             | “/bin/sh”               | 5 minutes ago       |Exited (0) 2 minutes ago   |                     |fervent_newton|<br>|a6a9d46d0b2f       | alpine            | “echo ‘hello from alp”    |6 minutes ago       |Exited (0) 6 minutes ago    |                    |lonely_kilby<br>|ff0a5c3750b9       | alpine            | “ls -l”                   |8 minutes ago      | Exited (0) 8 minutes ago     |                   |elated_ramanujan<br>|c317d0a9e3d2       | hello-world        | “/hello”                 |34 seconds ago     |Exited (0) 12 minutes ago    |                   |stupefied_mcclintock    </p>
+<p>上面是所有你能够运行的容器.可以注意到<strong>STATUS</strong>列展示了容器是在几分钟前推出的.接下来尝试在一个容器中运行多条命令.</p>
+<pre><code>$ docker run -it alpine /bin/sh
+/ # ls
+bin      dev      etc      home     lib      linuxrc  media    mnt      proc     root     run      sbin     sys      tmp      usr      var
+/ # uname -a
+Linux 97916e8cb5dc 4.4.27-moby #1 SMP Wed Oct 26 14:01:48 UTC 2016 x86_64 Linux
+</code></pre><p>通过运行<strong>run</strong>命令附加<strong>-it</strong>标志的方式使我们能在容器中以交互式终端的方式进行交互.现在你能在容器运行任意数量的命令.</p>
+<p>如上述我们已经展示了你可能使用最频繁的命令,你可以通过使用<strong>docker run –help</strong>来展示该命令所有支持的附加选项.随着你继续深入的学习,我们也将会看到<strong>docker run</strong>命令支持的更多变量.</p>
+<h2 id="Terminology-术语"><a href="#Terminology-术语" class="headerlink" title="Terminology(术语)"></a>Terminology(术语)</h2><p>在上一小节,你已经看到了许多Docker 特殊的术语,你可能会对其中一些感到困惑.所以在我们继续深入之前,先阐述一下一些我们在Docker 生态系统(ecosystem)中经常性使用的术语.</p>
+<ul>
+<li><p>Images - 用来创建容器的属于我们应用的文件系统和相关配置.想要知道更多关于Docker镜像,运行<strong>docker inspect alpine</strong>命令.在上面的demo中,我们通过<strong>docker pull</strong>命令来下载alpine镜像.当你执行<strong>docker run hello-world</strong>命令,它同样会在后台运行<strong>docker pull</strong>命令以下载hello-world镜像.</p>
+</li>
+<li><p>Containers - 用以运行Docker镜像的实例 - 容器会运行实际的应用.一个容器包含一个应用和它的所有依赖.它和其它容器共享内核,并且在宿主操作系统上面的用户空间以一个隔离进程运行.你通过<strong>docker run</strong>命令创建一个容器以运行alpine image 的实例.通过<strong>docker ps</strong>命令来展示一系列正在运行的容器.</p>
+</li>
+<li><p>Docker daemon - Docker 守护进程是一个运行在主机上的后台服务,它用于提供管理构建,运行和分配Docker容器.</p>
+</li>
+<li><p>Docker client - Docker 客户端,这是一个命令行工具，允许用户和Docker守护进程进行交互.</p>
+</li>
+<li><p>Docker Store - Docker 商店,一个Docker镜像的登记处,在这个平台上你可以查询找到可信以及可供企业使用的容器,插件以及 其它Docker的特别版本.在这个教程中你将在之后使用到它.</p>
+</li>
+</ul>
+<p><a href="https://github.com/darkleave/labs/blob/master/beginner/chapters/alpine.md" target="_blank" rel="external">参考链接</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[HikariCP 配置说明]]></title>
       <url>/2018/01/30/HikariCP%20%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E/</url>
       <content type="html"><![CDATA[<p>Fast, simple, reliable. HikariCP is a “zero-overhead” production ready JDBC connection pool. At roughly 130Kb, the library is very light.</p>
@@ -930,145 +1107,6 @@ DSL.using(conf).batchDelete(rs).execute();
     </entry>
     
     <entry>
-      <title><![CDATA[Application属性文件]]></title>
-      <url>/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/</url>
-      <content type="html"><![CDATA[<p><strong>Application属性文件</strong></p>
-<a id="more"></a>
-<p>SpringApplication    将从以下位置加载     application.properties    文件，并把<br>它们添加到Spring          Environment    中：</p>
-<ol>
-<li><p>当前目录下的     /config    子目录。</p>
-</li>
-<li><p>当前目录。</p>
-</li>
-<li><p>classpath下的     /config    包。</p>
-</li>
-<li><p>classpath根路径（root）。</p>
-</li>
-</ol>
-<p>该列表是按优先级排序的（列表中位置高的路径下定义的属性将覆盖位置低的）。<br>注    你可以使用YAML（’.yml’）文件替代’.properties’。</p>
-<p>如果不喜欢将     application.properties    作为配置文件名，你可以通过指<br>定     spring.config.name    环境属性来切换其他的名称，也可以使<br>用     spring.config.location    环境属性引用一个明确的路径（目录位置或文件路<br>径列表以逗号分割）。</p>
-<pre><code>$    java    -jar    myproject.jar    --spring.config.name=myproject
-或
-$    java    -jar    myproject.jar    --spring.config.location=classpath:/de
-fault.properties,classpath:/override.properties
-</code></pre><p>注    在初期需要根据     spring.config.name    和     spring.config.location    决定加<br>载哪个文件，所以它们必须定义为environment属性（通常为OS    env，系统属性或<br>命令行参数）。</p>
-<p>如果     spring.config.location    包含目录（相对于文件），那它们应该以     /    结尾<br>（在被加载前，     spring.config.name    关联的名称将被追加到后面，包括profile-<br>specific的文件名）。     spring.config.location    下定义的文件使用方法跟往常一<br>样，没有profile-specific变量支持的属性，将被profile-specific的属性覆盖。</p>
-<p>不管     spring.config.location    配置什么值，默认总会按<br>照     classpath:,classpath:/config,file:,file:config/    的顺序进行搜索，优<br>先级由低到高，也就是     file:config/    获胜。<br>如果你指定自己的位置，它们会优先于所有的默认位置（locations），并使用相同的由低到高的优先级顺序。<br>那样，你就可以在     application.properties    为应用设置默认值，然后在运行的时候使<br>用不同的文件覆盖它，同时保留默认配置。</p>
-<p>注    如果使用环境变量而不是系统属性，需要注意多数操作系统的key名称不允许以<br>句号分割（period-separated），但你可以使用下划线（underscores）代替（比<br>如，使用     SPRING_CONFIG_NAME    代替     spring.config.name    ）。<br>注    如果应用运行在容器中，那么JNDI属性（java:comp/env）或servlet上下文初始<br>化参数可以用来代替环境变量或系统属性，当然也可以使用环境变量或系统属性。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> SpringBoot </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[WEB环境下进行单元测试]]></title>
-      <url>/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</url>
-      <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p>
-<a id="more"></a>
-<p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> SpringBoot </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[SpringBoot日志]]></title>
-      <url>/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/</url>
-      <content type="html"><![CDATA[<p><strong>SpringBoot日志</strong></p>
-<a id="more"></a>
-<p>##日志格式##</p>
-<p>Spring    Boot默认的日志输出格式如下：</p>
-<pre><code>2014-03-05    10:57:51.112        INFO    45469    ---    [main]org.apache.catalina.core.StandardEngine        :    Starting    Servlet    Engine:    Apache    Tomcat/7.0.522014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.a.c.
-c.C.[Tomcat].[localhost].[/]                            :    Initializing    Spring    embedde
-d    WebApplicationContext
-2014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.s.we
-b.context.ContextLoader                                                :    Root    WebApplicationContext:
-    initialization    completed    in    1358    ms
-2014-03-05    10:57:51.698        INFO    45469    ---    [ost-startStop-1]    o.s.b.
-c.e.ServletRegistrationBean                                :    Mapping    servlet:    &apos;dispatche
-rServlet&apos;    to    [/]
-2014-03-05    10:57:51.702        INFO    45469    ---    [ost-startStop-1]    o.s.b.
-c.embedded.FilterRegistrationBean        :    Mapping    filter:    &apos;hiddenHttp
-MethodFilter&apos;    to:    [/*]
-</code></pre><p>输出的节点（items）如下：</p>
-<ol>
-<li>日期和时间    -    精确到毫秒，且易于排序。</li>
-<li>日志级别    -          ERROR    ,          WARN    ,          INFO    ,          DEBUG        或          TRACE    。</li>
-<li>Process    ID。</li>
-<li>—    分隔符，用于区分实际日志信息开头。</li>
-<li>线程名    -    包括在方括号中（控制台输出可能会被截断）。</li>
-<li>日志名    -    通常是源class的类名（缩写）。</li>
-<li>日志信息。<br>注    Logback没有     FATAL    级别，它会映射到     ERROR    。</li>
-</ol>
-<p>##控制台输出##</p>
-<p>默认的日志配置会在写日志消息时将它们回显到控制台，级别为     ERROR    ,WARN    和     INFO    的消息会被记录。你可以在启动应用时，通过     –debug    标识开启控制台的DEBUG级别日志记录，也可以在application.properties    中指定     debug=true    。</p>
-<pre><code>$    java    -jar    myapp.jar    --debug
-</code></pre><p>当debug模式启用时，一系列核心loggers（内嵌容器，Hibernate，Spring    Boot<br>等）记录的日志会变多，但不会输出所有的信息。<br>相应地，你可以在启动应用时，通过     –trace    （或在     application.properties    设置     trace=true    ）启用”trace”模式，该模式能够追踪核心loggers（内嵌容器，Hibernate生成的schema，Spring全部的portfolio）的所有日志信息。    </p>
-<p>##文件输出##</p>
-<p>默认情况下，SpringBoot只会将日志记录到控制台，而不写进日志文件，如果需要，你可以设置     logging.file    或     logging.path    属性（例如     application.properties    ）。<br>下表展示如何组合使用     logging.*    ：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">logging.file</th>
-<th style="text-align:center">logging.path</th>
-<th style="text-align:center">示例</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">(none)</td>
-<td style="text-align:center">(none)</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">只记录到控制台</td>
-</tr>
-<tr>
-<td style="text-align:center">Specific    file</td>
-<td style="text-align:center">(none)</td>
-<td style="text-align:center">my.log</td>
-<td style="text-align:center">写到特定的日志文件，名称可以是精确的位置或相对于当前目录</td>
-</tr>
-<tr>
-<td style="text-align:center">(none)</td>
-<td style="text-align:center">Specific directory</td>
-<td style="text-align:center">/var/log</td>
-<td style="text-align:center">写到特定目录下的     spring.log    里，名称可以是精确的位置或相对于当前目录</td>
-</tr>
-</tbody>
-</table>
-<p>日志文件每达到10M就会被分割，跟控制台一样，默认记录     ERROR    ,WARN    和     INFO    级别的信息。</p>
-<p>##日志级别##</p>
-<p>所有Spring    Boot支持的日志系统都可以在Spring          Environment    中设置级别（     application.properties    里也一样），设置格式为’logging.level.*=LEVEL’，其中     LEVEL    是     TRACE    ,          DEBUG    ,          INFO    ,          WARN    ,          ERROR    ,          FATAL    ,          OFF    之一：<br>以下是     application.properties    示例：</p>
-<pre><code>logging.level.root=WARN
-logging.level.org.springframework.web=DEBUG
-logging.level.org.hibernate=ERROR
-</code></pre><p>注    默认情况，Spring    Boot会重新映射Thymeleaf的     INFO    信息到     DEBUG    级别，这<br>能减少标准日志输出的噪声。查看LevelRemappingAppender可以按自己的配置设<br>置映射。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> SpringBoot </tag>
-            
-            <tag> log </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[Spring WebMVC框架]]></title>
       <url>/2017/12/17/Spring_Web_MVC%E6%A1%86%E6%9E%B6/</url>
       <content type="html"><![CDATA[<p><strong>Spring WebMVC框架</strong></p>
@@ -1327,110 +1365,77 @@ public    class    MyConfiguration    {
     </entry>
     
     <entry>
-      <title><![CDATA[第三方配置]]></title>
-      <url>/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/</url>
-      <content type="html"><![CDATA[<p><strong>第三方配置</strong></p>
+      <title><![CDATA[SpringBoot日志]]></title>
+      <url>/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/</url>
+      <content type="html"><![CDATA[<p><strong>SpringBoot日志</strong></p>
 <a id="more"></a>
-<p>@ConfigurationProperties    不仅可以注解在类上，也可以注解在public @Bean    方法上，当你需要为不受控的第三方组件绑定属性时，该方法将非常有<br>用。为了从     Environment属性中配置一个bean，你需要使用@ConfigurationProperties    注解该bean：</p>
-<pre><code>@ConfigurationProperties(prefix    =    &quot;foo&quot;)
-@Bean
-public    FooComponent    fooComponent()    {
-                ...
-}
-</code></pre><p>和上面     ConnectionSettings    的示例方式相同，所有以foo为前缀的属性定义都会被映射到     FooComponent    上。</p>
-<p>##Relaxed绑定##</p>
-<p>Spring    Boot将     Environment    属性绑定到     @ConfigurationProperties        beans时会使用一些宽松的规则，所以     Environment属性名和bean属性名不需要精确匹配。常见的示例中有用的包括虚线分割（比如，     context-path    绑定到     contextPath    ），将environment属性转为大写字母（比如，     PORT    绑定     port    ）。<br>例如，给定以下     @ConfigurationProperties    类：</p>
-<pre><code>@ConfigurationProperties(prefix=&quot;person&quot;)
-public    class    OwnerProperties    {
-                private    String    firstName;
-                public    String    getFirstName()    {
-                                return    this.firstName;
-                }
-                public    void    setFirstName(String    firstName)    {
-                                this.firstName    =    firstName;
-                }
-}
-</code></pre><p>下面的属性名都能使用：</p>
+<p>##日志格式##</p>
+<p>Spring    Boot默认的日志输出格式如下：</p>
+<pre><code>2014-03-05    10:57:51.112        INFO    45469    ---    [main]org.apache.catalina.core.StandardEngine        :    Starting    Servlet    Engine:    Apache    Tomcat/7.0.522014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.a.c.
+c.C.[Tomcat].[localhost].[/]                            :    Initializing    Spring    embedde
+d    WebApplicationContext
+2014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.s.we
+b.context.ContextLoader                                                :    Root    WebApplicationContext:
+    initialization    completed    in    1358    ms
+2014-03-05    10:57:51.698        INFO    45469    ---    [ost-startStop-1]    o.s.b.
+c.e.ServletRegistrationBean                                :    Mapping    servlet:    &apos;dispatche
+rServlet&apos;    to    [/]
+2014-03-05    10:57:51.702        INFO    45469    ---    [ost-startStop-1]    o.s.b.
+c.embedded.FilterRegistrationBean        :    Mapping    filter:    &apos;hiddenHttp
+MethodFilter&apos;    to:    [/*]
+</code></pre><p>输出的节点（items）如下：</p>
+<ol>
+<li>日期和时间    -    精确到毫秒，且易于排序。</li>
+<li>日志级别    -          ERROR    ,          WARN    ,          INFO    ,          DEBUG        或          TRACE    。</li>
+<li>Process    ID。</li>
+<li>—    分隔符，用于区分实际日志信息开头。</li>
+<li>线程名    -    包括在方括号中（控制台输出可能会被截断）。</li>
+<li>日志名    -    通常是源class的类名（缩写）。</li>
+<li>日志信息。<br>注    Logback没有     FATAL    级别，它会映射到     ERROR    。</li>
+</ol>
+<p>##控制台输出##</p>
+<p>默认的日志配置会在写日志消息时将它们回显到控制台，级别为     ERROR    ,WARN    和     INFO    的消息会被记录。你可以在启动应用时，通过     –debug    标识开启控制台的DEBUG级别日志记录，也可以在application.properties    中指定     debug=true    。</p>
+<pre><code>$    java    -jar    myapp.jar    --debug
+</code></pre><p>当debug模式启用时，一系列核心loggers（内嵌容器，Hibernate，Spring    Boot<br>等）记录的日志会变多，但不会输出所有的信息。<br>相应地，你可以在启动应用时，通过     –trace    （或在     application.properties    设置     trace=true    ）启用”trace”模式，该模式能够追踪核心loggers（内嵌容器，Hibernate生成的schema，Spring全部的portfolio）的所有日志信息。    </p>
+<p>##文件输出##</p>
+<p>默认情况下，SpringBoot只会将日志记录到控制台，而不写进日志文件，如果需要，你可以设置     logging.file    或     logging.path    属性（例如     application.properties    ）。<br>下表展示如何组合使用     logging.*    ：</p>
 <table>
 <thead>
 <tr>
-<th style="text-align:center">属性</th>
-<th style="text-align:center">说明</th>
+<th style="text-align:center">logging.file</th>
+<th style="text-align:center">logging.path</th>
+<th style="text-align:center">示例</th>
+<th style="text-align:center">描述</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">person.firstName</td>
-<td style="text-align:center">标准驼峰规则</td>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">只记录到控制台</td>
 </tr>
 <tr>
-<td style="text-align:center">person.first-name</td>
-<td style="text-align:center">虚线表示，推荐用于     .properties    和     .yml文件中</td>
+<td style="text-align:center">Specific    file</td>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center">my.log</td>
+<td style="text-align:center">写到特定的日志文件，名称可以是精确的位置或相对于当前目录</td>
 </tr>
 <tr>
-<td style="text-align:center">person.first_name</td>
-<td style="text-align:center">下划线表示，用于     .properties    和     .yml    文件的可选格式</td>
-</tr>
-<tr>
-<td style="text-align:center">PERSON_FIRST_NAME</td>
-<td style="text-align:center">大写形式，使用系统环境变量时推荐</td>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center">Specific directory</td>
+<td style="text-align:center">/var/log</td>
+<td style="text-align:center">写到特定目录下的     spring.log    里，名称可以是精确的位置或相对于当前目录</td>
 </tr>
 </tbody>
 </table>
-<p>##属性转换##</p>
-<p>将外部应用配置绑定到     @ConfigurationProperties        beans时，Spring会尝试将属性强制转换为正确的类型。如果需要自定义类型转换器，你可以提供一个ConversionService        bean（bean    id为     conversionService    ），或自定义属性编辑器（通过     CustomEditorConfigurer        bean），或自定义     Converters    （bean定义时需要注解     @ConfigurationPropertiesBinding    ）。</p>
-<p>注    由于该bean在应用程序生命周期的早期就需要使用，所以确保限制你的     ConversionService使用的依赖。通常，在创建时期任何你需要的依赖可能都<br>没完全初始化。        </p>
-<p>##@ConfigurationProperties校验##</p>
-<p>Spring    Boot将尝试校验外部配置，默认使用JSR-303（如果在classpath路径中），你只需要将JSR-303          javax.validation    约束注解添加到     @ConfigurationProperties    类上：</p>
-<pre><code>@ConfigurationProperties(prefix=&quot;connection&quot;)
-public    class    ConnectionProperties    {
-                @NotNull
-                private    InetAddress    remoteAddress;
-                //    ...    getters    and    setters
-}
-</code></pre><p>为了校验内嵌属性的值，你需要使用     @Valid    注解关联的字段以触发它的校验，例<br>如：    </p>
-<pre><code>@ConfigurationProperties(prefix=&quot;connection&quot;)
-public    class    ConnectionProperties    {
-                @NotNull
-                @Valid
-                private    RemoteAddress    remoteAddress;
-                //    ...    getters    and    setters
-                public    static    class    RemoteAddress    {
-                                @NotEmpty
-                                public    String    hostname;
-                                //    ...    getters    and    setters
-                }
-}
-</code></pre><p>你也可以通过创建一个叫做     configurationPropertiesValidator    的bean来添加自定义的Spring          Validator    。     @Bean    方法需要声明为     static    ，因为配置属性校验器在应用程序生命周期中创建的比较早，将     @Bean    方法声明为     static    允许该bean在创建时不需要实例化     @Configuration    类，从而避免了早期实例化（early    instantiation）的所有问题。相关的示例可以看这里。</p>
-<p>注          spring-boot-actuator    模块包含一个暴露所有     @ConfigurationProperties        beans的端点（endpoint），通过浏览器打开     /configprops    进行浏览，或使用等效的JMX端点，具体参考Production    readyfeatures。    </p>
-<h2 id="ConfigurationProperties-vs-Value"><a href="#ConfigurationProperties-vs-Value" class="headerlink" title="@ConfigurationProperties    vs.    @Value"></a>@ConfigurationProperties    vs.    @Value</h2><p>@Value    是Spring容器的一个核心特性，它没有提供跟type-safe    Configuration<br>Properties相同的特性。下面的表格总结了     @ConfigurationProperties    和     @Value    支持的特性：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">特性</th>
-<th style="text-align:center">@ConfigurationProperties</th>
-<th>@Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Relaxed绑定</td>
-<td style="text-align:center">Yes</td>
-<td>No</td>
-</tr>
-<tr>
-<td style="text-align:center">Meta-data支持</td>
-<td style="text-align:center">Yes</td>
-<td>No</td>
-</tr>
-<tr>
-<td style="text-align:center">SpEL表达式</td>
-<td style="text-align:center">No</td>
-<td>Yes</td>
-</tr>
-</tbody>
-</table>
-<p>如果你为自己的组件定义了一系列的配置keys，我们建议你将它们以@ConfigurationProperties    注解的POJO进行分组。<br>由于     @Value    不支持relaxed绑定，所以如果你使用环境变量提供属性值的话，它就不是很好的选择。最后，尽管     @Value    可以写     SpEL表达式，但这些表达式不会处理来自Application属性文件的属性。</p>
+<p>日志文件每达到10M就会被分割，跟控制台一样，默认记录     ERROR    ,WARN    和     INFO    级别的信息。</p>
+<p>##日志级别##</p>
+<p>所有Spring    Boot支持的日志系统都可以在Spring          Environment    中设置级别（     application.properties    里也一样），设置格式为’logging.level.*=LEVEL’，其中     LEVEL    是     TRACE    ,          DEBUG    ,          INFO    ,          WARN    ,          ERROR    ,          FATAL    ,          OFF    之一：<br>以下是     application.properties    示例：</p>
+<pre><code>logging.level.root=WARN
+logging.level.org.springframework.web=DEBUG
+logging.level.org.hibernate=ERROR
+</code></pre><p>注    默认情况，Spring    Boot会重新映射Thymeleaf的     INFO    信息到     DEBUG    级别，这<br>能减少标准日志输出的噪声。查看LevelRemappingAppender可以按自己的配置设<br>置映射。</p>
 ]]></content>
       
         
@@ -1438,7 +1443,44 @@ public    class    ConnectionProperties    {
             
             <tag> SpringBoot </tag>
             
-            <tag> config </tag>
+            <tag> log </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Application属性文件]]></title>
+      <url>/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<p><strong>Application属性文件</strong></p>
+<a id="more"></a>
+<p>SpringApplication    将从以下位置加载     application.properties    文件，并把<br>它们添加到Spring          Environment    中：</p>
+<ol>
+<li><p>当前目录下的     /config    子目录。</p>
+</li>
+<li><p>当前目录。</p>
+</li>
+<li><p>classpath下的     /config    包。</p>
+</li>
+<li><p>classpath根路径（root）。</p>
+</li>
+</ol>
+<p>该列表是按优先级排序的（列表中位置高的路径下定义的属性将覆盖位置低的）。<br>注    你可以使用YAML（’.yml’）文件替代’.properties’。</p>
+<p>如果不喜欢将     application.properties    作为配置文件名，你可以通过指<br>定     spring.config.name    环境属性来切换其他的名称，也可以使<br>用     spring.config.location    环境属性引用一个明确的路径（目录位置或文件路<br>径列表以逗号分割）。</p>
+<pre><code>$    java    -jar    myproject.jar    --spring.config.name=myproject
+或
+$    java    -jar    myproject.jar    --spring.config.location=classpath:/de
+fault.properties,classpath:/override.properties
+</code></pre><p>注    在初期需要根据     spring.config.name    和     spring.config.location    决定加<br>载哪个文件，所以它们必须定义为environment属性（通常为OS    env，系统属性或<br>命令行参数）。</p>
+<p>如果     spring.config.location    包含目录（相对于文件），那它们应该以     /    结尾<br>（在被加载前，     spring.config.name    关联的名称将被追加到后面，包括profile-<br>specific的文件名）。     spring.config.location    下定义的文件使用方法跟往常一<br>样，没有profile-specific变量支持的属性，将被profile-specific的属性覆盖。</p>
+<p>不管     spring.config.location    配置什么值，默认总会按<br>照     classpath:,classpath:/config,file:,file:config/    的顺序进行搜索，优<br>先级由低到高，也就是     file:config/    获胜。<br>如果你指定自己的位置，它们会优先于所有的默认位置（locations），并使用相同的由低到高的优先级顺序。<br>那样，你就可以在     application.properties    为应用设置默认值，然后在运行的时候使<br>用不同的文件覆盖它，同时保留默认配置。</p>
+<p>注    如果使用环境变量而不是系统属性，需要注意多数操作系统的key名称不允许以<br>句号分割（period-separated），但你可以使用下划线（underscores）代替（比<br>如，使用     SPRING_CONFIG_NAME    代替     spring.config.name    ）。<br>注    如果应用运行在容器中，那么JNDI属性（java:comp/env）或servlet上下文初始<br>化参数可以用来代替环境变量或系统属性，当然也可以使用环境变量或系统属性。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> SpringBoot </tag>
             
         </tags>
         
@@ -1582,6 +1624,141 @@ foo:
             <tag> SpringBoot </tag>
             
             <tag> YAML </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[第三方配置]]></title>
+      <url>/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/</url>
+      <content type="html"><![CDATA[<p><strong>第三方配置</strong></p>
+<a id="more"></a>
+<p>@ConfigurationProperties    不仅可以注解在类上，也可以注解在public @Bean    方法上，当你需要为不受控的第三方组件绑定属性时，该方法将非常有<br>用。为了从     Environment属性中配置一个bean，你需要使用@ConfigurationProperties    注解该bean：</p>
+<pre><code>@ConfigurationProperties(prefix    =    &quot;foo&quot;)
+@Bean
+public    FooComponent    fooComponent()    {
+                ...
+}
+</code></pre><p>和上面     ConnectionSettings    的示例方式相同，所有以foo为前缀的属性定义都会被映射到     FooComponent    上。</p>
+<p>##Relaxed绑定##</p>
+<p>Spring    Boot将     Environment    属性绑定到     @ConfigurationProperties        beans时会使用一些宽松的规则，所以     Environment属性名和bean属性名不需要精确匹配。常见的示例中有用的包括虚线分割（比如，     context-path    绑定到     contextPath    ），将environment属性转为大写字母（比如，     PORT    绑定     port    ）。<br>例如，给定以下     @ConfigurationProperties    类：</p>
+<pre><code>@ConfigurationProperties(prefix=&quot;person&quot;)
+public    class    OwnerProperties    {
+                private    String    firstName;
+                public    String    getFirstName()    {
+                                return    this.firstName;
+                }
+                public    void    setFirstName(String    firstName)    {
+                                this.firstName    =    firstName;
+                }
+}
+</code></pre><p>下面的属性名都能使用：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">person.firstName</td>
+<td style="text-align:center">标准驼峰规则</td>
+</tr>
+<tr>
+<td style="text-align:center">person.first-name</td>
+<td style="text-align:center">虚线表示，推荐用于     .properties    和     .yml文件中</td>
+</tr>
+<tr>
+<td style="text-align:center">person.first_name</td>
+<td style="text-align:center">下划线表示，用于     .properties    和     .yml    文件的可选格式</td>
+</tr>
+<tr>
+<td style="text-align:center">PERSON_FIRST_NAME</td>
+<td style="text-align:center">大写形式，使用系统环境变量时推荐</td>
+</tr>
+</tbody>
+</table>
+<p>##属性转换##</p>
+<p>将外部应用配置绑定到     @ConfigurationProperties        beans时，Spring会尝试将属性强制转换为正确的类型。如果需要自定义类型转换器，你可以提供一个ConversionService        bean（bean    id为     conversionService    ），或自定义属性编辑器（通过     CustomEditorConfigurer        bean），或自定义     Converters    （bean定义时需要注解     @ConfigurationPropertiesBinding    ）。</p>
+<p>注    由于该bean在应用程序生命周期的早期就需要使用，所以确保限制你的     ConversionService使用的依赖。通常，在创建时期任何你需要的依赖可能都<br>没完全初始化。        </p>
+<p>##@ConfigurationProperties校验##</p>
+<p>Spring    Boot将尝试校验外部配置，默认使用JSR-303（如果在classpath路径中），你只需要将JSR-303          javax.validation    约束注解添加到     @ConfigurationProperties    类上：</p>
+<pre><code>@ConfigurationProperties(prefix=&quot;connection&quot;)
+public    class    ConnectionProperties    {
+                @NotNull
+                private    InetAddress    remoteAddress;
+                //    ...    getters    and    setters
+}
+</code></pre><p>为了校验内嵌属性的值，你需要使用     @Valid    注解关联的字段以触发它的校验，例<br>如：    </p>
+<pre><code>@ConfigurationProperties(prefix=&quot;connection&quot;)
+public    class    ConnectionProperties    {
+                @NotNull
+                @Valid
+                private    RemoteAddress    remoteAddress;
+                //    ...    getters    and    setters
+                public    static    class    RemoteAddress    {
+                                @NotEmpty
+                                public    String    hostname;
+                                //    ...    getters    and    setters
+                }
+}
+</code></pre><p>你也可以通过创建一个叫做     configurationPropertiesValidator    的bean来添加自定义的Spring          Validator    。     @Bean    方法需要声明为     static    ，因为配置属性校验器在应用程序生命周期中创建的比较早，将     @Bean    方法声明为     static    允许该bean在创建时不需要实例化     @Configuration    类，从而避免了早期实例化（early    instantiation）的所有问题。相关的示例可以看这里。</p>
+<p>注          spring-boot-actuator    模块包含一个暴露所有     @ConfigurationProperties        beans的端点（endpoint），通过浏览器打开     /configprops    进行浏览，或使用等效的JMX端点，具体参考Production    readyfeatures。    </p>
+<h2 id="ConfigurationProperties-vs-Value"><a href="#ConfigurationProperties-vs-Value" class="headerlink" title="@ConfigurationProperties    vs.    @Value"></a>@ConfigurationProperties    vs.    @Value</h2><p>@Value    是Spring容器的一个核心特性，它没有提供跟type-safe    Configuration<br>Properties相同的特性。下面的表格总结了     @ConfigurationProperties    和     @Value    支持的特性：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">特性</th>
+<th style="text-align:center">@ConfigurationProperties</th>
+<th>@Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Relaxed绑定</td>
+<td style="text-align:center">Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td style="text-align:center">Meta-data支持</td>
+<td style="text-align:center">Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td style="text-align:center">SpEL表达式</td>
+<td style="text-align:center">No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>如果你为自己的组件定义了一系列的配置keys，我们建议你将它们以@ConfigurationProperties    注解的POJO进行分组。<br>由于     @Value    不支持relaxed绑定，所以如果你使用环境变量提供属性值的话，它就不是很好的选择。最后，尽管     @Value    可以写     SpEL表达式，但这些表达式不会处理来自Application属性文件的属性。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> SpringBoot </tag>
+            
+            <tag> config </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[WEB环境下进行单元测试]]></title>
+      <url>/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</url>
+      <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p>
+<a id="more"></a>
+<p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> SpringBoot </tag>
             
         </tags>
         
