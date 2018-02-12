@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="SpringBoot," />
+  <meta name="keywords" content="docker," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="使用CommandLineRunner或ApplicationRunner">
-<meta name="keywords" content="SpringBoot">
+<meta name="description" content="这个教程将会通过创建和定制一个投票app来知道你关于swarm上面的部署.按步骤完成教程至关重要，并且确保定制的部分是开放了定制功能的. 注意：完成这个章节的教程，你需要先完成Docker和git的安装.">
+<meta name="keywords" content="docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用CommandLineRunner或ApplicationRunner">
-<meta property="og:url" content="http://www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/index.html">
+<meta property="og:title" content="3.0部署一个app到Swarm上">
+<meta property="og:url" content="http://www.zhz.gift/2018/02/12/部署一个app到Swarm上/index.html">
 <meta property="og:site_name" content="静默的魔法书">
-<meta property="og:description" content="使用CommandLineRunner或ApplicationRunner">
+<meta property="og:description" content="这个教程将会通过创建和定制一个投票app来知道你关于swarm上面的部署.按步骤完成教程至关重要，并且确保定制的部分是开放了定制功能的. 注意：完成这个章节的教程，你需要先完成Docker和git的安装.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-17T12:11:22.286Z">
+<meta property="og:updated_time" content="2018-02-12T03:04:02.610Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用CommandLineRunner或ApplicationRunner">
-<meta name="twitter:description" content="使用CommandLineRunner或ApplicationRunner">
+<meta name="twitter:title" content="3.0部署一个app到Swarm上">
+<meta name="twitter:description" content="这个教程将会通过创建和定制一个投票app来知道你关于swarm上面的部署.按步骤完成教程至关重要，并且确保定制的部分是开放了定制功能的. 注意：完成这个章节的教程，你需要先完成Docker和git的安装.">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/"/>
+  <link rel="canonical" href="http://www.zhz.gift/2018/02/12/部署一个app到Swarm上/"/>
 
 
 
 
 
-  <title>使用CommandLineRunner或ApplicationRunner | 静默的魔法书</title>
+  <title>3.0部署一个app到Swarm上 | 静默的魔法书</title>
   
 
 
@@ -310,7 +310,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/使用CommandLineRunner或ApplicationRunner/">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/02/12/部署一个app到Swarm上/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hans Chung">
@@ -327,7 +327,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用CommandLineRunner或ApplicationRunner</h1>
+          <h1 class="post-title" itemprop="name headline">3.0部署一个app到Swarm上</h1>
         
 
         <div class="post-meta">
@@ -339,8 +339,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:07:42+08:00">
-                2017-12-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-12T11:07:42+08:00">
+                2018-02-12
               </time>
             
 
@@ -357,7 +357,7 @@
 
           
           
-             <span id="/2017/12/17/使用CommandLineRunner或ApplicationRunner/" class="leancloud_visitors" data-flag-title="使用CommandLineRunner或ApplicationRunner">
+             <span id="/2018/02/12/部署一个app到Swarm上/" class="leancloud_visitors" data-flag-title="3.0部署一个app到Swarm上">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -388,18 +388,202 @@
       
 
       
-        <p><strong>使用CommandLineRunner或ApplicationRunner</strong></p>
+        <p>这个教程将会通过创建和定制一个投票app来知道你关于swarm上面的部署.<br>按步骤完成教程至关重要，并且确保定制的部分是开放了定制功能的.</p>
+<p>注意：完成这个章节的教程，你需要先完成Docker和git的安装.</p>
 <a id="more"></a>
-<p>如果需要在     SpringApplication    启动后执行一些特殊的代码，你可以实<br>现     ApplicationRunner    或     CommandLineRunner    接口，这两个接口工作方式相<br>同，都只提供单一的     run    方法，该方法仅在     SpringApplication.run(…)    完成<br>之前调用。<br>     CommandLineRunner    接口能够访问string数组类型的应用参数，<br>而     ApplicationRunner    使用的是上面描述过的     ApplicationArguments    接口：</p>
-<pre><code>import    org.springframework.boot.*
-import    org.springframework.stereotype.*
-@Component
-public    class    MyBean    implements    CommandLineRunner    {
-                public    void    run(String...    args)    {
-                                //    Do    something...
-                }
-}
-</code></pre><p>如果某些定义的     CommandLineRunner    或     ApplicationRunner        beans需要以特定<br>的顺序调用，你可以实现     <strong>org.springframework.core.Ordered</strong>    接口或使<br>用     <strong>org.springframework.core.annotation.Order</strong>    注解。</p>
+<h2 id="Voting-app"><a href="#Voting-app" class="headerlink" title="Voting app"></a>Voting app</h2><p>应用源代码路径<a href="https://github.com/docker/example-voting-app" target="_blank" rel="external">Docker Example Voting App</a>.这个app包含5个组件:</p>
+<ul>
+<li>Python webapp 组件，实现在两个选项之间投票的功能</li>
+<li>Redis queue 收集新的投票</li>
+<li>.NET worker 消费投票并且保存它们在…</li>
+<li>Postgres database 通过Docker volume 来支持</li>
+<li>Node.js webapp 即时展示投票结果</li>
+</ul>
+<p>克隆仓库到你的机器上并且通过cd命令到对应目录下:</p>
+<pre><code>git clone https://github.com/docker/example-voting-app.git
+cd example-voting-app
+</code></pre><h2 id="部署app"><a href="#部署app" class="headerlink" title="部署app"></a>部署app</h2><p>在这首个阶段，我们将会使用在Docker Store中的首个镜像.</p>
+<p>这个app依赖<a href="https://docs.docker.com/engine/swarm/" target="_blank" rel="external">Docker Swarm模式</a>.Swarm mode是嵌入在Docker engine中的集群管理和编排特性.你可以用一个描述你app期望状态的文件来轻松部署到swarm.Swarm允许你运行你的容器在多台机器上.<br>在这个教程中，你可以使用一台机器，或者使用一些像<a href="https://beta.docker.com/" target="_blank" rel="external">Docker for AWS</a>或者<a href="https://beta.docker.com/" target="_blank" rel="external">Docker for Azure</a>来快速的创建多个节点的机器.另外，你还可以使用Docker Machine 在你的部署机器上创建多个本地节点.查看<a href="https://github.com/docker/labs/blob/master/swarm-mode/beginner-tutorial/README.md#creating-the-nodes-and-swarm" target="_blank" rel="external">Swarm Mode lab</a>查询更多相关信息</p>
+<p>首先,创建一个Swarm.</p>
+<pre><code>docker swarm init
+</code></pre><p>接下来，你将需要一个<a href="https://docs.docker.com/compose" target="_blank" rel="external">Docker Compose</a>文件.你并不需要安装Docker Compose,尽管如果你使用的是Docker for Mac 或者 Docker for Windows的话默认是已经安装的了.然而<strong>docker stack deploy</strong>接受一个Docker Compose 格式的文件.你需要的文件就在Docker Example Voting App的根目录.文件名为docker-stack.yml.你也可以直接复制和粘贴以下内容:</p>
+<pre><code>version: &quot;3&quot;
+services:
+
+  redis:
+    image: redis:alpine
+    ports:
+      - &quot;6379&quot;
+    networks:
+      - frontend
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+  db:
+    image: postgres:9.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  vote:
+    image: dockersamples/examplevotingapp_vote:before
+    ports:
+      - 5000:80
+    networks:
+      - frontend
+    depends_on:
+      - redis
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
+  result:
+    image: dockersamples/examplevotingapp_result:before
+    ports:
+      - 5001:80
+    networks:
+      - backend
+    depends_on:
+      - db
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  worker:
+    image: dockersamples/examplevotingapp_worker
+    networks:
+      - frontend
+      - backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=VOTING]
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints: [node.role == manager]
+
+  visualizer:
+    image: dockersamples/visualizer
+    ports:
+      - &quot;8080:8080&quot;
+    stop_grace_period: 1m30s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:
+</code></pre><p>首先部署它，然后我们将会深入了解更多细节:</p>
+<pre><code>docker stack deploy --compose-file docker-stack.yml vote
+Creating network vote_frontend
+Creating network vote_backend
+Creating network vote_default
+Creating service vote_vote
+Creating service vote_result
+Creating service vote_worker
+Creating service vote_redis
+Creating service vote_db
+</code></pre><p>验证已经成功部署的堆栈,使用<code>docker stack services vote</code></p>
+<pre><code>docker stack services vote
+ID            NAME         MODE        REPLICAS  IMAGE
+25wo6p7fltyn  vote_db      replicated  1/1       postgres:9.4
+2ot4sz0cgvw3  vote_worker  replicated  1/1       dockersamples/examplevotingapp_worker:latest
+9faz4wbvxpck  vote_redis   replicated  2/2       redis:alpine
+ocm8x2ijtt88  vote_vote    replicated  2/2       dockersamples/examplevotingapp_vote:before
+p1dcwi0fkcbb  vote_result  replicated  2/2       dockersamples/examplevotingapp_result:before
+</code></pre><p>如果你查看<code>docker-stack.yml文件</code>,你将会看到文件定义    </p>
+<ul>
+<li>基于Python image的vote container</li>
+<li>基于Node.js image的 result container</li>
+<li>基于redis image的redis container,用以临时存储数据.</li>
+<li>基于.NET image的.NET based worker app</li>
+<li>基于postgres image 的Postgres 容器.</li>
+</ul>
+<p>Compose文件同样定义两个networks,front-tier 和back-tier .每个容器都是被放置在一个或者两个networks.一旦在那些networks中,它们就可以在那个network中以使用service名称的方式在代码中访问其它处于这个network的services.Services可以处于任意数量的networks.Services被它们各自的network所隔离.即使Services处于同一个network中,Services也只能通过name名称去发现彼此.想了解更多networking,点击<a href="https://github.com/docker/labs/tree/master/networking" target="_blank" rel="external">Networking Lab</a>.</p>
+<p>再看一下Compose文件，你会发现它是以:</p>
+<pre><code>version: &quot;3&quot;
+</code></pre><p>version 3 这个版本号对compose 文件来说非常重要,因为<code>docker stack deploy</code> 命令不支持更早版本的.你将会看到那里同样有个<code>services</code>key,在下面的是一个分割键(<del>不就是一个yml文件么..这么啰嗦</del>)，用来隔离每个services,例如:</p>
+<pre><code>vote:
+   image: dockersamples/examplevotingapp_vote:before
+   ports:
+     - 5000:80
+   networks:
+     - frontend
+   depends_on:
+     - redis
+   deploy:
+     replicas: 2
+     update_config:
+       parallelism: 2
+     restart_policy:
+       condition: on-failure
+</code></pre><p><code>image</code>键 指定了你能使用哪个镜像,在这个例子中就是<code>dockersamples/examplevotingapp_vote:before</code>，如果你对Compose足够熟悉,你可能知道有一个<code>build</code>键,用来基于Dockerfile进行构建.然而,<code>docker stack deploy</code>不支持<code>build</code>，所以你需要使用预构建镜像.</p>
+<p>与<code>docker run</code>很相似,你能够定义<code>ports</code> 和 <code>networks</code>.<code>depends_on</code>键用来指定一个service只在另一个service之后才进行部署.在这个例子中<code>vote</code>只在<code>redis</code>之后进行部署.</p>
+<p><code>deploy</code>键是version3 版本新增的.它允许你在部署到Swarm时指定不同的属性.在这个例子中,你指定了需要两个 replicas(复制品),也就是在Swarm上部署两个容器.你可以指定其它属性,像什么时候去重启(restart),使用什么样的<a href="https://docs.docker.com/engine/reference/builder/#healthcheck" target="_blank" rel="external">healthcheck</a>,配置约束(placement constraints),资源(resources)等等.</p>
+<h2 id="测试运行"><a href="#测试运行" class="headerlink" title="测试运行"></a>测试运行</h2><p>现在app已经开始运行了,你可以通过<a href="http://localhost:5000来进行访问" target="_blank" rel="external">http://localhost:5000来进行访问</a>.</p>
+<p>点击其中一个进行投票.你可以通过<a href="http://localhost:5001来查看结果" target="_blank" rel="external">http://localhost:5001来查看结果</a>.</p>
+<p>NOTE: 如果你是在云环境运行这个教程，像AWS,Azure,Digital Ocean,或者GCE 你将不能直接通过localhost或者127.0.0.1来进行访问.一个变通的手段是利用ssh port forwarding.下面是Mac OS的一个例子.这同样适用于Windows 和Putty 用户.</p>
+<pre><code>$ ssh -L 5000:localhost:5000 &lt;ssh-user&gt;@&lt;CLOUD_INSTANCE_IP_ADDRESS&gt;
+</code></pre><h2 id="定做app"><a href="#定做app" class="headerlink" title="定做app"></a>定做app</h2><p>在这个步骤，你将会定制app并且重新部署它。我们将会使用相同的图片，但是通过使用<code>after</code>标签将投票选项cats和dogs换成Java和.NET.</p>
+<h3 id="改变使用的图片"><a href="#改变使用的图片" class="headerlink" title="改变使用的图片"></a>改变使用的图片</h3><p>重新修改<code>docker-stack.yml</code>文件,将<code>vote</code>和<code>result</code> 图片修改为<code>after</code>标签,如下:</p>
+<pre><code>vote:
+   image: dockersamples/examplevotingapp_vote:after
+   ports:
+     - 5000:80
+   networks:
+     - frontend
+   depends_on:
+     - redis
+   deploy:
+     replicas: 2
+     update_config:
+       parallelism: 2
+     restart_policy:
+       condition: on-failure
+ result:
+   image: dockersamples/examplevotingapp_result:after
+   ports:
+     - 5001:80
+   networks:
+     - backend
+   depends_on:
+     - db
+   deploy:
+     replicas: 2
+     update_config:
+       parallelism: 2
+       delay: 10s
+     restart_policy:
+       condition: on-failure
+</code></pre><h3 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h3><p>重新部署跟之前的操作一样.</p>
+<pre><code>docker stack deploy --compose-file docker-stack.yml vote
+</code></pre><h3 id="测试运行-1"><a href="#测试运行-1" class="headerlink" title="测试运行"></a>测试运行</h3><p>再次查看app运行界面结果.</p>
+<h3 id="移除堆栈"><a href="#移除堆栈" class="headerlink" title="移除堆栈"></a>移除堆栈</h3><p>从swarm移除堆栈.</p>
+<pre><code>docker stack rm vote
+</code></pre><h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>现在你已经构建了一些镜像并且把它们推送到Docker Cloud，并且学习到基础的Swarm mode,你可以通过查看<a href="https://docs.docker.com/" target="_blank" rel="external">the documentation</a>文档了解更多信息.并且如果你需要任何帮助的话，可以访问<a href="https://forums.docker.com/" target="_blank" rel="external">Docker Forums</a>或者<a href="https://stackoverflow.com/tags/docker/" target="_blank" rel="external">StackOverflow</a>.</p>
 
       
     </div>
@@ -417,7 +601,7 @@ public    class    MyBean    implements    CommandLineRunner    {
       
         <div class="post-tags">
           
-            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+            <a href="/tags/docker/" rel="tag"># docker</a>
           
         </div>
       
@@ -430,8 +614,8 @@ public    class    MyBean    implements    CommandLineRunner    {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/17/使用YAML代替Properties/" rel="next" title="使用YAML代替Properties">
-                <i class="fa fa-chevron-left"></i> 使用YAML代替Properties
+              <a href="/2018/02/04/Ubuntu docker 安装/" rel="next" title="Ubuntu docker 安装">
+                <i class="fa fa-chevron-left"></i> Ubuntu docker 安装
               </a>
             
           </div>
@@ -440,8 +624,8 @@ public    class    MyBean    implements    CommandLineRunner    {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/17/SpringBoot应用启动事件/" rel="prev" title="SpringBoot应用启动事件">
-                SpringBoot应用启动事件 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/02/12/2.0用Docker运行web项目/" rel="prev" title="2.0用Docker运行web项目">
+                2.0用Docker运行web项目 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -499,8 +683,17 @@ public    class    MyBean    implements    CommandLineRunner    {
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -572,6 +765,22 @@ public    class    MyBean    implements    CommandLineRunner    {
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Voting-app"><span class="nav-number">1.</span> <span class="nav-text">Voting app</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署app"><span class="nav-number">2.</span> <span class="nav-text">部署app</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试运行"><span class="nav-number">3.</span> <span class="nav-text">测试运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定做app"><span class="nav-number">4.</span> <span class="nav-text">定做app</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改变使用的图片"><span class="nav-number">4.1.</span> <span class="nav-text">改变使用的图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新部署"><span class="nav-number">4.2.</span> <span class="nav-text">重新部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试运行-1"><span class="nav-number">4.3.</span> <span class="nav-text">测试运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移除堆栈"><span class="nav-number">4.4.</span> <span class="nav-text">移除堆栈</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">5.</span> <span class="nav-text">后续</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

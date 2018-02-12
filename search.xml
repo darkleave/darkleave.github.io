@@ -3,6 +3,535 @@
   
     
     <entry>
+      <title><![CDATA[2.0用Docker运行web项目]]></title>
+      <url>/2018/02/12/2.0%E7%94%A8Docker%E8%BF%90%E8%A1%8Cweb%E9%A1%B9%E7%9B%AE/</url>
+      <content type="html"><![CDATA[<p>在<a href="">1.0运行你的第一个容器</a>中我们已经顺利让docker运行起来，并且熟悉了一些术语的含义.通过这些基础，我们终于可以实践一些更有意义的东西——用Docker部署web项目.</p>
+<a id="more"></a>
+<h2 id="在容器中运行静态web网站"><a href="#在容器中运行静态web网站" class="headerlink" title="在容器中运行静态web网站"></a>在容器中运行静态web网站</h2><p>Note: 本节示例网站文件请点击<a href="https://github.com/docker/labs/tree/master/beginner/static-site" target="_blank" rel="external">这里</a>.</p>
+<p>让我们从初始步骤开始.首先,我们使用Docker在容器中运行一个静态网站.这个网站是基于一个已存在的镜像.我们将从Docker Store拉取Docker镜像，运行容器，并且看到它是怎么建立 web server的.</p>
+<p>你将要使用的镜像是一个单页网站，并且为了这个demo示范，已经创建完毕并且在Docker Store中可用，存储路径为dockersamples/static-site.你可以直接使用docker run命令下载并且运行这个镜像.如下:</p>
+<pre><code>$ docker run -d dockersamples/static-site
+</code></pre><p>Note: 这个当前版本的镜像必须添加-d 标识符才能运行.-d 标识符能够开启<strong>detached</strong>模式,它能从terminal/shell 终端 分派运行中的容器并且在容器启动后返回提示.我们正在调试这个镜像，至于现在，使用-d，即使它是你的第一个例子..(<del>好屌</del>)</p>
+<p>该命令运行后,首先由于该镜像并不存在于你的主机上,所以Docker守护进程首先会从registry(Docker store)尝试拉取它然后再让它以容器的方式运行起来.</p>
+<p>服务器运行起来后，如何访问网站？网站在哪个端口上运行？更重要的是,如何在我们的主机机器上面直接访问容器.</p>
+<p>事实上，你可能还回答不了其中任意一个问题:)(<del>好想打死你</del>),在这种情况下,客户端并未告诉Docker Engine 去发布任何端口,所以你需要重新运行docker run命令去添加这个命令.</p>
+<p>让我们重新运行命令，并添加一些新标识符去发布端口并且传递你的名字给容器，以自定义展示的信息.我们将会再次使用-d 选项在detached mode下运行容器.</p>
+<p>首先，通过<strong>container ID</strong>停止你正在运行的容器.</p>
+<p>因为之前我们已经在detached mode下运行容器,所以我们不需要开启其它的terminal来完成终止操作.运行<strong>docker ps</strong>命令来查看运行中的容器.</p>
+<pre><code>$ docker ps
+CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS              PORTS               NAMES
+a7a0e504ca3e        dockersamples/static-site   &quot;/bin/sh -c &apos;cd /usr/&quot;   28 seconds ago      Up 26 seconds       80/tcp, 443/tcp     stupefied_mahavira
+</code></pre><p>检查CONTAINER ID那一列.接下来通过CONTAINER ID来停止运行中的容器,并且移除掉它.</p>
+<pre><code>$ docker stop a7a0e504ca3e
+$ docker rm   a7a0e504ca3e 
+</code></pre><p>Note: 一个很cool的特性是你不需要指定整个CONTAINER ID.你可以只指定CONTAINER ID初始的几个字符，并且如果这几个字符在所有你运行的容器当中是唯一的话，那么Docker 客户端会自动获取到该容器.</p>
+<pre><code>$ docker run --name static-site -e AUTHOR=&quot;Your Name&quot; -d -P dockersamples/static-site
+e61d12292d69556eabe2a44c16cbd54486b2527e2ce4f95438e504afb7b02810
+</code></pre><p>在上面的命令当中:</p>
+<ul>
+<li>-d 将会从我们的terminal以detached模式创建容器.</li>
+<li>-P 将会发布所有暴露的容器端口到Docker主机的随机端口上.</li>
+<li>-e 是你传递环境变量(environment variables)给容器的方式</li>
+<li>–name 允许你指定一个容器的名字 </li>
+<li>AUTHOR 是环境变量的名字并且”Your Name” 可以由你进行自定义.</li>
+</ul>
+<p>现在你可以通过<strong>docker port</strong>命令看到端口了.</p>
+<pre><code>$ docker port static-site
+443/tcp -&gt; 0.0.0.0:32772
+80/tcp -&gt; 0.0.0.0:32773
+</code></pre><p>如果你正在运行的是<strong>Docker for Mac</strong>,<strong>Docker for Windows</strong>,或者<strong>Docker on Linux</strong>,你可以打开 <a href="http://localhost:[YOUR_PORT_FOR" target="_blank" rel="external">http://localhost:[YOUR_PORT_FOR</a> 80/tcp].在我们的例子中就是<a href="http://localhost:32773" target="_blank" rel="external">http://localhost:32773</a>.</p>
+<p>如果你是在Mac或者Windows上面使用Docker机器，你可以通过<strong>docker-machine</strong>命令行找到hostname.如下(假设你使用的是默认机器)</p>
+<pre><code>$ docker-machine ip default
+192.168.99.100
+</code></pre><p>你可以打开 http://<your_ipaddress>:[YOUR_PORT_FOR 80/tcp] 去访问的网站.在我们的例子中就是:<a href="http://192.168.99.100:32773" target="_blank" rel="external">http://192.168.99.100:32773</a>.</your_ipaddress></p>
+<p>你可以在同一时间运行第二个web服务器，制定一个自定义的host端口去映射你的对应容器的webserver.</p>
+<pre><code>$ docker run --name static-site-2 -e AUTHOR=&quot;Your Name&quot; -d -p 8888:80 dockersamples/static-site
+</code></pre><p>部署它在一个真正的服务器上，你只需要安装Docker，并且通过上述docker命令运行(就像在这个例子中你可以看到AUTHOR是你传递给Docker的那个环境变量)</p>
+<p>现在你已经知道了如何在一个Docker容器当中运行webserver，如何创建你自己的Docker镜像？这将是我们在下一小节当中探索的问题.</p>
+<p>但现在首先停止并移除容器.</p>
+<pre><code>$ docker stop static-site
+</code></pre><p>$ docker rm static-site</p>
+<p>使用简略语法移除第二个网站:</p>
+<pre><code>$ docker rm -f static-site-2
+</code></pre><p>运行<strong>docker ps</strong>命令确认容器已经正确停止了.</p>
+<h2 id="Docker-镜像"><a href="#Docker-镜像" class="headerlink" title="Docker 镜像"></a>Docker 镜像</h2><p>在这个小节中，让我们更加深入的了解Docker images究竟是什么东西.你将会建立自己的镜像，使用这个镜像在你的本地运行一个应用，然后最终，推送一些你自己的镜像到Docker Cloud.</p>
+<p>Docker images 是容器的基础.在上一个例子中,你从registry(docker store)拉取 dockersamples/static-site 镜像并且让Docker 客户端基于这个镜像运行一个容器.通过运行<strong>docker images</strong>命令来查看你系统上本地可用的镜像列表.</p>
+<pre><code>$ docker images
+REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
+dockersamples/static-site   latest              92a386b6e686        2 hours ago        190.5 MB
+nginx                  latest              af4b3d7d5401        3 hours ago        190.5 MB
+python                 2.7                 1c32174fd534        14 hours ago        676.8 MB
+postgres               9.4                 88d845ac7a88        14 hours ago        263.6 MB
+containous/traefik     latest              27b4e0c6b2fd        4 days ago          20.75 MB
+node                   0.10                42426a5cba5f        6 days ago          633.7 MB
+redis                  latest              4f5f397d4b7c        7 days ago          177.5 MB
+mongo                  latest              467eb21035a8        7 days ago          309.7 MB
+alpine                 3.3                 70c557e50ed6        8 days ago          4.794 MB
+java                   7                   21f6ce84e43c        8 days ago          587.7 MB
+</code></pre><p>上述是我从registry拉取的一系列镜像,以及一些我自己创建的(我们很快会看到如何做的).在你的机器上可能是一个不同的镜像列表.TAG 指的是这个镜像特别的snapshot 快照版本，ID则是这个镜像唯一的标识.</p>
+<p>简单地说，你可以把一个镜像理解为类似git仓库的东西，镜像可以像git一样提交commit并且有多个版本.当你没有提供一个指定的版本，客户端默认会是最新的.</p>
+<p>例如，你可以指定一个特定版本的ubuntu镜像如下所示:</p>
+<pre><code>$ docker pull ubuntu:12.04
+</code></pre><p>如果你没有指定一个特定版本的镜像,就像提到的那样,Dcoker 客户端将会默认选择最新版本的.</p>
+<p>如例子所示,docker 将会拉取一个命名为: ubuntu:latest 的镜像:</p>
+<pre><code>$ docker pull ubuntu
+</code></pre><p>获取Docker image的途径，一是从registry(就比如Docker Store),二是自己创建.在Docker Store中有成百上千的镜像等你临幸.或者你也可以直接通过<strong>docker search</strong>命令来搜索镜像.</p>
+<p>镜像之间的一个重要区别是关于 base images(基础镜像)和child images(子镜像).</p>
+<ul>
+<li><p>Base images 没有父级镜像,通常是操作系统的镜像，像ubuntu,alpine 或者debian.</p>
+</li>
+<li><p>Child images 是在base images的基础上构建起来的，通常添加了一些额外的功能.</p>
+</li>
+</ul>
+<p>另一个关键概念是 official images (官方镜像) 和 user images(用户镜像).<br>(它们都可以是基础镜像或者子镜像)</p>
+<ul>
+<li>Official images 是Docker 官方审核认可的 镜像.Docker,一个负责审核和发布所有官方仓库内容的团队.上述的一系列镜像,python,node,alpine 和 nginx镜像都是官方(base)镜像.通过查看官方镜像文档来了解更多官方镜像.(<a href="https://docs.docker.com/docker-hub/official_repos/" target="_blank" rel="external">official Images Documentation</a>)</li>
+<li>User images 是由用户创建和共享的镜像.它们是在base images的基础上构建并添加额外的功能.典型的它们都是以 <strong>user/image-name</strong>格式来命名.用户名一般是你的Docker Store用户名或者组织名.</li>
+</ul>
+<h2 id="创建你的首个镜像"><a href="#创建你的首个镜像" class="headerlink" title="创建你的首个镜像"></a>创建你的首个镜像</h2><p>Note: 这个小节的示例代码在<a href="https://github.com/docker/labs/tree/master/beginner/flask-app" target="_blank" rel="external">flask-app</a> 路径下的仓库.</p>
+<p>现在你已经对镜像有了进一步的理解了，是时候创建你自己的镜像了.我们的目标是创建一个镜像并在沙盒中运行一个<a href="http://flask.pocoo.org/" target="_blank" rel="external">Flash</a>应用.</p>
+<p>这个练习的目的是创建一个Docker镜像并运行一个Flask app.</p>
+<p>我们首先一次性领取一个用Python Flask构建的随机生成猫图片的组件，然后通过编写一个Dockerfile 来<strong>dockerizing</strong>它.最后,我们构建镜像,然后运行它.</p>
+<p>具体步骤如下:</p>
+<ul>
+<li>创建一个展示随机猫图片的Python Flask app.</li>
+<li>编写一个Dockerfile文件</li>
+<li>构建镜像</li>
+<li>运行镜像</li>
+<li>Dockerfile 命令总结</li>
+</ul>
+<h3 id="创建一个展示随机猫图片的Python-Flask-app"><a href="#创建一个展示随机猫图片的Python-Flask-app" class="headerlink" title="创建一个展示随机猫图片的Python Flask app"></a>创建一个展示随机猫图片的Python Flask app</h3><p>创建一个flask-app目录,然后在该目录下创建以下文件:</p>
+<ul>
+<li>app.py</li>
+<li>requirements.txt</li>
+<li>templates/index.html</li>
+<li>Dockerfile</li>
+</ul>
+<h3 id="app-py"><a href="#app-py" class="headerlink" title="app.py"></a>app.py</h3><p>用以下内容创建app.py:</p>
+<pre><code>from flask import Flask, render_template
+import random
+
+app = Flask(__name__)
+
+# list of cat images
+images = [
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr05/15/9/anigif_enhanced-buzz-26388-1381844103-11.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr01/15/9/anigif_enhanced-buzz-31540-1381844535-8.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr05/15/9/anigif_enhanced-buzz-26390-1381844163-18.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr06/15/10/anigif_enhanced-buzz-1376-1381846217-0.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr03/15/9/anigif_enhanced-buzz-3391-1381844336-26.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr06/15/10/anigif_enhanced-buzz-29111-1381845968-0.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr03/15/9/anigif_enhanced-buzz-3409-1381844582-13.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr02/15/9/anigif_enhanced-buzz-19667-1381844937-10.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr05/15/9/anigif_enhanced-buzz-26358-1381845043-13.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr06/15/9/anigif_enhanced-buzz-18774-1381844645-6.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr06/15/9/anigif_enhanced-buzz-25158-1381844793-0.gif&quot;,
+    &quot;http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr03/15/10/anigif_enhanced-buzz-11980-1381846269-1.gif&quot;
+]
+
+@app.route(&apos;/&apos;)
+def index():
+    url = random.choice(images)
+    return render_template(&apos;index.html&apos;, url=url)
+
+if __name__ == &quot;__main__&quot;:
+    app.run(host=&quot;0.0.0.0&quot;)
+</code></pre><h3 id="requirements-txt"><a href="#requirements-txt" class="headerlink" title="requirements.txt"></a>requirements.txt</h3><p>为了为我们的app安装所需的Python模块,我们需要创建一个requirements.txt文件并且添加如下内容:</p>
+<pre><code>Flask==0.10.1      
+</code></pre><h3 id="templates-index-html"><a href="#templates-index-html" class="headerlink" title="templates/index.html"></a>templates/index.html</h3><p>创建一个命名为templates的目录并且在其中创建一个index.html 文件，具体内容如下:</p>
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+      body {
+        background: black;
+        color: white;
+      }
+      div.container {
+        max-width: 500px;
+        margin: 100px auto;
+        border: 20px solid white;
+        padding: 10px;
+        text-align: center;
+      }
+      h4 {
+        text-transform: uppercase;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;h4&gt;Cat Gif of the day&lt;/h4&gt;
+      &lt;img src=&quot;{{url}}&quot; /&gt;
+      &lt;p&gt;&lt;small&gt;Courtesy: &lt;a href=&quot;http://www.buzzfeed.com/copyranter/the-best-cat-gif-post-in-the-history-of-cat-gifs&quot;&gt;Buzzfeed&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="编写一个Dockerfile文件"><a href="#编写一个Dockerfile文件" class="headerlink" title="编写一个Dockerfile文件"></a>编写一个Dockerfile文件</h2><p>我们想要为这个web app创建一个Docker镜像.就像上述提到的,所有的用户镜像都是基于基础镜像.因为我们的应用是用Python编写的,我们将会在Alpine的基础上构建我们的Python镜像.完成这一点我们需要使用一个Dockerfile.</p>
+<p><a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">Dockerfile</a>实际上只是一个包含了一系列docker指令的text文件,当创建镜像的时候,docker 守护进程会从后台调用.Dockerfile包含了所有Docker应该如何去运行这个app的所有信息 - 一个基础Docker 镜像从哪里运行,你项目代码的路径,它拥有的所有依赖 和启动是运行的命令.这是一个镜像创建过程自动化的最普遍方式.这种方式最大的优点是你在Dockerfile编写的<a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">命令</a>完全等同于它们的linux命令.这意味着你不用去学习新的语法来创建你的Dockerfile文件.</p>
+<p>1.创建一个命名为Dockerfile的文件,并添加如下描述内容.</p>
+<p>我们将通过<strong>From</strong>关键字指令指定我们的基础镜像:</p>
+<pre><code>FROM alpine:3.5
+</code></pre><p>2.下一步骤通常是编写复制文件和安装依赖的指令.但首先我们需要安装Python pip 包 到alpine linux发布版本.其它依赖安装也是同样，包括python interpreter 解释器.添加如下<a href="https://docs.docker.com/engine/reference/builder/#run" target="_blank" rel="external">RUN</a>命令:</p>
+<pre><code>RUN apk add --update py2-pip
+</code></pre><p>3.添加 Flask Application的组成文件</p>
+<p>安装所有我们app运行所需的Python requirements.通过以下命令完成:</p>
+<pre><code>COPY requirements.txt /usr/src/app/
+RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+</code></pre><p>通过<a href="https://docs.docker.com/engine/reference/builder/#copy" target="_blank" rel="external">COPY</a> 命令复制你早期创建的文件到我们的镜像当中.</p>
+<pre><code>COPY app.py /usr/src/app/
+COPY templates/index.html /usr/src/app/templates/
+</code></pre><p>4.指定需要暴露的接口.flask app运行的端口是5000.</p>
+<pre><code>EXPOSE 5000
+</code></pre><p>5.最后的步骤是运行我们的应用-<strong>python ./app.py</strong>.使用<a href="https://docs.docker.com/engine/reference/builder/#cmd" target="_blank" rel="external">CMD</a>指令:</p>
+<pre><code>CMD [&quot;python&quot;, &quot;/usr/src/app/app.py&quot;]
+</code></pre><p>CMD命令的主要目的是告诉容器当它启动时默认应该运行哪些指令.</p>
+<p>6.验证你的Dockerfile文件.</p>
+<p>我们的Dockerfile文件终于准备好了.内容汇总如下:</p>
+<pre><code># our base image
+FROM alpine:3.5
+
+# Install python and pip
+RUN apk add --update py2-pip
+
+# install Python modules needed by the Python app
+COPY requirements.txt /usr/src/app/
+RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+
+# copy files required for the app to run
+COPY app.py /usr/src/app/
+COPY templates/index.html /usr/src/app/templates/
+
+# tell the port number the container should expose
+EXPOSE 5000
+
+# run the application
+CMD [&quot;python&quot;, &quot;/usr/src/app/app.py&quot;]
+</code></pre><h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><p>现在你已经有了自己的Dockerfile,你可以构建自己的镜像.<strong>docker build</strong>命令依据Dockerfile完成创建docker image的一系列复杂任务.</p>
+<p>当你运行以下的<strong>docker build</strong>命令,确保用你的用户名去替换 <strong><your_username></your_username></strong> .这个用户名必须跟你在<a href="https://cloud.docker.com/" target="_blank" rel="external">Docker Cloud</a>注册创建的用户名保持一致.如果你还没有完成这一步,请先到Docker Cloud创建一个账户.</p>
+<p><strong>docker build</strong> 命令相当简单 - 它提供一个可选的-t 参数 和包含Dockerfile文件的路径 - <strong>.</strong> 表明当前路径:</p>
+<pre><code>$ docker build -t &lt;YOUR_USERNAME&gt;/myfirstapp .
+Sending build context to Docker daemon 9.728 kB
+Step 1 : FROM alpine:latest
+ ---&gt; 0d81fc72e790
+Step 2 : RUN apk add --update py-pip
+ ---&gt; Running in 8abd4091b5f5
+fetch http://dl-4.alpinelinux.org/alpine/v3.3/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-4.alpinelinux.org/alpine/v3.3/community/x86_64/APKINDEX.tar.gz
+(1/12) Installing libbz2 (1.0.6-r4)
+(2/12) Installing expat (2.1.0-r2)
+(3/12) Installing libffi (3.2.1-r2)
+(4/12) Installing gdbm (1.11-r1)
+(5/12) Installing ncurses-terminfo-base (6.0-r6)
+(6/12) Installing ncurses-terminfo (6.0-r6)
+(7/12) Installing ncurses-libs (6.0-r6)
+(8/12) Installing readline (6.3.008-r4)
+(9/12) Installing sqlite-libs (3.9.2-r0)
+(10/12) Installing python (2.7.11-r3)
+(11/12) Installing py-setuptools (18.8-r0)
+(12/12) Installing py-pip (7.1.2-r0)
+Executing busybox-1.24.1-r7.trigger
+OK: 59 MiB in 23 packages
+ ---&gt; 976a232ac4ad
+Removing intermediate container 8abd4091b5f5
+Step 3 : COPY requirements.txt /usr/src/app/
+ ---&gt; 65b4be05340c
+Removing intermediate container 29ef53b58e0f
+Step 4 : RUN pip install --no-cache-dir -r /usr/src/app/requirements.txt
+ ---&gt; Running in a1f26ded28e7
+Collecting Flask==0.10.1 (from -r /usr/src/app/requirements.txt (line 1))
+  Downloading Flask-0.10.1.tar.gz (544kB)
+Collecting Werkzeug&gt;=0.7 (from Flask==0.10.1-&gt;-r /usr/src/app/requirements.txt (line 1))
+  Downloading Werkzeug-0.11.4-py2.py3-none-any.whl (305kB)
+Collecting Jinja2&gt;=2.4 (from Flask==0.10.1-&gt;-r /usr/src/app/requirements.txt (line 1))
+  Downloading Jinja2-2.8-py2.py3-none-any.whl (263kB)
+Collecting itsdangerous&gt;=0.21 (from Flask==0.10.1-&gt;-r /usr/src/app/requirements.txt (line 1))
+  Downloading itsdangerous-0.24.tar.gz (46kB)
+Collecting MarkupSafe (from Jinja2&gt;=2.4-&gt;Flask==0.10.1-&gt;-r /usr/src/app/requirements.txt (line 1))
+  Downloading MarkupSafe-0.23.tar.gz
+Installing collected packages: Werkzeug, MarkupSafe, Jinja2, itsdangerous, Flask
+  Running setup.py install for MarkupSafe
+  Running setup.py install for itsdangerous
+  Running setup.py install for Flask
+Successfully installed Flask-0.10.1 Jinja2-2.8 MarkupSafe-0.23 Werkzeug-0.11.4 itsdangerous-0.24
+You are using pip version 7.1.2, however version 8.1.1 is available.
+You should consider upgrading via the &apos;pip install --upgrade pip&apos; command.
+ ---&gt; 8de73b0730c2
+Removing intermediate container a1f26ded28e7
+Step 5 : COPY app.py /usr/src/app/
+ ---&gt; 6a3436fca83e
+Removing intermediate container d51b81a8b698
+Step 6 : COPY templates/index.html /usr/src/app/templates/
+ ---&gt; 8098386bee99
+Removing intermediate container b783d7646f83
+Step 7 : EXPOSE 5000
+ ---&gt; Running in 31401b7dea40
+ ---&gt; 5e9988d87da7
+Removing intermediate container 31401b7dea40
+Step 8 : CMD python /usr/src/app/app.py
+ ---&gt; Running in 78e324d26576
+ ---&gt; 2f7357a0805d
+Removing intermediate container 78e324d26576
+Successfully built 2f7357a0805d
+</code></pre><p>如果你并没有alpine:3.5的镜像,客户端将会首先拉取这个镜像，然后再创建你的镜像.因此,你运行命令之后的输出可能会稍有不同.如果一切运行正常,你的镜像就应该创建准备完毕.运行<strong>docker images</strong> 命令查看你的镜像(<your_username>/myfirstapp)是否展示.</your_username></p>
+<h3 id="运行你的镜像"><a href="#运行你的镜像" class="headerlink" title="运行你的镜像"></a>运行你的镜像</h3><p>下一步骤是运行你的镜像并且查看它是否正常工作.</p>
+<pre><code>$ docker run -p 8888:5000 --name myfirstapp YOUR_USERNAME/myfirstapp
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+</code></pre><p>访问 <a href="http://localhost:8888" target="_blank" rel="external">http://localhost:8888</a> 确认你的app是否存活.<br>注意: 如果你使用Docker Machine,你可能需要打开另一个终端并且使用<strong>docker-machine ip default</strong>命令来决定容器的ip地址.</p>
+<p>点击在web浏览器的刷新按钮来查看更多猫的图片.</p>
+<h3 id="推送你的镜像-push-your-image"><a href="#推送你的镜像-push-your-image" class="headerlink" title="推送你的镜像(push your image)"></a>推送你的镜像(push your image)</h3><p>现在你已经创建并且测试了你的镜像,你可以把它推送到<a href="https://cloud.docker.com/" target="_blank" rel="external">Docker Cloud</a>.</p>
+<p>首先你必须登录到你的Docker Cloud 账户:</p>
+<pre><code>docker login
+</code></pre><p>输入你的用户名和密码然后执行如下命令:</p>
+<pre><code>docker push YOUR_USERNAME/myfirstapp
+</code></pre><p>现在你这个容器的工作以及完成了,停止并且移除它因为你不再需要再次使用它了.</p>
+<p>打开另一个终端窗口并且执行如下命令:</p>
+<pre><code>$ docker stop myfirstapp
+$ docker rm myfirstapp
+</code></pre><p>或者</p>
+<pre><code>$ docker rm -f myfirstapp
+</code></pre><h3 id="Dockerfile-命令总结"><a href="#Dockerfile-命令总结" class="headerlink" title="Dockerfile 命令总结"></a>Dockerfile 命令总结</h3><p>这是一个我们在Dockerfile中使用的基础命令的快速总结.</p>
+<ul>
+<li><p><strong>FROM</strong> 是Dockerfile的开头.Dockerfile必须以<strong>FROM</strong>命令开头.镜像是在layers中创建,这意味着你可以使用另一个镜像作为base镜像.<strong>FROM</strong>命令定义你的base layer.它将镜像的名称作为参数.你可以选择是否添加维护者的Docker Cloud用户名和镜像版本，以 username/imagename:version的格式.</p>
+</li>
+<li><p><strong>RUN</strong>是用来构建你创建的镜像.对于每个<strong>RUN</strong>命令来说，Docker将会运行这个命令然后为这个镜像创建新的layer.这种方式你可以你可以轻松回滚你的镜像到邻近的状态.<strong>RUN</strong>指令的语法是在RUN命令后放置shell命令(eg.,RUN mkdir /user/local/foo).这将会自动在一个 /bin/sh shell环境中运行.你可以像这样定义一个不同的shell:<strong>RUN /bin/bash -c ‘mkdir /user/local/foo’</strong></p>
+</li>
+<li><p>COPY 复制本地文件到容器当中.</p>
+</li>
+<li><p>CMD 定义在镜像启动阶段将会运行的命令.不同于<strong>RUN</strong>，这个命令不会为镜像创建新的layer,只是单纯的运行命令.每个Dockerfille/Image只能有一个<strong>CMD</strong>.如果你需要运行多个指令,最好的方式是用<strong>CMD</strong>运行一个script脚本.<strong>CMD</strong>需要你告诉它去哪里运行命令,不像<strong>RUN</strong>.示例如下:</p>
+<pre><code>CMD [&quot;python&quot;, &quot;./app.py&quot;]
+
+CMD [&quot;/bin/bash&quot;, &quot;echo&quot;, &quot;Hello World&quot;]
+</code></pre></li>
+<li><p>EXPOSE 为用户的镜像创建线索，比如ports提供服务.它包含了可以经由<strong>$ docker inspect <container-id></container-id></strong>命令恢复的所有信息.</p>
+</li>
+</ul>
+<p>Note: <strong>EXPOSE</strong>命令实际上并不是让主机上的任何端口变得可访问!相反,这意味着需要通过使用 <strong> $ docker run -p</strong>命令在发布端口</p>
+<ul>
+<li>PUSH 推送你的镜像到Docker Cloud,或一个<a href="https://docs.docker.com/registry/" target="_blank" rel="external">私人的registry</a>.</li>
+</ul>
+<p>Note: 如果你想要了解更多关于Dockerfiles的内容,查看<a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="external">Best practices for writing Dockerfiles</a></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[3.0部署一个app到Swarm上]]></title>
+      <url>/2018/02/12/%E9%83%A8%E7%BD%B2%E4%B8%80%E4%B8%AAapp%E5%88%B0Swarm%E4%B8%8A/</url>
+      <content type="html"><![CDATA[<p>这个教程将会通过创建和定制一个投票app来知道你关于swarm上面的部署.<br>按步骤完成教程至关重要，并且确保定制的部分是开放了定制功能的.</p>
+<p>注意：完成这个章节的教程，你需要先完成Docker和git的安装.</p>
+<a id="more"></a>
+<h2 id="Voting-app"><a href="#Voting-app" class="headerlink" title="Voting app"></a>Voting app</h2><p>应用源代码路径<a href="https://github.com/docker/example-voting-app" target="_blank" rel="external">Docker Example Voting App</a>.这个app包含5个组件:</p>
+<ul>
+<li>Python webapp 组件，实现在两个选项之间投票的功能</li>
+<li>Redis queue 收集新的投票</li>
+<li>.NET worker 消费投票并且保存它们在…</li>
+<li>Postgres database 通过Docker volume 来支持</li>
+<li>Node.js webapp 即时展示投票结果</li>
+</ul>
+<p>克隆仓库到你的机器上并且通过cd命令到对应目录下:</p>
+<pre><code>git clone https://github.com/docker/example-voting-app.git
+cd example-voting-app
+</code></pre><h2 id="部署app"><a href="#部署app" class="headerlink" title="部署app"></a>部署app</h2><p>在这首个阶段，我们将会使用在Docker Store中的首个镜像.</p>
+<p>这个app依赖<a href="https://docs.docker.com/engine/swarm/" target="_blank" rel="external">Docker Swarm模式</a>.Swarm mode是嵌入在Docker engine中的集群管理和编排特性.你可以用一个描述你app期望状态的文件来轻松部署到swarm.Swarm允许你运行你的容器在多台机器上.<br>在这个教程中，你可以使用一台机器，或者使用一些像<a href="https://beta.docker.com/" target="_blank" rel="external">Docker for AWS</a>或者<a href="https://beta.docker.com/" target="_blank" rel="external">Docker for Azure</a>来快速的创建多个节点的机器.另外，你还可以使用Docker Machine 在你的部署机器上创建多个本地节点.查看<a href="https://github.com/docker/labs/blob/master/swarm-mode/beginner-tutorial/README.md#creating-the-nodes-and-swarm" target="_blank" rel="external">Swarm Mode lab</a>查询更多相关信息</p>
+<p>首先,创建一个Swarm.</p>
+<pre><code>docker swarm init
+</code></pre><p>接下来，你将需要一个<a href="https://docs.docker.com/compose" target="_blank" rel="external">Docker Compose</a>文件.你并不需要安装Docker Compose,尽管如果你使用的是Docker for Mac 或者 Docker for Windows的话默认是已经安装的了.然而<strong>docker stack deploy</strong>接受一个Docker Compose 格式的文件.你需要的文件就在Docker Example Voting App的根目录.文件名为docker-stack.yml.你也可以直接复制和粘贴以下内容:</p>
+<pre><code>version: &quot;3&quot;
+services:
+
+  redis:
+    image: redis:alpine
+    ports:
+      - &quot;6379&quot;
+    networks:
+      - frontend
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+  db:
+    image: postgres:9.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  vote:
+    image: dockersamples/examplevotingapp_vote:before
+    ports:
+      - 5000:80
+    networks:
+      - frontend
+    depends_on:
+      - redis
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
+  result:
+    image: dockersamples/examplevotingapp_result:before
+    ports:
+      - 5001:80
+    networks:
+      - backend
+    depends_on:
+      - db
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  worker:
+    image: dockersamples/examplevotingapp_worker
+    networks:
+      - frontend
+      - backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=VOTING]
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints: [node.role == manager]
+
+  visualizer:
+    image: dockersamples/visualizer
+    ports:
+      - &quot;8080:8080&quot;
+    stop_grace_period: 1m30s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:
+</code></pre><p>首先部署它，然后我们将会深入了解更多细节:</p>
+<pre><code>docker stack deploy --compose-file docker-stack.yml vote
+Creating network vote_frontend
+Creating network vote_backend
+Creating network vote_default
+Creating service vote_vote
+Creating service vote_result
+Creating service vote_worker
+Creating service vote_redis
+Creating service vote_db
+</code></pre><p>验证已经成功部署的堆栈,使用<code>docker stack services vote</code></p>
+<pre><code>docker stack services vote
+ID            NAME         MODE        REPLICAS  IMAGE
+25wo6p7fltyn  vote_db      replicated  1/1       postgres:9.4
+2ot4sz0cgvw3  vote_worker  replicated  1/1       dockersamples/examplevotingapp_worker:latest
+9faz4wbvxpck  vote_redis   replicated  2/2       redis:alpine
+ocm8x2ijtt88  vote_vote    replicated  2/2       dockersamples/examplevotingapp_vote:before
+p1dcwi0fkcbb  vote_result  replicated  2/2       dockersamples/examplevotingapp_result:before
+</code></pre><p>如果你查看<code>docker-stack.yml文件</code>,你将会看到文件定义    </p>
+<ul>
+<li>基于Python image的vote container</li>
+<li>基于Node.js image的 result container</li>
+<li>基于redis image的redis container,用以临时存储数据.</li>
+<li>基于.NET image的.NET based worker app</li>
+<li>基于postgres image 的Postgres 容器.</li>
+</ul>
+<p>Compose文件同样定义两个networks,front-tier 和back-tier .每个容器都是被放置在一个或者两个networks.一旦在那些networks中,它们就可以在那个network中以使用service名称的方式在代码中访问其它处于这个network的services.Services可以处于任意数量的networks.Services被它们各自的network所隔离.即使Services处于同一个network中,Services也只能通过name名称去发现彼此.想了解更多networking,点击<a href="https://github.com/docker/labs/tree/master/networking" target="_blank" rel="external">Networking Lab</a>.</p>
+<p>再看一下Compose文件，你会发现它是以:</p>
+<pre><code>version: &quot;3&quot;
+</code></pre><p>version 3 这个版本号对compose 文件来说非常重要,因为<code>docker stack deploy</code> 命令不支持更早版本的.你将会看到那里同样有个<code>services</code>key,在下面的是一个分割键(<del>不就是一个yml文件么..这么啰嗦</del>)，用来隔离每个services,例如:</p>
+<pre><code>vote:
+   image: dockersamples/examplevotingapp_vote:before
+   ports:
+     - 5000:80
+   networks:
+     - frontend
+   depends_on:
+     - redis
+   deploy:
+     replicas: 2
+     update_config:
+       parallelism: 2
+     restart_policy:
+       condition: on-failure
+</code></pre><p><code>image</code>键 指定了你能使用哪个镜像,在这个例子中就是<code>dockersamples/examplevotingapp_vote:before</code>，如果你对Compose足够熟悉,你可能知道有一个<code>build</code>键,用来基于Dockerfile进行构建.然而,<code>docker stack deploy</code>不支持<code>build</code>，所以你需要使用预构建镜像.</p>
+<p>与<code>docker run</code>很相似,你能够定义<code>ports</code> 和 <code>networks</code>.<code>depends_on</code>键用来指定一个service只在另一个service之后才进行部署.在这个例子中<code>vote</code>只在<code>redis</code>之后进行部署.</p>
+<p><code>deploy</code>键是version3 版本新增的.它允许你在部署到Swarm时指定不同的属性.在这个例子中,你指定了需要两个 replicas(复制品),也就是在Swarm上部署两个容器.你可以指定其它属性,像什么时候去重启(restart),使用什么样的<a href="https://docs.docker.com/engine/reference/builder/#healthcheck" target="_blank" rel="external">healthcheck</a>,配置约束(placement constraints),资源(resources)等等.</p>
+<h2 id="测试运行"><a href="#测试运行" class="headerlink" title="测试运行"></a>测试运行</h2><p>现在app已经开始运行了,你可以通过<a href="http://localhost:5000来进行访问" target="_blank" rel="external">http://localhost:5000来进行访问</a>.</p>
+<p>点击其中一个进行投票.你可以通过<a href="http://localhost:5001来查看结果" target="_blank" rel="external">http://localhost:5001来查看结果</a>.</p>
+<p>NOTE: 如果你是在云环境运行这个教程，像AWS,Azure,Digital Ocean,或者GCE 你将不能直接通过localhost或者127.0.0.1来进行访问.一个变通的手段是利用ssh port forwarding.下面是Mac OS的一个例子.这同样适用于Windows 和Putty 用户.</p>
+<pre><code>$ ssh -L 5000:localhost:5000 &lt;ssh-user&gt;@&lt;CLOUD_INSTANCE_IP_ADDRESS&gt;
+</code></pre><h2 id="定做app"><a href="#定做app" class="headerlink" title="定做app"></a>定做app</h2><p>在这个步骤，你将会定制app并且重新部署它。我们将会使用相同的图片，但是通过使用<code>after</code>标签将投票选项cats和dogs换成Java和.NET.</p>
+<h3 id="改变使用的图片"><a href="#改变使用的图片" class="headerlink" title="改变使用的图片"></a>改变使用的图片</h3><p>重新修改<code>docker-stack.yml</code>文件,将<code>vote</code>和<code>result</code> 图片修改为<code>after</code>标签,如下:</p>
+<pre><code>vote:
+   image: dockersamples/examplevotingapp_vote:after
+   ports:
+     - 5000:80
+   networks:
+     - frontend
+   depends_on:
+     - redis
+   deploy:
+     replicas: 2
+     update_config:
+       parallelism: 2
+     restart_policy:
+       condition: on-failure
+ result:
+   image: dockersamples/examplevotingapp_result:after
+   ports:
+     - 5001:80
+   networks:
+     - backend
+   depends_on:
+     - db
+   deploy:
+     replicas: 2
+     update_config:
+       parallelism: 2
+       delay: 10s
+     restart_policy:
+       condition: on-failure
+</code></pre><h3 id="重新部署"><a href="#重新部署" class="headerlink" title="重新部署"></a>重新部署</h3><p>重新部署跟之前的操作一样.</p>
+<pre><code>docker stack deploy --compose-file docker-stack.yml vote
+</code></pre><h3 id="测试运行-1"><a href="#测试运行-1" class="headerlink" title="测试运行"></a>测试运行</h3><p>再次查看app运行界面结果.</p>
+<h3 id="移除堆栈"><a href="#移除堆栈" class="headerlink" title="移除堆栈"></a>移除堆栈</h3><p>从swarm移除堆栈.</p>
+<pre><code>docker stack rm vote
+</code></pre><h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>现在你已经构建了一些镜像并且把它们推送到Docker Cloud，并且学习到基础的Swarm mode,你可以通过查看<a href="https://docs.docker.com/" target="_blank" rel="external">the documentation</a>文档了解更多信息.并且如果你需要任何帮助的话，可以访问<a href="https://forums.docker.com/" target="_blank" rel="external">Docker Forums</a>或者<a href="https://stackoverflow.com/tags/docker/" target="_blank" rel="external">StackOverflow</a>.</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Ubuntu docker 安装]]></title>
       <url>/2018/02/04/Ubuntu%20docker%20%E5%AE%89%E8%A3%85/</url>
       <content type="html"><![CDATA[<h2 id="Docker是什么"><a href="#Docker是什么" class="headerlink" title="Docker是什么?"></a>Docker是什么?</h2><p>Docker是一种容器技术.<br>Docker容器技术已在云计算市场上风靡一时了，使docker容器技术如此受欢迎的原因是，容器技术可实现不同云计算之间应用程序的可移植性，以及提供了一个把应用程序拆分为分布式组件的方法，此外，用户还可以管理和扩展这些组件成为集群.</p>
@@ -318,6 +847,201 @@ Linux 97916e8cb5dc 4.4.27-moby #1 SMP Wed Oct 26 14:01:48 UTC 2016 x86_64 Linux
         <tags>
             
             <tag> jooq </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[setting.xml详解]]></title>
+      <url>/2018/01/11/setting.xml%E8%AF%A6%E8%A7%A3/</url>
+      <content type="html"><![CDATA[<p>Maven setting.xml详细配置说明</p>
+<a id="more"></a>
+<h2 id="1-文件概览"><a href="#1-文件概览" class="headerlink" title="1.文件概览"></a>1.文件概览</h2><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0
+            http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;
+    &lt;localRepository/&gt;
+    &lt;interactiveMode/&gt;
+    &lt;offline/&gt;
+    &lt;pluginGroups/&gt;
+    &lt;servers/&gt;
+    &lt;mirrors/&gt;
+    &lt;proxies/&gt;
+    &lt;profiles/&gt;
+    &lt;activeProfiles/&gt;
+&lt;/settings&gt;
+</code></pre><p>通过配置文件中的注释，我们可以看到，有两种配置此文件的方法</p>
+<pre><code>1.用户级别
+${user.home}/.m2/settings.xml
+可以通过指令 -s /path/to/user/settings.xml
+
+2.全局级别
+${maven.home}/conf/settings.xml.
+可以通过指令 -gs /path/to/global/settings.xml
+</code></pre><h2 id="2-localRepository"><a href="#2-localRepository" class="headerlink" title="2.localRepository"></a>2.localRepository</h2><p>localRepository用于构建系统的本地仓库的路径。<br>默认的值是${user.home}/.m2/repository。</p>
+<pre><code>Default: ${user.home}/.m2/repository
+ &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+</code></pre><h2 id="3-interactiveMode"><a href="#3-interactiveMode" class="headerlink" title="3.interactiveMode"></a>3.interactiveMode</h2><p>interactiveMode 用于决定maven是否在需要输出的时候提示你，默认true。如果是false，它将使用合理的默认值，或者基于一些设置。</p>
+<h2 id="4-offline"><a href="#4-offline" class="headerlink" title="4.offline"></a>4.offline</h2><p>决定maven是否在构建的时候进行网络传输。<br>默认false，表示联网状态，true为取消联网。<br>在某些情况下设置为true是很有用的，比如jar无法从网上下载等</p>
+<h2 id="5-pluginGroups"><a href="#5-pluginGroups" class="headerlink" title="5.pluginGroups"></a>5.pluginGroups</h2><p>pluginGroups 插件组</p>
+<pre><code>&lt;pluginGroups&gt;
+    &lt;pluginGroup&gt;org.mortbay.jetty&lt;/pluginGroup&gt;
+ &lt;/pluginGroups&gt;
+</code></pre><p>这样Maven可以使用简单的命令执行org.morbay.jetty:jetty-maven-plugin:run</p>
+<pre><code>mvn jetty run
+</code></pre><p>我们同样可以在pom文件中看到相似的配置，只是在这配置了就起到全局的作用，而不用每个项目中pom配置jetty   </p>
+<h2 id="6-proxies"><a href="#6-proxies" class="headerlink" title="6.proxies"></a>6.proxies</h2><p>此项用于设置http代理<br>有时候由于安全问题，需要配置http代理，通过代理服务才能正常访问外部仓库下载资源可以ping repo1.maven.org来访问中央仓库<br>telnet 218.14.227.197 3128 来查看代理地址以及端口是否畅通</p>
+<pre><code>&lt;proxies&gt;
+    &lt;proxy&gt;
+      &lt;id&gt;optional&lt;/id&gt;
+      &lt;active&gt;true&lt;/active&gt;
+      &lt;protocol&gt;http&lt;/protocol&gt;&lt;!--代理协议--&gt;
+      &lt;username&gt;proxyuser&lt;/username&gt;
+      &lt;password&gt;proxypass&lt;/password&gt;
+      &lt;host&gt;proxy.host.net&lt;/host&gt;
+      &lt;port&gt;80&lt;/port&gt;
+     &lt;nonProxyHosts&gt;local.net|some.host.com&lt;/nonProxyHosts&gt;
+    &lt;/proxy&gt;
+  &lt;/proxies&gt;
+</code></pre><ul>
+<li>id：proxy的唯一标识，用来区别proxy元素。</li>
+<li>active：表示是否激活代理，如果配置多个，默认是第一个生效</li>
+<li>username，password：提供连接代理服务器时的认证。</li>
+<li>host，port：主机地址，端口号</li>
+<li>nonProxyHosts：用来表示哪些主机名不需要代理，可以用|来分<br>割多个，此外也支持通配符，<br>如：*.goole.com表示所有以goole.com结尾的都不需要通过代理      </li>
+</ul>
+<h2 id="7-servers"><a href="#7-servers" class="headerlink" title="7.servers"></a>7.servers</h2><p>这是一个认证配置的列表,根据系统中使用的server-id控制。认证配置在maven连接到远程服务时使用。</p>
+<pre><code>&lt;servers&gt;
+    &lt;!--使用登录方式--&gt;
+    &lt;server&gt;
+          &lt;id&gt;deploymentRepo&lt;/id&gt;
+          &lt;username&gt;repouser&lt;/username&gt;
+          &lt;password&gt;repopwd&lt;/password&gt;
+        &lt;/server&gt;
+
+        &lt;!-- 使用秘钥认证 --&gt;
+        &lt;server&gt;
+          &lt;id&gt;siteServer&lt;/id&gt;
+          &lt;privateKey&gt;/path/to/private/key&lt;/privateKey&gt;
+          &lt;passphrase&gt;可空&lt;/passphrase&gt;
+        &lt;/server&gt;
+&lt;/servers&gt;
+</code></pre><h2 id="8-mirrors"><a href="#8-mirrors" class="headerlink" title="8.mirrors"></a>8.mirrors</h2><p>指定镜像仓库位置用于从远程仓库下载资源</p>
+<pre><code>&lt;mirrors&gt;
+    &lt;mirror&gt;
+      &lt;id&gt;mirrorId&lt;/id&gt;
+      &lt;mirrorOf&gt;repositoryId&lt;/mirrorOf&gt;
+      &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;
+      &lt;url&gt;http://my.repository.com/repo/path&lt;/url&gt;
+    &lt;/mirror&gt;
+&lt;/mirrors&gt;
+</code></pre><ul>
+<li>id：用于继承和直接查找，唯一</li>
+<li>mirrorOf：镜像所包含的仓库的Id</li>
+<li>name：唯一标识，用于区分镜像站</li>
+<li>url：镜像路径    </li>
+</ul>
+<h2 id="9-profiles"><a href="#9-profiles" class="headerlink" title="9.profiles"></a>9.profiles</h2><ol>
+<li>settings.xml中时意味着该profile是全局的，所以只能配置范围宽泛一点配置信息，比如远程仓库等。而一些比较细致一点的需要定义在项目的pom.xml中。</li>
+<li>profile可以让我们定义一系列的配置信息，然后指定其激活条件。<br>根据每个profile对应不同的激活条件和配置信息，从而达到不同环境使用不同配置。</li>
+<li>例子：通过profile定义jdk1.5以上使用一套配置，jdk1.5以下使用另外一套配置；或者通过操作系统来使用不同的配置信息。</li>
+<li>settings.xml中的信息有repositories、pluginRepositories和properties。定义在properties的值可以在pom.xml中使用。</li>
+</ol>
+<p>Activation</p>
+<pre><code>&lt;profiles&gt;
+    &lt;profile&gt;
+              &lt;id&gt;test&lt;/id&gt;
+              &lt;activation&gt;
+                 &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;
+                 &lt;jdk&gt;1.5&lt;/jdk&gt;
+                 &lt;os&gt;
+                     &lt;name&gt;Windows XP&lt;/name&gt;
+                     &lt;family&gt;Windows&lt;/family&gt;
+                     &lt;arch&gt;x86&lt;/arch&gt;
+                     &lt;version&gt;5.1.2600&lt;/version&gt;
+                 &lt;/os&gt;
+                 &lt;property&gt;
+                     &lt;name&gt;mavenVersion&lt;/name&gt;
+                     &lt;value&gt;2.0.3&lt;/value&gt;
+                 &lt;/property&gt;
+                 &lt;file&gt;
+                &lt;exists&gt;${basedir}/file2.properties&lt;/exists&gt;
+               &lt;missing&gt;${basedir}/file1.properties&lt;/missing&gt;
+                &lt;/file&gt;
+             &lt;/activation&gt;
+         &lt;/profile&gt;
+&lt;/profiles&gt;
+</code></pre><ul>
+<li>jdk：检测到对应jdk版本就激活</li>
+<li>os：针对不同操作系统</li>
+<li>property：当maven检测到property（pom中如${name}这样的）profile将被激活</li>
+<li>file：如果存在文件，激活，不存在文件激活    </li>
+</ul>
+<p>通过以下命令查看哪些profile将生效</p>
+<pre><code>mvn help:active-profiles
+</code></pre><p>properites</p>
+<p>Maven的属性是值占位符，就像Ant中的一样。如果X是一个属性的话，在POM中可以使用${X}来进行任意地方的访问。他们来自于五种不同的风格，所有都可以从settings.xml文件中访问到。</p>
+<pre><code>1. env.x：“env.”前缀会返回当前的环境变量。如${env.PATH}就是使用了$path环境变量（windosws中的%PATH%）。
+2. project.x：一个点“.”分割的路径，在POM中就是相关的元素的值。例如：&lt;project&gt;&lt;version&gt;1.0&lt;/version&gt;&lt;/project&gt;就可以通过${project.version}来访问。
+3. settings.x：一个点“.”分割的路径，在settings.xml中就是相对应的元素的值，例如：&lt;settings&gt;&lt;offline&gt;false&lt;/offline&gt;&lt;/settings&gt;就可以通过${settings.offline}来访问。
+4. Java系统属性：通过java.lang.System.getProperties()来访问的属性都可以像POM中的属性一样访问，例如：${java.home}
+</code></pre><ol>
+<li><p>x：被<properties>或者外部文件定义的属性，值可以这样访问${someVar}    </properties></p>
+ <profiles><br>     <profile><br>       …<br>       <properties><br>         <user.install>${user.home}/our-project</user.install><br>       </properties><br>       …<br>     </profile><br>  </profiles>
+
+</li>
+</ol>
+<p>上面这个profile如果被激活，那么在pom中${user.install}就可以被访问了。</p>
+<p>Repositories</p>
+<p>Repositories是远程项目集合maven用来移植到本地仓库用于构建系统。如果来自本地仓库，Maven调用它的插件和依赖关系。不同的远程仓库可能包含不同的项目，当profile被激活，他们就会需找匹配的release或者snapshot构件。</p>
+<pre><code>&lt;profiles&gt;
+    &lt;profile&gt;
+      ...
+      &lt;repositories&gt;
+        &lt;repository&gt;
+          &lt;id&gt;codehausSnapshots&lt;/id&gt;
+          &lt;name&gt;Codehaus Snapshots&lt;/name&gt;
+          &lt;releases&gt;
+            &lt;enabled&gt;false&lt;/enabled&gt;
+            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
+            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+          &lt;/releases&gt;
+          &lt;snapshots&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
+          &lt;/snapshots&gt;
+          &lt;url&gt;http://snapshots.maven.codehaus.org/maven2&lt;/url&gt;
+          &lt;layout&gt;default&lt;/layout&gt;
+        &lt;/repository&gt;
+      &lt;/repositories&gt;
+      &lt;pluginRepositories&gt;
+        ...
+      &lt;/pluginRepositories&gt;
+      ...
+    &lt;/profile&gt;
+  &lt;/profiles&gt;
+</code></pre><ol>
+<li>releases，snapshots：这是各种构件的策略，release或者snapshot。这两个集合，POM就可以根据独立仓库任意类型的依赖改变策略。如：一个人可能只激活下载snapshot用来开发。</li>
+<li>enable：true或者false，决定仓库是否对于各自的类型激活(release 或者 snapshot)。</li>
+<li>updatePolicy: 这个元素决定更新频率。maven将比较本地pom的时间戳（存储在仓库的maven数据文件中）和远程的. 有以下选择: always, daily (默认), interval:X (x是代表分钟的整型) ， never.</li>
+<li>checksumPolicy：当Maven向仓库部署文件的时候，它也部署了相应的校验和文件。可选的为：ignore，fail，warn，或者不正确的校验和。</li>
+<li>layout：在上面描述仓库的时候，提到他们有统一的布局。Maven 2有它仓库默认布局。然而，Maven 1.x有不同布局。使用这个元素来表明它是default还是legacy。      </li>
+</ol>
+<h2 id="10-activeProfiles"><a href="#10-activeProfiles" class="headerlink" title="10.activeProfiles"></a>10.activeProfiles</h2><pre><code>&lt;activeProfiles&gt;
+    &lt;activeProfile&gt;alwaysActiveProfile&lt;/activeProfile&gt;
+    &lt;activeProfile&gt;anotherAlwaysActiveProfile&lt;/activeProfile&gt;
+&lt;/activeProfiles&gt;
+</code></pre><p>每个activeProfile元素对应一个profile id的值，任何profile id被定义到activeProfile的profile将被激活。</p>
+<p><strong>原文:<a href="http://blog.csdn.net/odeviloo/article/details/51999878" target="_blank" rel="external">http://blog.csdn.net/odeviloo/article/details/51999878</a></strong></p>
+<p><strong>参考：<a href="http://maven.apache.org/settings.html" target="_blank" rel="external">http://maven.apache.org/settings.html</a></strong></p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> Maven </tag>
             
         </tags>
         
@@ -850,201 +1574,6 @@ Linux 97916e8cb5dc 4.4.27-moby #1 SMP Wed Oct 26 14:01:48 UTC 2016 x86_64 Linux
     </entry>
     
     <entry>
-      <title><![CDATA[setting.xml详解]]></title>
-      <url>/2018/01/11/setting.xml%E8%AF%A6%E8%A7%A3/</url>
-      <content type="html"><![CDATA[<p>Maven setting.xml详细配置说明</p>
-<a id="more"></a>
-<h2 id="1-文件概览"><a href="#1-文件概览" class="headerlink" title="1.文件概览"></a>1.文件概览</h2><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;
-         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0
-            http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;
-    &lt;localRepository/&gt;
-    &lt;interactiveMode/&gt;
-    &lt;offline/&gt;
-    &lt;pluginGroups/&gt;
-    &lt;servers/&gt;
-    &lt;mirrors/&gt;
-    &lt;proxies/&gt;
-    &lt;profiles/&gt;
-    &lt;activeProfiles/&gt;
-&lt;/settings&gt;
-</code></pre><p>通过配置文件中的注释，我们可以看到，有两种配置此文件的方法</p>
-<pre><code>1.用户级别
-${user.home}/.m2/settings.xml
-可以通过指令 -s /path/to/user/settings.xml
-
-2.全局级别
-${maven.home}/conf/settings.xml.
-可以通过指令 -gs /path/to/global/settings.xml
-</code></pre><h2 id="2-localRepository"><a href="#2-localRepository" class="headerlink" title="2.localRepository"></a>2.localRepository</h2><p>localRepository用于构建系统的本地仓库的路径。<br>默认的值是${user.home}/.m2/repository。</p>
-<pre><code>Default: ${user.home}/.m2/repository
- &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
-</code></pre><h2 id="3-interactiveMode"><a href="#3-interactiveMode" class="headerlink" title="3.interactiveMode"></a>3.interactiveMode</h2><p>interactiveMode 用于决定maven是否在需要输出的时候提示你，默认true。如果是false，它将使用合理的默认值，或者基于一些设置。</p>
-<h2 id="4-offline"><a href="#4-offline" class="headerlink" title="4.offline"></a>4.offline</h2><p>决定maven是否在构建的时候进行网络传输。<br>默认false，表示联网状态，true为取消联网。<br>在某些情况下设置为true是很有用的，比如jar无法从网上下载等</p>
-<h2 id="5-pluginGroups"><a href="#5-pluginGroups" class="headerlink" title="5.pluginGroups"></a>5.pluginGroups</h2><p>pluginGroups 插件组</p>
-<pre><code>&lt;pluginGroups&gt;
-    &lt;pluginGroup&gt;org.mortbay.jetty&lt;/pluginGroup&gt;
- &lt;/pluginGroups&gt;
-</code></pre><p>这样Maven可以使用简单的命令执行org.morbay.jetty:jetty-maven-plugin:run</p>
-<pre><code>mvn jetty run
-</code></pre><p>我们同样可以在pom文件中看到相似的配置，只是在这配置了就起到全局的作用，而不用每个项目中pom配置jetty   </p>
-<h2 id="6-proxies"><a href="#6-proxies" class="headerlink" title="6.proxies"></a>6.proxies</h2><p>此项用于设置http代理<br>有时候由于安全问题，需要配置http代理，通过代理服务才能正常访问外部仓库下载资源可以ping repo1.maven.org来访问中央仓库<br>telnet 218.14.227.197 3128 来查看代理地址以及端口是否畅通</p>
-<pre><code>&lt;proxies&gt;
-    &lt;proxy&gt;
-      &lt;id&gt;optional&lt;/id&gt;
-      &lt;active&gt;true&lt;/active&gt;
-      &lt;protocol&gt;http&lt;/protocol&gt;&lt;!--代理协议--&gt;
-      &lt;username&gt;proxyuser&lt;/username&gt;
-      &lt;password&gt;proxypass&lt;/password&gt;
-      &lt;host&gt;proxy.host.net&lt;/host&gt;
-      &lt;port&gt;80&lt;/port&gt;
-     &lt;nonProxyHosts&gt;local.net|some.host.com&lt;/nonProxyHosts&gt;
-    &lt;/proxy&gt;
-  &lt;/proxies&gt;
-</code></pre><ul>
-<li>id：proxy的唯一标识，用来区别proxy元素。</li>
-<li>active：表示是否激活代理，如果配置多个，默认是第一个生效</li>
-<li>username，password：提供连接代理服务器时的认证。</li>
-<li>host，port：主机地址，端口号</li>
-<li>nonProxyHosts：用来表示哪些主机名不需要代理，可以用|来分<br>割多个，此外也支持通配符，<br>如：*.goole.com表示所有以goole.com结尾的都不需要通过代理      </li>
-</ul>
-<h2 id="7-servers"><a href="#7-servers" class="headerlink" title="7.servers"></a>7.servers</h2><p>这是一个认证配置的列表,根据系统中使用的server-id控制。认证配置在maven连接到远程服务时使用。</p>
-<pre><code>&lt;servers&gt;
-    &lt;!--使用登录方式--&gt;
-    &lt;server&gt;
-          &lt;id&gt;deploymentRepo&lt;/id&gt;
-          &lt;username&gt;repouser&lt;/username&gt;
-          &lt;password&gt;repopwd&lt;/password&gt;
-        &lt;/server&gt;
-
-        &lt;!-- 使用秘钥认证 --&gt;
-        &lt;server&gt;
-          &lt;id&gt;siteServer&lt;/id&gt;
-          &lt;privateKey&gt;/path/to/private/key&lt;/privateKey&gt;
-          &lt;passphrase&gt;可空&lt;/passphrase&gt;
-        &lt;/server&gt;
-&lt;/servers&gt;
-</code></pre><h2 id="8-mirrors"><a href="#8-mirrors" class="headerlink" title="8.mirrors"></a>8.mirrors</h2><p>指定镜像仓库位置用于从远程仓库下载资源</p>
-<pre><code>&lt;mirrors&gt;
-    &lt;mirror&gt;
-      &lt;id&gt;mirrorId&lt;/id&gt;
-      &lt;mirrorOf&gt;repositoryId&lt;/mirrorOf&gt;
-      &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;
-      &lt;url&gt;http://my.repository.com/repo/path&lt;/url&gt;
-    &lt;/mirror&gt;
-&lt;/mirrors&gt;
-</code></pre><ul>
-<li>id：用于继承和直接查找，唯一</li>
-<li>mirrorOf：镜像所包含的仓库的Id</li>
-<li>name：唯一标识，用于区分镜像站</li>
-<li>url：镜像路径    </li>
-</ul>
-<h2 id="9-profiles"><a href="#9-profiles" class="headerlink" title="9.profiles"></a>9.profiles</h2><ol>
-<li>settings.xml中时意味着该profile是全局的，所以只能配置范围宽泛一点配置信息，比如远程仓库等。而一些比较细致一点的需要定义在项目的pom.xml中。</li>
-<li>profile可以让我们定义一系列的配置信息，然后指定其激活条件。<br>根据每个profile对应不同的激活条件和配置信息，从而达到不同环境使用不同配置。</li>
-<li>例子：通过profile定义jdk1.5以上使用一套配置，jdk1.5以下使用另外一套配置；或者通过操作系统来使用不同的配置信息。</li>
-<li>settings.xml中的信息有repositories、pluginRepositories和properties。定义在properties的值可以在pom.xml中使用。</li>
-</ol>
-<p>Activation</p>
-<pre><code>&lt;profiles&gt;
-    &lt;profile&gt;
-              &lt;id&gt;test&lt;/id&gt;
-              &lt;activation&gt;
-                 &lt;activeByDefault&gt;false&lt;/activeByDefault&gt;
-                 &lt;jdk&gt;1.5&lt;/jdk&gt;
-                 &lt;os&gt;
-                     &lt;name&gt;Windows XP&lt;/name&gt;
-                     &lt;family&gt;Windows&lt;/family&gt;
-                     &lt;arch&gt;x86&lt;/arch&gt;
-                     &lt;version&gt;5.1.2600&lt;/version&gt;
-                 &lt;/os&gt;
-                 &lt;property&gt;
-                     &lt;name&gt;mavenVersion&lt;/name&gt;
-                     &lt;value&gt;2.0.3&lt;/value&gt;
-                 &lt;/property&gt;
-                 &lt;file&gt;
-                &lt;exists&gt;${basedir}/file2.properties&lt;/exists&gt;
-               &lt;missing&gt;${basedir}/file1.properties&lt;/missing&gt;
-                &lt;/file&gt;
-             &lt;/activation&gt;
-         &lt;/profile&gt;
-&lt;/profiles&gt;
-</code></pre><ul>
-<li>jdk：检测到对应jdk版本就激活</li>
-<li>os：针对不同操作系统</li>
-<li>property：当maven检测到property（pom中如${name}这样的）profile将被激活</li>
-<li>file：如果存在文件，激活，不存在文件激活    </li>
-</ul>
-<p>通过以下命令查看哪些profile将生效</p>
-<pre><code>mvn help:active-profiles
-</code></pre><p>properites</p>
-<p>Maven的属性是值占位符，就像Ant中的一样。如果X是一个属性的话，在POM中可以使用${X}来进行任意地方的访问。他们来自于五种不同的风格，所有都可以从settings.xml文件中访问到。</p>
-<pre><code>1. env.x：“env.”前缀会返回当前的环境变量。如${env.PATH}就是使用了$path环境变量（windosws中的%PATH%）。
-2. project.x：一个点“.”分割的路径，在POM中就是相关的元素的值。例如：&lt;project&gt;&lt;version&gt;1.0&lt;/version&gt;&lt;/project&gt;就可以通过${project.version}来访问。
-3. settings.x：一个点“.”分割的路径，在settings.xml中就是相对应的元素的值，例如：&lt;settings&gt;&lt;offline&gt;false&lt;/offline&gt;&lt;/settings&gt;就可以通过${settings.offline}来访问。
-4. Java系统属性：通过java.lang.System.getProperties()来访问的属性都可以像POM中的属性一样访问，例如：${java.home}
-</code></pre><ol>
-<li><p>x：被<properties>或者外部文件定义的属性，值可以这样访问${someVar}    </properties></p>
- <profiles><br>     <profile><br>       …<br>       <properties><br>         <user.install>${user.home}/our-project</user.install><br>       </properties><br>       …<br>     </profile><br>  </profiles>
-
-</li>
-</ol>
-<p>上面这个profile如果被激活，那么在pom中${user.install}就可以被访问了。</p>
-<p>Repositories</p>
-<p>Repositories是远程项目集合maven用来移植到本地仓库用于构建系统。如果来自本地仓库，Maven调用它的插件和依赖关系。不同的远程仓库可能包含不同的项目，当profile被激活，他们就会需找匹配的release或者snapshot构件。</p>
-<pre><code>&lt;profiles&gt;
-    &lt;profile&gt;
-      ...
-      &lt;repositories&gt;
-        &lt;repository&gt;
-          &lt;id&gt;codehausSnapshots&lt;/id&gt;
-          &lt;name&gt;Codehaus Snapshots&lt;/name&gt;
-          &lt;releases&gt;
-            &lt;enabled&gt;false&lt;/enabled&gt;
-            &lt;updatePolicy&gt;always&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-          &lt;/releases&gt;
-          &lt;snapshots&gt;
-            &lt;enabled&gt;true&lt;/enabled&gt;
-            &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-            &lt;checksumPolicy&gt;fail&lt;/checksumPolicy&gt;
-          &lt;/snapshots&gt;
-          &lt;url&gt;http://snapshots.maven.codehaus.org/maven2&lt;/url&gt;
-          &lt;layout&gt;default&lt;/layout&gt;
-        &lt;/repository&gt;
-      &lt;/repositories&gt;
-      &lt;pluginRepositories&gt;
-        ...
-      &lt;/pluginRepositories&gt;
-      ...
-    &lt;/profile&gt;
-  &lt;/profiles&gt;
-</code></pre><ol>
-<li>releases，snapshots：这是各种构件的策略，release或者snapshot。这两个集合，POM就可以根据独立仓库任意类型的依赖改变策略。如：一个人可能只激活下载snapshot用来开发。</li>
-<li>enable：true或者false，决定仓库是否对于各自的类型激活(release 或者 snapshot)。</li>
-<li>updatePolicy: 这个元素决定更新频率。maven将比较本地pom的时间戳（存储在仓库的maven数据文件中）和远程的. 有以下选择: always, daily (默认), interval:X (x是代表分钟的整型) ， never.</li>
-<li>checksumPolicy：当Maven向仓库部署文件的时候，它也部署了相应的校验和文件。可选的为：ignore，fail，warn，或者不正确的校验和。</li>
-<li>layout：在上面描述仓库的时候，提到他们有统一的布局。Maven 2有它仓库默认布局。然而，Maven 1.x有不同布局。使用这个元素来表明它是default还是legacy。      </li>
-</ol>
-<h2 id="10-activeProfiles"><a href="#10-activeProfiles" class="headerlink" title="10.activeProfiles"></a>10.activeProfiles</h2><pre><code>&lt;activeProfiles&gt;
-    &lt;activeProfile&gt;alwaysActiveProfile&lt;/activeProfile&gt;
-    &lt;activeProfile&gt;anotherAlwaysActiveProfile&lt;/activeProfile&gt;
-&lt;/activeProfiles&gt;
-</code></pre><p>每个activeProfile元素对应一个profile id的值，任何profile id被定义到activeProfile的profile将被激活。</p>
-<p><strong>原文:<a href="http://blog.csdn.net/odeviloo/article/details/51999878" target="_blank" rel="external">http://blog.csdn.net/odeviloo/article/details/51999878</a></strong></p>
-<p><strong>参考：<a href="http://maven.apache.org/settings.html" target="_blank" rel="external">http://maven.apache.org/settings.html</a></strong></p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> Maven </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
       <title><![CDATA[jooq基本操作介绍]]></title>
       <url>/2018/01/09/jooq%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E4%BB%8B%E7%BB%8D/</url>
       <content type="html"><![CDATA[<p><strong>jooq基本操作介绍</strong></p>
@@ -1320,6 +1849,43 @@ public    class    MyConfiguration    {
     </entry>
     
     <entry>
+      <title><![CDATA[Application属性文件]]></title>
+      <url>/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/</url>
+      <content type="html"><![CDATA[<p><strong>Application属性文件</strong></p>
+<a id="more"></a>
+<p>SpringApplication    将从以下位置加载     application.properties    文件，并把<br>它们添加到Spring          Environment    中：</p>
+<ol>
+<li><p>当前目录下的     /config    子目录。</p>
+</li>
+<li><p>当前目录。</p>
+</li>
+<li><p>classpath下的     /config    包。</p>
+</li>
+<li><p>classpath根路径（root）。</p>
+</li>
+</ol>
+<p>该列表是按优先级排序的（列表中位置高的路径下定义的属性将覆盖位置低的）。<br>注    你可以使用YAML（’.yml’）文件替代’.properties’。</p>
+<p>如果不喜欢将     application.properties    作为配置文件名，你可以通过指<br>定     spring.config.name    环境属性来切换其他的名称，也可以使<br>用     spring.config.location    环境属性引用一个明确的路径（目录位置或文件路<br>径列表以逗号分割）。</p>
+<pre><code>$    java    -jar    myproject.jar    --spring.config.name=myproject
+或
+$    java    -jar    myproject.jar    --spring.config.location=classpath:/de
+fault.properties,classpath:/override.properties
+</code></pre><p>注    在初期需要根据     spring.config.name    和     spring.config.location    决定加<br>载哪个文件，所以它们必须定义为environment属性（通常为OS    env，系统属性或<br>命令行参数）。</p>
+<p>如果     spring.config.location    包含目录（相对于文件），那它们应该以     /    结尾<br>（在被加载前，     spring.config.name    关联的名称将被追加到后面，包括profile-<br>specific的文件名）。     spring.config.location    下定义的文件使用方法跟往常一<br>样，没有profile-specific变量支持的属性，将被profile-specific的属性覆盖。</p>
+<p>不管     spring.config.location    配置什么值，默认总会按<br>照     classpath:,classpath:/config,file:,file:config/    的顺序进行搜索，优<br>先级由低到高，也就是     file:config/    获胜。<br>如果你指定自己的位置，它们会优先于所有的默认位置（locations），并使用相同的由低到高的优先级顺序。<br>那样，你就可以在     application.properties    为应用设置默认值，然后在运行的时候使<br>用不同的文件覆盖它，同时保留默认配置。</p>
+<p>注    如果使用环境变量而不是系统属性，需要注意多数操作系统的key名称不允许以<br>句号分割（period-separated），但你可以使用下划线（underscores）代替（比<br>如，使用     SPRING_CONFIG_NAME    代替     spring.config.name    ）。<br>注    如果应用运行在容器中，那么JNDI属性（java:comp/env）或servlet上下文初始<br>化参数可以用来代替环境变量或系统属性，当然也可以使用环境变量或系统属性。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> SpringBoot </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[SpringBoot应用启动事件]]></title>
       <url>/2017/12/17/SpringBoot%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E4%BA%8B%E4%BB%B6/</url>
       <content type="html"><![CDATA[<p><strong>SpringBoot应用启动事件</strong></p>
@@ -1359,128 +1925,6 @@ public    class    MyConfiguration    {
             <tag> SpringBoot </tag>
             
             <tag> event </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[SpringBoot日志]]></title>
-      <url>/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/</url>
-      <content type="html"><![CDATA[<p><strong>SpringBoot日志</strong></p>
-<a id="more"></a>
-<p>##日志格式##</p>
-<p>Spring    Boot默认的日志输出格式如下：</p>
-<pre><code>2014-03-05    10:57:51.112        INFO    45469    ---    [main]org.apache.catalina.core.StandardEngine        :    Starting    Servlet    Engine:    Apache    Tomcat/7.0.522014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.a.c.
-c.C.[Tomcat].[localhost].[/]                            :    Initializing    Spring    embedde
-d    WebApplicationContext
-2014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.s.we
-b.context.ContextLoader                                                :    Root    WebApplicationContext:
-    initialization    completed    in    1358    ms
-2014-03-05    10:57:51.698        INFO    45469    ---    [ost-startStop-1]    o.s.b.
-c.e.ServletRegistrationBean                                :    Mapping    servlet:    &apos;dispatche
-rServlet&apos;    to    [/]
-2014-03-05    10:57:51.702        INFO    45469    ---    [ost-startStop-1]    o.s.b.
-c.embedded.FilterRegistrationBean        :    Mapping    filter:    &apos;hiddenHttp
-MethodFilter&apos;    to:    [/*]
-</code></pre><p>输出的节点（items）如下：</p>
-<ol>
-<li>日期和时间    -    精确到毫秒，且易于排序。</li>
-<li>日志级别    -          ERROR    ,          WARN    ,          INFO    ,          DEBUG        或          TRACE    。</li>
-<li>Process    ID。</li>
-<li>—    分隔符，用于区分实际日志信息开头。</li>
-<li>线程名    -    包括在方括号中（控制台输出可能会被截断）。</li>
-<li>日志名    -    通常是源class的类名（缩写）。</li>
-<li>日志信息。<br>注    Logback没有     FATAL    级别，它会映射到     ERROR    。</li>
-</ol>
-<p>##控制台输出##</p>
-<p>默认的日志配置会在写日志消息时将它们回显到控制台，级别为     ERROR    ,WARN    和     INFO    的消息会被记录。你可以在启动应用时，通过     –debug    标识开启控制台的DEBUG级别日志记录，也可以在application.properties    中指定     debug=true    。</p>
-<pre><code>$    java    -jar    myapp.jar    --debug
-</code></pre><p>当debug模式启用时，一系列核心loggers（内嵌容器，Hibernate，Spring    Boot<br>等）记录的日志会变多，但不会输出所有的信息。<br>相应地，你可以在启动应用时，通过     –trace    （或在     application.properties    设置     trace=true    ）启用”trace”模式，该模式能够追踪核心loggers（内嵌容器，Hibernate生成的schema，Spring全部的portfolio）的所有日志信息。    </p>
-<p>##文件输出##</p>
-<p>默认情况下，SpringBoot只会将日志记录到控制台，而不写进日志文件，如果需要，你可以设置     logging.file    或     logging.path    属性（例如     application.properties    ）。<br>下表展示如何组合使用     logging.*    ：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">logging.file</th>
-<th style="text-align:center">logging.path</th>
-<th style="text-align:center">示例</th>
-<th style="text-align:center">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">(none)</td>
-<td style="text-align:center">(none)</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">只记录到控制台</td>
-</tr>
-<tr>
-<td style="text-align:center">Specific    file</td>
-<td style="text-align:center">(none)</td>
-<td style="text-align:center">my.log</td>
-<td style="text-align:center">写到特定的日志文件，名称可以是精确的位置或相对于当前目录</td>
-</tr>
-<tr>
-<td style="text-align:center">(none)</td>
-<td style="text-align:center">Specific directory</td>
-<td style="text-align:center">/var/log</td>
-<td style="text-align:center">写到特定目录下的     spring.log    里，名称可以是精确的位置或相对于当前目录</td>
-</tr>
-</tbody>
-</table>
-<p>日志文件每达到10M就会被分割，跟控制台一样，默认记录     ERROR    ,WARN    和     INFO    级别的信息。</p>
-<p>##日志级别##</p>
-<p>所有Spring    Boot支持的日志系统都可以在Spring          Environment    中设置级别（     application.properties    里也一样），设置格式为’logging.level.*=LEVEL’，其中     LEVEL    是     TRACE    ,          DEBUG    ,          INFO    ,          WARN    ,          ERROR    ,          FATAL    ,          OFF    之一：<br>以下是     application.properties    示例：</p>
-<pre><code>logging.level.root=WARN
-logging.level.org.springframework.web=DEBUG
-logging.level.org.hibernate=ERROR
-</code></pre><p>注    默认情况，Spring    Boot会重新映射Thymeleaf的     INFO    信息到     DEBUG    级别，这<br>能减少标准日志输出的噪声。查看LevelRemappingAppender可以按自己的配置设<br>置映射。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> SpringBoot </tag>
-            
-            <tag> log </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Application属性文件]]></title>
-      <url>/2017/12/17/Application%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6/</url>
-      <content type="html"><![CDATA[<p><strong>Application属性文件</strong></p>
-<a id="more"></a>
-<p>SpringApplication    将从以下位置加载     application.properties    文件，并把<br>它们添加到Spring          Environment    中：</p>
-<ol>
-<li><p>当前目录下的     /config    子目录。</p>
-</li>
-<li><p>当前目录。</p>
-</li>
-<li><p>classpath下的     /config    包。</p>
-</li>
-<li><p>classpath根路径（root）。</p>
-</li>
-</ol>
-<p>该列表是按优先级排序的（列表中位置高的路径下定义的属性将覆盖位置低的）。<br>注    你可以使用YAML（’.yml’）文件替代’.properties’。</p>
-<p>如果不喜欢将     application.properties    作为配置文件名，你可以通过指<br>定     spring.config.name    环境属性来切换其他的名称，也可以使<br>用     spring.config.location    环境属性引用一个明确的路径（目录位置或文件路<br>径列表以逗号分割）。</p>
-<pre><code>$    java    -jar    myproject.jar    --spring.config.name=myproject
-或
-$    java    -jar    myproject.jar    --spring.config.location=classpath:/de
-fault.properties,classpath:/override.properties
-</code></pre><p>注    在初期需要根据     spring.config.name    和     spring.config.location    决定加<br>载哪个文件，所以它们必须定义为environment属性（通常为OS    env，系统属性或<br>命令行参数）。</p>
-<p>如果     spring.config.location    包含目录（相对于文件），那它们应该以     /    结尾<br>（在被加载前，     spring.config.name    关联的名称将被追加到后面，包括profile-<br>specific的文件名）。     spring.config.location    下定义的文件使用方法跟往常一<br>样，没有profile-specific变量支持的属性，将被profile-specific的属性覆盖。</p>
-<p>不管     spring.config.location    配置什么值，默认总会按<br>照     classpath:,classpath:/config,file:,file:config/    的顺序进行搜索，优<br>先级由低到高，也就是     file:config/    获胜。<br>如果你指定自己的位置，它们会优先于所有的默认位置（locations），并使用相同的由低到高的优先级顺序。<br>那样，你就可以在     application.properties    为应用设置默认值，然后在运行的时候使<br>用不同的文件覆盖它，同时保留默认配置。</p>
-<p>注    如果使用环境变量而不是系统属性，需要注意多数操作系统的key名称不允许以<br>句号分割（period-separated），但你可以使用下划线（underscores）代替（比<br>如，使用     SPRING_CONFIG_NAME    代替     spring.config.name    ）。<br>注    如果应用运行在容器中，那么JNDI属性（java:comp/env）或servlet上下文初始<br>化参数可以用来代替环境变量或系统属性，当然也可以使用环境变量或系统属性。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> SpringBoot </tag>
             
         </tags>
         
@@ -1630,6 +2074,108 @@ foo:
     </entry>
     
     <entry>
+      <title><![CDATA[WEB环境下进行单元测试]]></title>
+      <url>/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</url>
+      <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p>
+<a id="more"></a>
+<p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> SpringBoot </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[SpringBoot日志]]></title>
+      <url>/2017/12/17/SpringBoot%E6%97%A5%E5%BF%97/</url>
+      <content type="html"><![CDATA[<p><strong>SpringBoot日志</strong></p>
+<a id="more"></a>
+<p>##日志格式##</p>
+<p>Spring    Boot默认的日志输出格式如下：</p>
+<pre><code>2014-03-05    10:57:51.112        INFO    45469    ---    [main]org.apache.catalina.core.StandardEngine        :    Starting    Servlet    Engine:    Apache    Tomcat/7.0.522014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.a.c.
+c.C.[Tomcat].[localhost].[/]                            :    Initializing    Spring    embedde
+d    WebApplicationContext
+2014-03-05    10:57:51.253        INFO    45469    ---    [ost-startStop-1]    o.s.we
+b.context.ContextLoader                                                :    Root    WebApplicationContext:
+    initialization    completed    in    1358    ms
+2014-03-05    10:57:51.698        INFO    45469    ---    [ost-startStop-1]    o.s.b.
+c.e.ServletRegistrationBean                                :    Mapping    servlet:    &apos;dispatche
+rServlet&apos;    to    [/]
+2014-03-05    10:57:51.702        INFO    45469    ---    [ost-startStop-1]    o.s.b.
+c.embedded.FilterRegistrationBean        :    Mapping    filter:    &apos;hiddenHttp
+MethodFilter&apos;    to:    [/*]
+</code></pre><p>输出的节点（items）如下：</p>
+<ol>
+<li>日期和时间    -    精确到毫秒，且易于排序。</li>
+<li>日志级别    -          ERROR    ,          WARN    ,          INFO    ,          DEBUG        或          TRACE    。</li>
+<li>Process    ID。</li>
+<li>—    分隔符，用于区分实际日志信息开头。</li>
+<li>线程名    -    包括在方括号中（控制台输出可能会被截断）。</li>
+<li>日志名    -    通常是源class的类名（缩写）。</li>
+<li>日志信息。<br>注    Logback没有     FATAL    级别，它会映射到     ERROR    。</li>
+</ol>
+<p>##控制台输出##</p>
+<p>默认的日志配置会在写日志消息时将它们回显到控制台，级别为     ERROR    ,WARN    和     INFO    的消息会被记录。你可以在启动应用时，通过     –debug    标识开启控制台的DEBUG级别日志记录，也可以在application.properties    中指定     debug=true    。</p>
+<pre><code>$    java    -jar    myapp.jar    --debug
+</code></pre><p>当debug模式启用时，一系列核心loggers（内嵌容器，Hibernate，Spring    Boot<br>等）记录的日志会变多，但不会输出所有的信息。<br>相应地，你可以在启动应用时，通过     –trace    （或在     application.properties    设置     trace=true    ）启用”trace”模式，该模式能够追踪核心loggers（内嵌容器，Hibernate生成的schema，Spring全部的portfolio）的所有日志信息。    </p>
+<p>##文件输出##</p>
+<p>默认情况下，SpringBoot只会将日志记录到控制台，而不写进日志文件，如果需要，你可以设置     logging.file    或     logging.path    属性（例如     application.properties    ）。<br>下表展示如何组合使用     logging.*    ：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">logging.file</th>
+<th style="text-align:center">logging.path</th>
+<th style="text-align:center">示例</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">只记录到控制台</td>
+</tr>
+<tr>
+<td style="text-align:center">Specific    file</td>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center">my.log</td>
+<td style="text-align:center">写到特定的日志文件，名称可以是精确的位置或相对于当前目录</td>
+</tr>
+<tr>
+<td style="text-align:center">(none)</td>
+<td style="text-align:center">Specific directory</td>
+<td style="text-align:center">/var/log</td>
+<td style="text-align:center">写到特定目录下的     spring.log    里，名称可以是精确的位置或相对于当前目录</td>
+</tr>
+</tbody>
+</table>
+<p>日志文件每达到10M就会被分割，跟控制台一样，默认记录     ERROR    ,WARN    和     INFO    级别的信息。</p>
+<p>##日志级别##</p>
+<p>所有Spring    Boot支持的日志系统都可以在Spring          Environment    中设置级别（     application.properties    里也一样），设置格式为’logging.level.*=LEVEL’，其中     LEVEL    是     TRACE    ,          DEBUG    ,          INFO    ,          WARN    ,          ERROR    ,          FATAL    ,          OFF    之一：<br>以下是     application.properties    示例：</p>
+<pre><code>logging.level.root=WARN
+logging.level.org.springframework.web=DEBUG
+logging.level.org.hibernate=ERROR
+</code></pre><p>注    默认情况，Spring    Boot会重新映射Thymeleaf的     INFO    信息到     DEBUG    级别，这<br>能减少标准日志输出的噪声。查看LevelRemappingAppender可以按自己的配置设<br>置映射。</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> SpringBoot </tag>
+            
+            <tag> log </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[第三方配置]]></title>
       <url>/2017/12/17/%E7%AC%AC%E4%B8%89%E6%96%B9%E9%85%8D%E7%BD%AE/</url>
       <content type="html"><![CDATA[<p><strong>第三方配置</strong></p>
@@ -1742,23 +2288,6 @@ public    class    ConnectionProperties    {
             <tag> SpringBoot </tag>
             
             <tag> config </tag>
-            
-        </tags>
-        
-    </entry>
-    
-    <entry>
-      <title><![CDATA[WEB环境下进行单元测试]]></title>
-      <url>/2017/12/17/WEB%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%9B%E8%A1%8C%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</url>
-      <content type="html"><![CDATA[<p><strong>WEB环境下进行单元测试</strong></p>
-<a id="more"></a>
-<p> SpringApplication    将尝试为你创建正确类型的     ApplicationContext    ，默认<br>情况下，根据你开发的是否为web应用决定使<br>用     AnnotationConfigApplicationContext    或     AnnotationConfigEmbeddedWeb<br>ApplicationContext    。<br>用于确定是否为web环境的算法相当简单（判断是否存在某些类），你可以使<br>用     setWebEnvironment(boolean    webEnvironment)    覆盖默认行为。<br>通过调用     setApplicationContextClass(…)    ，你可以完全控<br>制     ApplicationContext    的类型。<br>注    在Junit测试中使用     SpringApplication    ，调<br>用     <strong>setWebEnvironment(false)</strong>    是很有意义的。</p>
-]]></content>
-      
-        
-        <tags>
-            
-            <tag> SpringBoot </tag>
             
         </tags>
         
