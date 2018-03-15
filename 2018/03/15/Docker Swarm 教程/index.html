@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="docker," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="静默的魔法书" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Note:这个教程使用Docker Machine 来模拟多台机器运行的情况.有一种更简单的方式来学习swarm mode,那就是通过Play with Docker.这个教程因为历史原因保留下来，并且同样因为当你真的想要使用自己的机器来学习swarm时.">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker Swarm 教程">
+<meta property="og:url" content="http://www.zhz.gift/2018/03/15/Docker Swarm 教程/index.html">
+<meta property="og:site_name" content="静默的魔法书">
+<meta property="og:description" content="Note:这个教程使用Docker Machine 来模拟多台机器运行的情况.有一种更简单的方式来学习swarm mode,那就是通过Play with Docker.这个教程因为历史原因保留下来，并且同样因为当你真的想要使用自己的机器来学习swarm时.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-15T14:47:06.592Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker Swarm 教程">
+<meta name="twitter:description" content="Note:这个教程使用Docker Machine 来模拟多台机器运行的情况.有一种更简单的方式来学习swarm mode,那就是通过Play with Docker.这个教程因为历史原因保留下来，并且同样因为当你真的想要使用自己的机器来学习swarm时.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'MZF9ZS9GXL',
+      apiKey: '71b4ec727c0816672d93fec5d3747c8f',
+      indexName: 'darkleave',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.zhz.gift/2018/03/15/Docker Swarm 教程/"/>
+
+
+
+
+
+  <title>Docker Swarm 教程 | 静默的魔法书</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  
+    
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script type="text/javascript" src="/js/src/algolia.js?v=5.1.4"></script>
+
+  
+  
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">静默的魔法书</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">零</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/03/15/Docker Swarm 教程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hans Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静默的魔法书">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker Swarm 教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-15T22:08:42+08:00">
+                2018-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/15/Docker Swarm 教程/" class="leancloud_visitors" data-flag-title="Docker Swarm 教程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Note:这个教程使用Docker Machine 来模拟多台机器运行的情况.有一种更简单的方式来学习swarm mode,那就是通过<a href="http://training.play-with-docker.com/swarm-mode-intro/" target="_blank" rel="external">Play with Docker</a>.这个教程因为历史原因保留下来，并且同样因为当你真的想要使用自己的机器来学习swarm时.</p>
+<a id="more"></a>
+<p>Docker 的swarm 模式是用来管理Docker Engines的集群,所以称之为swarm.你能使用Docker CLI 来创建swarm,部署应用服务到一个swarm,并且管理swarm的行为.这个教程使用<a href="https://docs.docker.com/machine/" target="_blank" rel="external">Docker Machine</a>来在你的桌面电脑上创建多个节点.你也可以选择在云上或者多台机器上创建多个节点.</p>
+<p>重要提示: 你并不需要使用Docker CLI来执行这些操作.只需要使用<code>docker stack deploy --compose-file STACKNAME.yml STACKNAME</code> 命令即可.关于以compose 文件格式的stack文件来部署一个app,参考<a href="https://github.com/docker/labs/blob/master/beginner/chapters/votingapp.md" target="_blank" rel="external">Deploying an app to a Swarm</a></p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>你需要在你的系统上安装Docker 和Docker Machine.<a href="https://docker.com/getdocker" target="_blank" rel="external">下载Docker</a>并且安装.</p>
+<p>提示:</p>
+<ul>
+<li><p>如果你是使用Docker for Mac 或者Docker for Windows,Docker Machine已经默认安装.查看<a href="https://docs.docker.com/docker-for-mac/#/download-docker-for-mac" target="_blank" rel="external">Download Docker for Mac</a>和<a href="https://docs.docker.com/docker-for-windows/#/download-docker-for-windows" target="_blank" rel="external">Download Docker for Windows</a>来查询详细安装细节.</p>
+</li>
+<li><p>如果你是使用Docker for Windows 你还需要使用Hyper-V driver 来正常驱动Docker Machine.这可能需要更多一点设置.查看<a href="https://docs.docker.com/machine/drivers/hyper-v/" target="_blank" rel="external">Microsoft Hyper-V driver documentation</a>来获取设置指引.</p>
+</li>
+<li><p>如果你是直接在linux系统上使用Docker,你将需要安装Docker Machine(在安装Docker Engine之后).</p>
+</li>
+</ul>
+<h2 id="创建nodes和Swarm"><a href="#创建nodes和Swarm" class="headerlink" title="创建nodes和Swarm"></a>创建nodes和Swarm</h2><p><a href="https://docs.docker.com/machine/overview/" target="_blank" rel="external">Docker Machine</a>可以用来:</p>
+<ul>
+<li>在Mac或者Windows上安装和运行Docker</li>
+<li>提供和管理多个远程Docker 主机</li>
+<li>提供Swarm 集群</li>
+</ul>
+<p>但它同样能用来在你本地的机器上创建多个节点.在这个仓库有一个<a href="https://github.com/docker/labs/blob/master/swarm-mode/beginner-tutorial/swarm-node-vbox-setup.sh" target="_blank" rel="external">bash脚本</a>实现了这一点并且创建swarm.同样有一个<a href="https://github.com/docker/labs/blob/master/swarm-mode/beginner-tutorial/swarm-node-hyperv-setup.ps1" target="_blank" rel="external">powershell Hyper-V version</a>.在这篇教程我们将贯穿这个脚本,步步深入，除了设置以外,与Hyper-V version基本相同.</p>
+<p>首先创建3个machines,并且命名为manger1,manger2和manger3.</p>
+<pre><code>#!/bin/bash
+
+# Swarm mode using Docker Machine
+
+#This configures the number of workers and managers in the swarm
+managers=3
+workers=3
+
+# This creates the manager machines
+echo &quot;======&gt; Creating $managers manager machines ...&quot;;
+for node in $(seq 1 $managers);
+do
+    echo &quot;======&gt; Creating manager$node machine ...&quot;;
+    docker-machine create -d virtualbox manager$node;
+done
+</code></pre><p>第二个步骤是创建三个及以上的machines,并且命名为worker1,worker2,和worker3</p>
+<pre><code># This create worker machines
+echo &quot;======&gt; Creating $workers worker machines ...&quot;;
+for node in $(seq 1 $workers);
+do
+    echo &quot;======&gt; Creating worker$node machine ...&quot;;
+    docker-machine create -d virtualbox worker$node;
+done
+
+# This lists all machines created
+docker-machine ls
+</code></pre><p>接下来你创建一个swarm通过在首个manger上初始化它.通过<code>docker-machine ssh</code>来运行<code>docker-machine ssh</code>命令.</p>
+<pre><code># initialize swarm mode and create a manager
+echo &quot;======&gt; Initializing first swarm manager ...&quot;
+docker-machine ssh manager1 &quot;docker swarm init --listen-addr $(docker-machine ip manager1) --advertise-addr $(docker-machine ip manager1)&quot;
+</code></pre><p>接下来为mangers和workers获取tokens.</p>
+<pre><code># get manager and worker tokens
+export manager_token=`docker-machine ssh manager1 &quot;docker swarm join-token manager -q&quot;`
+export worker_token=`docker-machine ssh manager1 &quot;docker swarm join-token worker -q&quot;`
+</code></pre><p>然后把其他managers加入到Swarm</p>
+<pre><code>for node in $(seq 2 $managers);
+do
+    echo &quot;======&gt; manager$node joining swarm as manager ...&quot;
+    docker-machine ssh manager$node \
+        &quot;docker swarm join \
+        --token $manager_token \
+        --listen-addr $(docker-machine ip manager$node) \
+        --advertise-addr $(docker-machine ip manager$node) \
+        $(docker-machine ip manager1)&quot;
+done
+</code></pre><p>最后，添加worker machines并且加入swarm</p>
+<pre><code># workers join swarm
+for node in $(seq 1 $workers);
+do
+    echo &quot;======&gt; worker$node joining swarm as worker ...&quot;
+    docker-machine ssh worker$node \
+    &quot;docker swarm join \
+    --token $worker_token \
+    --listen-addr $(docker-machine ip worker$node) \
+    --advertise-addr $(docker-machine ip worker$node) \
+    $(docker-machine ip manager1):2377&quot;
+done
+
+# show members of swarm
+docker-machine ssh manager1 &quot;docker node ls&quot;
+</code></pre><p>最后一行将向你展示所有的节点,就像这样:</p>
+<pre><code>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+3cq6idpysa53n6a21nqe0924h    manager3  Ready   Active        Reachable
+64swze471iu5silg83ls0bdip *  manager1  Ready   Active        Leader
+7eljvvg0icxlw20od5f51oq8t    manager2  Ready   Active        Reachable
+8awcmkj3sd9nv1pi77i6mdb1i    worker1   Ready   Active        
+avu80ol573rzepx8ov80ygzxz    worker2   Ready   Active        
+bxn1iivy8w7faeugpep76w50j    worker3   Ready   Active   
+</code></pre><p>也可以运行以下命令:</p>
+<pre><code>$ docker-machine ls
+NAME       ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER      ERRORS
+manager1   -        virtualbox   Running   tcp://192.168.99.100:2376           v17.03.0-ce   
+manager2   -        virtualbox   Running   tcp://192.168.99.101:2376           v17.03.0-ce 
+manager3   -        virtualbox   Running   tcp://192.168.99.102:2376           v17.03.0-ce
+worker1    -        virtualbox   Running   tcp://192.168.99.103:2376           v17.03.0-ce
+worker2    -        virtualbox   Running   tcp://192.168.99.104:2376           v17.03.0-ce
+worker3    -        virtualbox   Running   tcp://192.168.99.105:2376           v17.03.0-ce
+</code></pre><p>下一步是创建一个service并且进行展示.这里创建单个命名为web的service并且运行最新的nginx:</p>
+<pre><code>$ docker-machine ssh manager1 &quot;docker service create -p 80:80 --name web nginx:latest&quot;
+$ docker-machine ssh manager1 &quot;docker service ls&quot;
+ID            NAME  REPLICAS  IMAGE         COMMAND
+2x4jsk6313az  web   1/1       nginx:latest    
+</code></pre><p>现在在你的浏览器上通过对应ip地址进行访问.在这个实例中manger1有一个ip地址为192.168.99.100.</p>
+<p>你可以使用任意其它节点的ip地址进行访问都将得到同样的结果,因为<a href="https://docs.docker.com/engine/swarm/ingress/" target="_blank" rel="external">Swarm Mode’s Routing Mesh</a>.</p>
+<p>现在检查service:</p>
+<pre><code>$ docker-machine ssh manager1 &quot;docker service inspect web&quot;
+[
+    {
+        &quot;ID&quot;: &quot;2x4jsk6313azr6g1dwoi47z8u&quot;,
+        &quot;Version&quot;: {
+            &quot;Index&quot;: 104
+        },
+        &quot;CreatedAt&quot;: &quot;2016-08-23T22:43:23.573253682Z&quot;,
+        &quot;UpdatedAt&quot;: &quot;2016-08-23T22:43:23.576157266Z&quot;,
+        &quot;Spec&quot;: {
+            &quot;Name&quot;: &quot;web&quot;,
+            &quot;TaskTemplate&quot;: {
+                &quot;ContainerSpec&quot;: {
+                    &quot;Image&quot;: &quot;nginx:latest&quot;
+                },
+                &quot;Resources&quot;: {
+                    &quot;Limits&quot;: {},
+                    &quot;Reservations&quot;: {}
+                },
+                &quot;RestartPolicy&quot;: {
+                    &quot;Condition&quot;: &quot;any&quot;,
+                    &quot;MaxAttempts&quot;: 0
+                },
+                &quot;Placement&quot;: {}
+            },
+            &quot;Mode&quot;: {
+                &quot;Replicated&quot;: {
+                    &quot;Replicas&quot;: 1
+                }
+            },
+            &quot;UpdateConfig&quot;: {
+                &quot;Parallelism&quot;: 1,
+                &quot;FailureAction&quot;: &quot;pause&quot;
+            },
+            &quot;EndpointSpec&quot;: {
+                &quot;Mode&quot;: &quot;vip&quot;,
+                &quot;Ports&quot;: [
+                    {
+                        &quot;Protocol&quot;: &quot;tcp&quot;,
+                        &quot;TargetPort&quot;: 80,
+                        &quot;PublishedPort&quot;: 80
+                    }
+                ]
+            }
+        },
+        &quot;Endpoint&quot;: {
+            &quot;Spec&quot;: {
+                &quot;Mode&quot;: &quot;vip&quot;,
+                &quot;Ports&quot;: [
+                    {
+                        &quot;Protocol&quot;: &quot;tcp&quot;,
+                        &quot;TargetPort&quot;: 80,
+                        &quot;PublishedPort&quot;: 80
+                    }
+                ]
+            },
+            &quot;Ports&quot;: [
+                {
+                    &quot;Protocol&quot;: &quot;tcp&quot;,
+                    &quot;TargetPort&quot;: 80,
+                    &quot;PublishedPort&quot;: 80
+                }
+            ],
+            &quot;VirtualIPs&quot;: [
+                {
+                    &quot;NetworkID&quot;: &quot;24r1loluvdohuzltspkwbhsc8&quot;,
+                    &quot;Addr&quot;: &quot;10.255.0.9/16&quot;
+                }
+            ]
+        },
+        &quot;UpdateStatus&quot;: {
+            &quot;StartedAt&quot;: &quot;0001-01-01T00:00:00Z&quot;,
+            &quot;CompletedAt&quot;: &quot;0001-01-01T00:00:00Z&quot;
+        }
+    }
+]
+</code></pre><p>规模化service(运行多个相同service):    </p>
+<pre><code>$ docker-machine ssh manager1 &quot;docker service scale web=15&quot;
+web scaled to 15
+$ docker-machine ssh manager1 &quot;docker service ls&quot;
+ID            NAME  REPLICAS  IMAGE         COMMAND
+2x4jsk6313az  web   15/15     nginx:latest  
+</code></pre><p>Docker会将15个服务均匀地分配到所有节点上:</p>
+<pre><code>$ docker-machine ssh manager1 &quot;docker service ps web&quot;
+ID                         NAME    IMAGE         NODE      DESIRED STATE  CURRENT STATE           ERROR
+61wjx0zaovwtzywwbomnvjo4q  web.1   nginx:latest  worker3   Running        Running 13 minutes ago  
+bkkujhpbtqab8fyhah06apvca  web.2   nginx:latest  manager1  Running        Running 2 minutes ago   
+09zkslrkgrvbscv0vfqn2j5dw  web.3   nginx:latest  manager1  Running        Running 2 minutes ago   
+4dlmy8k72eoza9t4yp9c9pq0w  web.4   nginx:latest  manager2  Running        Running 2 minutes ago   
+6yqabr8kajx5em2auvfzvi8wi  web.5   nginx:latest  manager3  Running        Running 2 minutes ago   
+21x7sn82883e7oymz57j75q4q  web.6   nginx:latest  manager2  Running        Running 2 minutes ago   
+14555mvu3zee6aek4dwonxz3f  web.7   nginx:latest  worker1   Running        Running 2 minutes ago   
+1q8imt07i564bm90at3r2w198  web.8   nginx:latest  manager1  Running        Running 2 minutes ago   
+encwziari9h78ue32v5pjq9jv  web.9   nginx:latest  worker3   Running        Running 2 minutes ago   
+aivwszsjhhpky43t3x7o8ezz9  web.10  nginx:latest  worker2   Running        Running 2 minutes ago   
+457fsqomatl1lgd9qbz2dcqsb  web.11  nginx:latest  worker1   Running        Running 2 minutes ago   
+7chhofuj4shhqdkwu67512h1b  web.12  nginx:latest  worker2   Running        Running 2 minutes ago   
+7dynic159wyouch05fyiskrd0  web.13  nginx:latest  worker1   Running        Running 2 minutes ago   
+7zg9eki4610maigr1xwrx7zqk  web.14  nginx:latest  manager3  Running        Running 2 minutes ago   
+4z2c9j20gwsasosvj7mkzlyhc  web.15  nginx:latest  manager2  Running        Running 2 minutes ago   
+</code></pre><p>你同样能排除一个特定的节点，通过从那个节点移除所有的服务.这些服务会自动重新安排到其它节点上.</p>
+<pre><code>$ docker-machine ssh manager1 &quot;docker node update --availability drain worker1&quot;
+worker1
+$ docker-machine ssh manager1 &quot;docker service ps web&quot;
+ID                         NAME        IMAGE         NODE      DESIRED STATE  CURRENT STATE           ERROR
+61wjx0zaovwtzywwbomnvjo4q  web.1       nginx:latest  worker3   Running        Running 15 minutes ago  
+bkkujhpbtqab8fyhah06apvca  web.2       nginx:latest  manager1  Running        Running 4 minutes ago   
+09zkslrkgrvbscv0vfqn2j5dw  web.3       nginx:latest  manager1  Running        Running 4 minutes ago   
+4dlmy8k72eoza9t4yp9c9pq0w  web.4       nginx:latest  manager2  Running        Running 4 minutes ago   
+6yqabr8kajx5em2auvfzvi8wi  web.5       nginx:latest  manager3  Running        Running 4 minutes ago   
+21x7sn82883e7oymz57j75q4q  web.6       nginx:latest  manager2  Running        Running 4 minutes ago   
+8so0xi55kqimch2jojfdr13qk  web.7       nginx:latest  worker3   Running        Running 3 seconds ago   
+14555mvu3zee6aek4dwonxz3f   \_ web.7   nginx:latest  worker1   Shutdown       Shutdown 4 seconds ago  
+1q8imt07i564bm90at3r2w198  web.8       nginx:latest  manager1  Running        Running 4 minutes ago   
+encwziari9h78ue32v5pjq9jv  web.9       nginx:latest  worker3   Running        Running 4 minutes ago   
+aivwszsjhhpky43t3x7o8ezz9  web.10      nginx:latest  worker2   Running        Running 4 minutes ago   
+738jlmoo6tvrkxxar4gbdogzf  web.11      nginx:latest  worker2   Running        Running 3 seconds ago   
+457fsqomatl1lgd9qbz2dcqsb   \_ web.11  nginx:latest  worker1   Shutdown       Shutdown 3 seconds ago  
+7chhofuj4shhqdkwu67512h1b  web.12      nginx:latest  worker2   Running        Running 4 minutes ago   
+4h7zcsktbku7peh4o32mw4948  web.13      nginx:latest  manager3  Running        Running 3 seconds ago   
+7dynic159wyouch05fyiskrd0   \_ web.13  nginx:latest  worker1   Shutdown       Shutdown 4 seconds ago  
+7zg9eki4610maigr1xwrx7zqk  web.14      nginx:latest  manager3  Running        Running 4 minutes ago   
+4z2c9j20gwsasosvj7mkzlyhc  web.15      nginx:latest  manager2  Running        Running 4 minutes ago   
+</code></pre><p>worker1节点仍然存活但是被标记为drain 状态.</p>
+<pre><code>$ docker-machine ssh manager1 &quot;docker node ls&quot;
+ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+3cq6idpysa53n6a21nqe0924h    manager3  Ready   Active        Reachable
+64swze471iu5silg83ls0bdip *  manager1  Ready   Active        Leader
+7eljvvg0icxlw20od5f51oq8t    manager2  Ready   Active        Reachable
+8awcmkj3sd9nv1pi77i6mdb1i    worker1   Ready   Drain         
+avu80ol573rzepx8ov80ygzxz    worker2   Ready   Active        
+bxn1iivy8w7faeugpep76w50j    worker3   Ready   Active
+</code></pre><p>降低服务的规模:</p>
+<pre><code>$ docker-machine ssh manager1 &quot;docker service scale web=10&quot;
+web scaled to 10
+$ docker-machine ssh manager1 &quot;docker service ps web&quot;
+ID                         NAME        IMAGE         NODE      DESIRED STATE  CURRENT STATE            ERROR
+61wjx0zaovwtzywwbomnvjo4q  web.1       nginx:latest  worker3   Running        Running 22 minutes ago   
+bkkujhpbtqab8fyhah06apvca  web.2       nginx:latest  manager1  Shutdown       Shutdown 54 seconds ago  
+09zkslrkgrvbscv0vfqn2j5dw  web.3       nginx:latest  manager1  Running        Running 11 minutes ago   
+4dlmy8k72eoza9t4yp9c9pq0w  web.4       nginx:latest  manager2  Running        Running 11 minutes ago   
+6yqabr8kajx5em2auvfzvi8wi  web.5       nginx:latest  manager3  Running        Running 11 minutes ago   
+21x7sn82883e7oymz57j75q4q  web.6       nginx:latest  manager2  Running        Running 11 minutes ago   
+8so0xi55kqimch2jojfdr13qk  web.7       nginx:latest  worker3   Running        Running 7 minutes ago    
+14555mvu3zee6aek4dwonxz3f   \_ web.7   nginx:latest  worker1   Shutdown       Shutdown 7 minutes ago   
+1q8imt07i564bm90at3r2w198  web.8       nginx:latest  manager1  Running        Running 11 minutes ago   
+encwziari9h78ue32v5pjq9jv  web.9       nginx:latest  worker3   Shutdown       Shutdown 54 seconds ago  
+aivwszsjhhpky43t3x7o8ezz9  web.10      nginx:latest  worker2   Shutdown       Shutdown 54 seconds ago  
+738jlmoo6tvrkxxar4gbdogzf  web.11      nginx:latest  worker2   Running        Running 7 minutes ago    
+457fsqomatl1lgd9qbz2dcqsb   \_ web.11  nginx:latest  worker1   Shutdown       Shutdown 7 minutes ago   
+7chhofuj4shhqdkwu67512h1b  web.12      nginx:latest  worker2   Running        Running 11 minutes ago   
+4h7zcsktbku7peh4o32mw4948  web.13      nginx:latest  manager3  Running        Running 7 minutes ago    
+7dynic159wyouch05fyiskrd0   \_ web.13  nginx:latest  worker1   Shutdown       Shutdown 7 minutes ago   
+7zg9eki4610maigr1xwrx7zqk  web.14      nginx:latest  manager3  Shutdown       Shutdown 54 seconds ago  
+4z2c9j20gwsasosvj7mkzlyhc  web.15      nginx:latest  manager2  Shutdown       Shutdown 54 seconds ago  
+</code></pre><p>现在重新把worker1 恢复为在线状态并且显示它的状态:</p>
+<pre><code>$ docker-machine ssh manager1 &quot;docker node update --availability active worker1&quot;
+worker1
+$ docker-machine ssh manager1 &quot;docker node inspect worker1 --pretty&quot;
+ID:            8awcmkj3sd9nv1pi77i6mdb1i
+Hostname:        worker1
+Joined at:        2016-08-23 22:30:15.556517377 +0000 utc
+Status:
+ State:            Ready
+ Availability:        Active
+Platform:
+ Operating System:    linux
+ Architecture:        x86_64
+Resources:
+ CPUs:            1
+ Memory:        995.9 MiB
+Plugins:
+  Network:        bridge, host, null, overlay
+  Volume:        local
+Engine Version:        17.03.0-ce
+Engine Labels:
+ - provider = virtualbox
+</code></pre><p>现在把manager1 leader节点,从Swarm中移除:</p>
+<pre><code>$ docker-machine ssh manager1 &quot;docker swarm leave --force&quot;
+Node left the swarm. 
+</code></pre><p>等待30秒来确定生效.Swarm仍然可用,但是必须重新选举一个新的leader.这会自动发生.</p>
+<pre><code>$ docker-machine ssh manager2 &quot;docker node ls&quot;
+ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS
+3cq6idpysa53n6a21nqe0924h    manager3  Ready   Active        Reachable
+64swze471iu5silg83ls0bdip    manager1  Down    Active        Unreachable
+7eljvvg0icxlw20od5f51oq8t *  manager2  Ready   Active        Leader
+8awcmkj3sd9nv1pi77i6mdb1i    worker1   Ready   Active        
+avu80ol573rzepx8ov80ygzxz    worker2   Ready   Active        
+bxn1iivy8w7faeugpep76w50j    worker3   Ready   Active
+</code></pre><p>可以看到manager1变为Down 并且 Unreachable ,并且manager2已经被选举为leader.同样简单的方式移除一个service:</p>
+<pre><code>$ docker-machine ssh manager2 &quot;docker service rm web&quot;
+web
+</code></pre><h2 id="Cleanup"><a href="#Cleanup" class="headerlink" title="Cleanup"></a>Cleanup</h2><pre><code>$ ./swarm-node-vbox-teardown.sh
+Stopping &quot;manager3&quot;...
+Stopping &quot;manager2&quot;...
+Stopping &quot;worker1&quot;...
+Stopping &quot;manager1&quot;...
+Stopping &quot;worker3&quot;...
+Stopping &quot;worker2&quot;...
+Machine &quot;manager3&quot; was stopped.
+Machine &quot;manager1&quot; was stopped.
+Machine &quot;manager2&quot; was stopped.
+Machine &quot;worker2&quot; was stopped.
+Machine &quot;worker1&quot; was stopped.
+Machine &quot;worker3&quot; was stopped.
+About to remove worker1, worker2, worker3, manager1, manager2, manager3
+Are you sure? (y/n): y
+Successfully removed worker1
+Successfully removed worker2
+Successfully removed worker3
+Successfully removed manager1
+Successfully removed manager2
+Successfully removed manager3
+</code></pre><h2 id="Next-Steps"><a href="#Next-Steps" class="headerlink" title="Next Steps"></a>Next Steps</h2><p>更多详细信息查看<a href="https://docs.docker.com/engine/swarm/" target="_blank" rel="external">Docker Swarm Mode 文档</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/12/2.0用Docker运行web项目/" rel="next" title="2.0用Docker运行web项目">
+                <i class="fa fa-chevron-left"></i> 2.0用Docker运行web项目
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/15/Docker for Java Developers/" rel="prev" title="Docker for Java Developers">
+                Docker for Java Developers <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMzEyMy85Njgy"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Hans Chung" />
+            
+              <p class="site-author-name" itemprop="name">Hans Chung</p>
+              <p class="site-description motion-element" itemprop="description">A Salty Fish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/darkleave" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建nodes和Swarm"><span class="nav-number">2.</span> <span class="nav-text">创建nodes和Swarm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cleanup"><span class="nav-number">3.</span> <span class="nav-text">Cleanup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next-Steps"><span class="nav-number">4.</span> <span class="nav-text">Next Steps</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hans Chung</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("6vFOsvul8HaoNI6fiYReb3WW-gzGzoHsz", "O2fMHy7gRb7x2NsOSUY029TO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
