@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="SpringBoot,config," />
+  <meta name="keywords" content="docker," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="第三方配置">
-<meta name="keywords" content="SpringBoot,config">
+<meta name="description" content="使用Docker运行一个应用的方式就是运行一个容器.如果你考虑使用一个开源的软件,那么有很大的可能Docker Store 已经有对应的Docker 镜像了.Docker 客户端能够通过镜像名称轻松地运行这个容器.客户端首先会检查Docker Host是否存在这个镜像,如果存在，则直接运行容器，否则host会首先去下载镜像.">
+<meta name="keywords" content="docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第三方配置">
-<meta property="og:url" content="http://www.zhz.gift/2017/12/17/第三方配置/index.html">
+<meta property="og:title" content="Docker Java教程4：运行一个Docker 容器">
+<meta property="og:url" content="http://www.zhz.gift/2018/05/10/Docker Java教程4：运行一个Docker 容器/index.html">
 <meta property="og:site_name" content="静默的魔法书">
-<meta property="og:description" content="第三方配置">
+<meta property="og:description" content="使用Docker运行一个应用的方式就是运行一个容器.如果你考虑使用一个开源的软件,那么有很大的可能Docker Store 已经有对应的Docker 镜像了.Docker 客户端能够通过镜像名称轻松地运行这个容器.客户端首先会检查Docker Host是否存在这个镜像,如果存在，则直接运行容器，否则host会首先去下载镜像.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-17T12:12:37.019Z">
+<meta property="og:updated_time" content="2018-05-10T13:22:07.120Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="第三方配置">
-<meta name="twitter:description" content="第三方配置">
+<meta name="twitter:title" content="Docker Java教程4：运行一个Docker 容器">
+<meta name="twitter:description" content="使用Docker运行一个应用的方式就是运行一个容器.如果你考虑使用一个开源的软件,那么有很大的可能Docker Store 已经有对应的Docker 镜像了.Docker 客户端能够通过镜像名称轻松地运行这个容器.客户端首先会检查Docker Host是否存在这个镜像,如果存在，则直接运行容器，否则host会首先去下载镜像.">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://www.zhz.gift/2017/12/17/第三方配置/"/>
+  <link rel="canonical" href="http://www.zhz.gift/2018/05/10/Docker Java教程4：运行一个Docker 容器/"/>
 
 
 
 
 
-  <title>第三方配置 | 静默的魔法书</title>
+  <title>Docker Java教程4：运行一个Docker 容器 | 静默的魔法书</title>
   
 
 
@@ -310,7 +310,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2017/12/17/第三方配置/">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/05/10/Docker Java教程4：运行一个Docker 容器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Hans Chung">
@@ -327,7 +327,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">第三方配置</h1>
+          <h1 class="post-title" itemprop="name headline">Docker Java教程4：运行一个Docker 容器</h1>
         
 
         <div class="post-meta">
@@ -339,8 +339,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-17T00:07:42+08:00">
-                2017-12-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T23:09:42+08:00">
+                2018-05-10
               </time>
             
 
@@ -357,7 +357,7 @@
 
           
           
-             <span id="/2017/12/17/第三方配置/" class="leancloud_visitors" data-flag-title="第三方配置">
+             <span id="/2018/05/10/Docker Java教程4：运行一个Docker 容器/" class="leancloud_visitors" data-flag-title="Docker Java教程4：运行一个Docker 容器">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -388,108 +388,129 @@
       
 
       
-        <p><strong>第三方配置</strong></p>
+        <p>使用Docker运行一个应用的方式就是运行一个容器.如果你考虑使用一个开源的软件,那么有很大的可能Docker Store 已经有对应的Docker 镜像了.Docker 客户端能够通过镜像名称轻松地运行这个容器.客户端首先会检查Docker Host是否存在这个镜像,如果存在，则直接运行容器，否则host会首先去下载镜像.</p>
 <a id="more"></a>
-<p>@ConfigurationProperties    不仅可以注解在类上，也可以注解在public @Bean    方法上，当你需要为不受控的第三方组件绑定属性时，该方法将非常有<br>用。为了从     Environment属性中配置一个bean，你需要使用@ConfigurationProperties    注解该bean：</p>
-<pre><code>@ConfigurationProperties(prefix    =    &quot;foo&quot;)
-@Bean
-public    FooComponent    fooComponent()    {
-                ...
-}
-</code></pre><p>和上面     ConnectionSettings    的示例方式相同，所有以foo为前缀的属性定义都会被映射到     FooComponent    上。</p>
-<p>##Relaxed绑定##</p>
-<p>Spring    Boot将     Environment    属性绑定到     @ConfigurationProperties        beans时会使用一些宽松的规则，所以     Environment属性名和bean属性名不需要精确匹配。常见的示例中有用的包括虚线分割（比如，     context-path    绑定到     contextPath    ），将environment属性转为大写字母（比如，     PORT    绑定     port    ）。<br>例如，给定以下     @ConfigurationProperties    类：</p>
-<pre><code>@ConfigurationProperties(prefix=&quot;person&quot;)
-public    class    OwnerProperties    {
-                private    String    firstName;
-                public    String    getFirstName()    {
-                                return    this.firstName;
-                }
-                public    void    setFirstName(String    firstName)    {
-                                this.firstName    =    firstName;
-                }
-}
-</code></pre><p>下面的属性名都能使用：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">属性</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">person.firstName</td>
-<td style="text-align:center">标准驼峰规则</td>
-</tr>
-<tr>
-<td style="text-align:center">person.first-name</td>
-<td style="text-align:center">虚线表示，推荐用于     .properties    和     .yml文件中</td>
-</tr>
-<tr>
-<td style="text-align:center">person.first_name</td>
-<td style="text-align:center">下划线表示，用于     .properties    和     .yml    文件的可选格式</td>
-</tr>
-<tr>
-<td style="text-align:center">PERSON_FIRST_NAME</td>
-<td style="text-align:center">大写形式，使用系统环境变量时推荐</td>
-</tr>
-</tbody>
-</table>
-<p>##属性转换##</p>
-<p>将外部应用配置绑定到     @ConfigurationProperties        beans时，Spring会尝试将属性强制转换为正确的类型。如果需要自定义类型转换器，你可以提供一个ConversionService        bean（bean    id为     conversionService    ），或自定义属性编辑器（通过     CustomEditorConfigurer        bean），或自定义     Converters    （bean定义时需要注解     @ConfigurationPropertiesBinding    ）。</p>
-<p>注    由于该bean在应用程序生命周期的早期就需要使用，所以确保限制你的     ConversionService使用的依赖。通常，在创建时期任何你需要的依赖可能都<br>没完全初始化。        </p>
-<p>##@ConfigurationProperties校验##</p>
-<p>Spring    Boot将尝试校验外部配置，默认使用JSR-303（如果在classpath路径中），你只需要将JSR-303          javax.validation    约束注解添加到     @ConfigurationProperties    类上：</p>
-<pre><code>@ConfigurationProperties(prefix=&quot;connection&quot;)
-public    class    ConnectionProperties    {
-                @NotNull
-                private    InetAddress    remoteAddress;
-                //    ...    getters    and    setters
-}
-</code></pre><p>为了校验内嵌属性的值，你需要使用     @Valid    注解关联的字段以触发它的校验，例<br>如：    </p>
-<pre><code>@ConfigurationProperties(prefix=&quot;connection&quot;)
-public    class    ConnectionProperties    {
-                @NotNull
-                @Valid
-                private    RemoteAddress    remoteAddress;
-                //    ...    getters    and    setters
-                public    static    class    RemoteAddress    {
-                                @NotEmpty
-                                public    String    hostname;
-                                //    ...    getters    and    setters
-                }
-}
-</code></pre><p>你也可以通过创建一个叫做     configurationPropertiesValidator    的bean来添加自定义的Spring          Validator    。     @Bean    方法需要声明为     static    ，因为配置属性校验器在应用程序生命周期中创建的比较早，将     @Bean    方法声明为     static    允许该bean在创建时不需要实例化     @Configuration    类，从而避免了早期实例化（early    instantiation）的所有问题。相关的示例可以看这里。</p>
-<p>注          spring-boot-actuator    模块包含一个暴露所有     @ConfigurationProperties        beans的端点（endpoint），通过浏览器打开     /configprops    进行浏览，或使用等效的JMX端点，具体参考Production    readyfeatures。    </p>
-<h2 id="ConfigurationProperties-vs-Value"><a href="#ConfigurationProperties-vs-Value" class="headerlink" title="@ConfigurationProperties    vs.    @Value"></a>@ConfigurationProperties    vs.    @Value</h2><p>@Value    是Spring容器的一个核心特性，它没有提供跟type-safe    Configuration<br>Properties相同的特性。下面的表格总结了     @ConfigurationProperties    和     @Value    支持的特性：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">特性</th>
-<th style="text-align:center">@ConfigurationProperties</th>
-<th>@Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Relaxed绑定</td>
-<td style="text-align:center">Yes</td>
-<td>No</td>
-</tr>
-<tr>
-<td style="text-align:center">Meta-data支持</td>
-<td style="text-align:center">Yes</td>
-<td>No</td>
-</tr>
-<tr>
-<td style="text-align:center">SpEL表达式</td>
-<td style="text-align:center">No</td>
-<td>Yes</td>
-</tr>
-</tbody>
-</table>
-<p>如果你为自己的组件定义了一系列的配置keys，我们建议你将它们以@ConfigurationProperties    注解的POJO进行分组。<br>由于     @Value    不支持relaxed绑定，所以如果你使用环境变量提供属性值的话，它就不是很好的选择。最后，尽管     @Value    可以写     SpEL表达式，但这些表达式不会处理来自Application属性文件的属性。</p>
+<p><a href="#1">拉取镜像</a><br><a href="#2">运行容器</a><br><a href="#2.1">交互式地</a><br><a href="#2.2">隔离的容器</a><br><a href="#2.3">使用默认端口</a><br><a href="#2.4">使用指定的端口</a><br><a href="#2.5">部署一个war文件到应用服务器</a><br><a href="#3">停止容器</a><br><a href="#4">移除容器</a><br><a href="#5">端口映射的额外方式</a></p>
+<h2 id="1">拉取镜像</h2>
+
+<p>查看可用镜像:</p>
+<pre><code>docker image ls
+</code></pre><p>输出如下:</p>
+<pre><code>REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
+hellojava                    latest              8d76bf5691c4        32 minutes ago      740MB
+hello-java                   latest              93b1180c5d91        36 minutes ago      740MB
+helloworld                   2                   7fbedda27c66        41 minutes ago      1.13MB
+</code></pre><p>更多关于镜像的细节可以使用<code>docker image history jboss/wildfly</code>命令:</p>
+<pre><code>IMAGE               CREATED             CREATED BY                                      SIZE                COMMENT
+9adbdb00cded        8 days ago          /bin/sh -c #(nop)  CMD [&quot;/opt/jboss/wildfl...   0B
+&lt;missing&gt;           8 days ago          /bin/sh -c #(nop)  EXPOSE 8080/tcp              0B
+&lt;missing&gt;           8 days ago          /bin/sh -c #(nop)  USER [jboss]                 0B
+&lt;missing&gt;           8 days ago          /bin/sh -c #(nop)  ENV LAUNCH_JBOSS_IN_BAC...   0B
+</code></pre><h2 id="2">运行容器</h2>
+
+<h3 id="2.1">交互式地</h3>
+
+<p>以交互模式运行WildFly 容器.</p>
+<pre><code>docker container run -it jboss/wildfly
+</code></pre><p>输出如下:</p>
+<pre><code>=========================================================================
+
+  JBoss Bootstrap Environment
+
+  JBOSS_HOME: /opt/jboss/wildfly
+
+  JAVA: /usr/lib/jvm/java/bin/java
+
+. . .
+
+00:26:27,455 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management
+00:26:27,456 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0051: Admin console listening on http://127.0.0.1:9990
+00:26:27,457 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: WildFly Full 10.1.0.Final (WildFly Core 2.2.0.Final) started in 3796ms - Started 331 of 577 services (393 services are lazy, passive or on-demand)
+</code></pre><p>这个输出说明服务器已经正常启动了,皮卡丘!</p>
+<p>默认，Docker会运行在前台.<code>-i</code> 允许与STDIN(standard input,stdin是标准输入，一般指键盘输入到缓冲区里的东西)进行交互,<code>-t</code> 附加一个 TTY(通常使用tty来简称各种类型的终端设备terminal) 到进程. 两个开关能够合并为<code>-it</code>.</p>
+<p>点击 Ctrl+C 来停止容器.</p>
+<h3 id="2.2">隔离的容器</h3>
+
+<p>以detached(隔离)模式启动容器:</p>
+<pre><code>docker container run -d jboss/wildfly
+254418caddb1e260e8489f872f51af4422bc4801d17746967d9777f565714600
+</code></pre><p>这次使用<code>-d</code>来替换<code>-it</code>,以隔离模式来运行容器.</p>
+<p>输出是一个唯一的id 分配给容器.通过<code>docker container logs &lt;CONTAINER_ID&gt;</code>命令可以查看容器的日志记录,<code>&lt;CONTAINER_ID&gt;</code> 代表容器的id.</p>
+<p><code>docker container ls</code> 命令能够查看容器的状态:</p>
+<pre><code>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+254418caddb1        jboss/wildfly       &quot;/opt/jboss/wildfl...&quot;   2 minutes ago       Up 2 minutes        8080/tcp            gifted_haibt
+</code></pre><p><code>docker container ls -a</code>命令能够查看主机上的所有容器.</p>
+<h3 id="2.3">使用默认端口</h3>
+
+<p>如果你想要容器接受请求链接,那么你需要在调用<code>docker run</code>命令时提供特殊的参数选项.否则，启动的容器无法被我们的浏览器所访问.我们需要再次停止它并且以不同的选项重新启动.</p>
+<pre><code>docker container stop `docker container ps | grep wildfly | awk &apos;{print $1}&apos;`
+</code></pre><p>以如下命令重启容器:</p>
+<pre><code>docker container run -d -P --name wildfly jboss/wildfly
+</code></pre><p><code>-P</code> 代表在Docker host 上暴露 对应的端口.另外,<code>--name</code>一般用来给予这个容器一个名称.这个名称可以用来查询更多关于容器的信息或作为一个id来停止它.通过<code>docker container ls</code>命令来验证容器名称:</p>
+<pre><code>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                     NAMES
+89fbfbceeb56        jboss/wildfly       &quot;/opt/jboss/wildfl...&quot;   9 seconds ago       Up 8 seconds        0.0.0.0:32768-&gt;8080/tcp   wildfly
+</code></pre><p>端口映射显示在 PORTS列.通过<a href="http://localhost:32768地址防卫" target="_blank" rel="external">http://localhost:32768地址防卫</a> WildFly服务器.确保使用正确的端口来进行访问.</p>
+<p>页面展示如下:</p>
+<p>【我是图片】</p>
+<h3 id="2.4">使用指定的端口</h3>
+
+<p>停止并且移除最近运行的容器:</p>
+<pre><code>docker container stop wildfly
+docker container rm wildfly
+</code></pre><p>也可以用<code>docker container rm -f wildfly</code>命令来同时完成停止和移除容器的工作.需要谨慎小心，因为<code>-f</code>使用<code>SIGKILL</code>来kill容器.</p>
+<p>重启容器:</p>
+<pre><code>docker container run -d -p 8080:8080 --name wildfly jboss/wildfly
+</code></pre><p>这种格式表示<code>-p hostPort:containerPort</code>.这允许我们访问主机上容器的特定端口.</p>
+<p>现在通过<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a> 链接来测试.确认运行正常，接着如下同样停止并移除容器.</p>
+<h3 id="2.5">部署一个war文件到应用服务器</h3>
+
+<p>现在你的应用服务器正在运行,接下来展示如何部署war包到上面.</p>
+<p>创建一个新目录<code>hellojavaee</code>.用如下内容创建<code>Dockerfile</code>文件:</p>
+<pre><code>FROM jboss/wildfly:latest
+
+RUN curl -L https://github.com/javaee-samples/javaee7-simple-sample/releases/download/v1.10/javaee7-simple-sample-1.10.war -o /opt/jboss/wildfly/standalone/deployments/javaee-simple-sample.war
+</code></pre><p>创建镜像:</p>
+<pre><code>docker image build -t javaee-sample .
+</code></pre><p>启动容器:</p>
+<pre><code>docker container run -d -p 8080:8080 --name wildfly javaee-sample
+</code></pre><p>访问网站路由：</p>
+<pre><code>curl http://localhost:8080/javaee-simple-sample/resources/persons
+</code></pre><p>输出如下:</p>
+<pre><code>&lt;persons&gt;
+    &lt;person&gt;
+        &lt;name&gt;
+        Penny
+        &lt;/name&gt;
+    &lt;/person&gt;
+&lt;/persons&gt;
+</code></pre><p>可选的:<code>brew install XML-Coreutils</code>命令将会在Mac上安装xml格式的工具.这个输出能够通过<code>xml-fmt</code>选项来展示格式化结果.</p>
+<h2 id="3">停止容器</h2>
+
+<p>通过容器id或者名称来停止容器:</p>
+<pre><code>docker container stop &lt;CONTAINER ID&gt;
+docker container stop &lt;NAME&gt;
+</code></pre><p>停止所有正在运行的容器:</p>
+<pre><code>docker container stop $(docker container ps -q)
+</code></pre><p>只停止已经退出的容器:</p>
+<pre><code>docker container ps -a -f &quot;exited=-1&quot;
+</code></pre><h2 id="4">移除容器</h2>
+
+<p>通过id或者名称移除指定的容器:</p>
+<pre><code>docker container rm &lt;CONTAINER_ID&gt;
+docker container rm &lt;NAME&gt;
+</code></pre><p>通过表达式匹配来移除容器:</p>
+<pre><code>docker container ps -a | grep wildfly | awk &apos;{print $1}&apos; | xargs docker container rm
+</code></pre><p>无条件移除所有容器:</p>
+<pre><code>docker container rm $(docker container ps -aq)
+</code></pre><h2 id="5">端口映射的额外方式</h2>
+
+<p>确切的端口映射能够通过docker port命令进行设置:</p>
+<pre><code>docker container port &lt;CONTAINER_ID&gt; or &lt;NAME&gt;
+</code></pre><p>输出如下:</p>
+<pre><code>8080/tcp -&gt; 0.0.0.0:8080
+</code></pre><p>端口映射情况能够通过docker inspect命令进行查看:</p>
+<pre><code>docker container inspect --format=&apos;{{(index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}&apos; &lt;CONTAINER ID&gt;
+</code></pre><p><a href="https://github.com/docker/labs/blob/master/developer-tools/java/chapters/ch04-run-container.adoc" target="_blank" rel="external">官网链接</a></p>
 
       
     </div>
@@ -507,9 +528,7 @@ public    class    ConnectionProperties    {
       
         <div class="post-tags">
           
-            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
-          
-            <a href="/tags/config/" rel="tag"># config</a>
+            <a href="/tags/docker/" rel="tag"># docker</a>
           
         </div>
       
@@ -522,8 +541,8 @@ public    class    ConnectionProperties    {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/17/使用YAML代替Properties/" rel="next" title="使用YAML代替Properties">
-                <i class="fa fa-chevron-left"></i> 使用YAML代替Properties
+              <a href="/2018/05/10/Docker Java教程5_使用Docker Compose 实现多容器应用/" rel="next" title="Docker Java教程5:使用Docker Compose 实现多容器应用">
+                <i class="fa fa-chevron-left"></i> Docker Java教程5:使用Docker Compose 实现多容器应用
               </a>
             
           </div>
@@ -531,10 +550,6 @@ public    class    ConnectionProperties    {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/17/使用CommandLineRunner或ApplicationRunner/" rel="prev" title="使用CommandLineRunner或ApplicationRunner">
-                使用CommandLineRunner或ApplicationRunner <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -683,7 +698,7 @@ public    class    ConnectionProperties    {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ConfigurationProperties-vs-Value"><span class="nav-number">1.</span> <span class="nav-text">@ConfigurationProperties    vs.    @Value</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1"><span class="nav-number">1.</span> <span class="nav-text">拉取镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2"><span class="nav-number">2.</span> <span class="nav-text">运行容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2.1"><span class="nav-number">2.1.</span> <span class="nav-text">交互式地</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2.2"><span class="nav-number">2.2.</span> <span class="nav-text">隔离的容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2.3"><span class="nav-number">2.3.</span> <span class="nav-text">使用默认端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2.4"><span class="nav-number">2.4.</span> <span class="nav-text">使用指定的端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2.5"><span class="nav-number">2.5.</span> <span class="nav-text">部署一个war文件到应用服务器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3"><span class="nav-number">3.</span> <span class="nav-text">停止容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4"><span class="nav-number">4.</span> <span class="nav-text">移除容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5"><span class="nav-number">5.</span> <span class="nav-text">端口映射的额外方式</span></a></li></ol></div>
             
 
           </div>
