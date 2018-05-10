@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="docker," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="静默的魔法书" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Dockerfile创建你的首个镜像使用java创建你的首个镜像  创建一个普通的java应用 作为Docker镜像打包和运行Java应用 使用Docker Maven Plugin 打包和运行Java应用  Dockerfile 命令设计模式  CMD 和 ENTRYPOINT 之间的不同 ADD 和 COPY 之间的不同 导入和导出镜像">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker java教程3.1: 构建一个Docker 镜像">
+<meta property="og:url" content="http://www.zhz.gift/2018/05/10/Docker java教程3.1_ 构建一个Docker 镜像/index.html">
+<meta property="og:site_name" content="静默的魔法书">
+<meta property="og:description" content="Dockerfile创建你的首个镜像使用java创建你的首个镜像  创建一个普通的java应用 作为Docker镜像打包和运行Java应用 使用Docker Maven Plugin 打包和运行Java应用  Dockerfile 命令设计模式  CMD 和 ENTRYPOINT 之间的不同 ADD 和 COPY 之间的不同 导入和导出镜像">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-10T13:32:13.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker java教程3.1: 构建一个Docker 镜像">
+<meta name="twitter:description" content="Dockerfile创建你的首个镜像使用java创建你的首个镜像  创建一个普通的java应用 作为Docker镜像打包和运行Java应用 使用Docker Maven Plugin 打包和运行Java应用  Dockerfile 命令设计模式  CMD 和 ENTRYPOINT 之间的不同 ADD 和 COPY 之间的不同 导入和导出镜像">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'MZF9ZS9GXL',
+      apiKey: '71b4ec727c0816672d93fec5d3747c8f',
+      indexName: 'darkleave',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.zhz.gift/2018/05/10/Docker java教程3.1_ 构建一个Docker 镜像/"/>
+
+
+
+
+
+  <title>Docker java教程3.1: 构建一个Docker 镜像 | 静默的魔法书</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  
+    
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script type="text/javascript" src="/js/src/algolia.js?v=5.1.4"></script>
+
+  
+  
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">静默的魔法书</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">零</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/05/10/Docker java教程3.1_ 构建一个Docker 镜像/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hans Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静默的魔法书">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker java教程3.1: 构建一个Docker 镜像</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T23:09:42+08:00">
+                2018-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/10/Docker java教程3.1_ 构建一个Docker 镜像/" class="leancloud_visitors" data-flag-title="Docker java教程3.1: 构建一个Docker 镜像">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="#1.1">Dockerfile</a><br><a href="#1.2">创建你的首个镜像</a><br><a href="#1.3">使用java创建你的首个镜像</a></p>
+<ul>
+<li><a href="#1.3.1">创建一个普通的java应用</a></li>
+<li><a href="#1.3.2">作为Docker镜像打包和运行Java应用</a></li>
+<li><a href="#1.3.3">使用Docker Maven Plugin 打包和运行Java应用</a></li>
+</ul>
+<p><a href="#1.4">Dockerfile 命令设计模式</a></p>
+<ul>
+<li><a href="#1.4.1">CMD 和 ENTRYPOINT 之间的不同</a></li>
+<li><a href="#1.4.2">ADD 和 COPY 之间的不同</a></li>
+<li><a href="#1.4.3">导入和导出镜像</a></li>
+</ul>
+<a id="more"></a>
+<h2 id="1.1">Dockerfile</h2>
+
+<p>Docker 构建镜像是通过读取Dockerfile 文件的指令.Dockerfile 是一个包含了所有用户能在命令行执行用以装配镜像的命令的文本文件.<code>docker image build</code>命令使用这个文件并且成功执行所有的命令来创建镜像.</p>
+<p><code>build</code> 命令在镜像创建期间同样传递一个上下文.这个上下文可以是你本地文件系统的路径或者一个git仓库的URL地址.</p>
+<p><strong>Dockerfile is usually called Dockerfile.</strong><br>完全的命令一览查看以下链接  <a href="https://docs.docker.com/reference/builder/" target="_blank" rel="external">https://docs.docker.com/reference/builder/</a>. 常见命令见下文:</p>
+<p>Table 1. Dockerfile 常见命令</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Command</th>
+<th style="text-align:center">Purpose</th>
+<th style="text-align:center">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FROM</td>
+<td style="text-align:center">First non-comment instruction in Dockerfile</td>
+<td style="text-align:center"><code>FROM ubuntu</code></td>
+</tr>
+<tr>
+<td style="text-align:center">COPY</td>
+<td style="text-align:center">Copies mulitple source files from the context to the file system of the container at the specified path</td>
+<td style="text-align:center"><code>COPY .bash_profile /home</code></td>
+</tr>
+<tr>
+<td style="text-align:center">ENV</td>
+<td style="text-align:center">Sets the environment variable</td>
+<td style="text-align:center"><code>ENV HOSTNAME=test</code></td>
+</tr>
+<tr>
+<td style="text-align:center">RUN</td>
+<td style="text-align:center">Executes a command</td>
+<td style="text-align:center"><code>RUN apt-get update</code></td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:center">Defaults for an executing container</td>
+<td style="text-align:center"><code>CMD [&quot;/bin/echo&quot;, &quot;hello world&quot;]</code></td>
+</tr>
+<tr>
+<td style="text-align:center">EXPOSE</td>
+<td style="text-align:center">Informs the network ports that the container will listen on</td>
+<td style="text-align:center"><code>EXPOSE 8093</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="1.2">创建你的首个镜像</h2>
+
+<p>创建一个新目录 <code>hellodocker</code>.</p>
+<p>在这个目录,创建一个新的Dockerfile 文件.使用以下内容:</p>
+<pre><code>FROM ubuntu:latest
+
+CMD [&quot;/bin/echo&quot;, &quot;hello world&quot;]
+</code></pre><p>这个镜像使用 <code>ubuntu</code> 作为基础镜像.<code>CMD</code> 命令定义需要运行的命令.<br>它提供了一个不同的入口 <code>/bin/echo</code> 并且提供参数 “hello world”.</p>
+<p>使用以下命令构建镜像:<br>    docker image build . -t helloworld</p>
+<p><code>.</code> 在这个命令当中是作为 <code>docker image build</code> 的上下文. <code>-t</code> 添加标志到镜像当中.</p>
+<p>输出如下:</p>
+<pre><code>Sending build context to Docker daemon  2.048kB
+Step 1/2 : FROM ubuntu:latest
+latest: Pulling from library/ubuntu
+9fb6c798fa41: Pull complete
+3b61febd4aef: Pull complete
+9d99b9777eb0: Pull complete
+d010c8cf75d7: Pull complete
+7fac07fb303e: Pull complete
+Digest: sha256:31371c117d65387be2640b8254464102c36c4e23d2abe1f6f4667e47716483f1
+Status: Downloaded newer image for ubuntu:latest
+ ---&gt; 2d696327ab2e
+Step 2/2 : CMD /bin/echo hello world
+ ---&gt; Running in 9356a508590c
+ ---&gt; e61f88f3a0f7
+Removing intermediate container 9356a508590c
+Successfully built e61f88f3a0f7
+Successfully tagged helloworld:latest
+</code></pre><p>使用<code>docker image ls</code>命令展示可用的镜像:</p>
+<pre><code>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+helloworld          latest              e61f88f3a0f7        3 minutes ago       122MB
+ubuntu              latest              2d696327ab2e        4 days ago          122MB
+</code></pre><p>使用以下命令运行容器:    </p>
+<pre><code>docker container run helloworld
+</code></pre><p>命令输出如下:</p>
+<pre><code>hello world
+</code></pre><p>如果你没有看到期望的输出,检查你的Dockerfille文件确保内容与上文所示一致.再次构建镜像并且运行它.</p>
+<p>在<code>Dockerfile</code>文件中改变基础镜像，从<code>ubuntu</code> 修改为<code>busybox</code>.<br>再次构建镜像:    </p>
+<pre><code>docker image build -t helloworld:2 .
+</code></pre><p>并且通过<code>docker image ls</code>命令查看镜像:</p>
+<pre><code>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+helloworld          2                   7fbedda27c66        3 seconds ago       1.13MB
+helloworld          latest              e61f88f3a0f7        5 minutes ago       122MB
+ubuntu              latest              2d696327ab2e        4 days ago          122MB
+busybox             latest              54511612f1c4        9 days ago          1.13MB  
+</code></pre><p><code>helloworld:2</code> 是一种定义镜像名称的格式,通过<code>:</code>分割标识/版本号.</p>
+<h2 id="1.3">使用Java创建你的首个镜像</h2>
+
+<h3 id="1.3.1">创建你的首个镜像</h3>
+
+<p><strong>Note:</strong></p>
+<p>如果你正在运行 OpenJDK 9<br>If you are running OpenJDK 9, <code>mvn package</code> 可能会失败:</p>
+<pre><code>[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project helloworld: Compilation failure: Compilation failure:
+[ERROR] Source option 1.5 is no longer supported. Use 1.6 or later.
+[ERROR] Target option 1.5 is no longer supported. Use 1.6 or later.
+</code></pre><p>因为一些Java 5的支持在JDK9中被<a href="http://openjdk.java.net/jeps/182" target="_blank" rel="external">废弃</a>了.<br>你可以通过添加以下属性配置:</p>
+<pre><code>&lt;properties&gt;
+  &lt;maven.compiler.source&gt;1.6&lt;/maven.compiler.source&gt;
+  &lt;maven.compiler.target&gt;1.6&lt;/maven.compiler.target&gt;
+&lt;/properties&gt;
+</code></pre><p>到生成的pom.xml中用1.6来代替.详情查看 <a href="https://github.com/docker/labs/blob/master/developer-tools/java/chapters/chapters/ch03-build-image-java-9.adoc" target="_blank" rel="external">用Java 9构建Docker 镜像章节</a>.</p>
+<p>创建一个java项目:</p>
+<pre><code>mvn archetype:generate -DgroupId=org.examples.java -DartifactId=helloworld -DinteractiveMode=false
+</code></pre><p>构建项目:</p>
+<pre><code>cd helloworld
+mvn package
+</code></pre><p>运行java应用:</p>
+<pre><code>java -cp target/helloworld-1.0-SNAPSHOT.jar org.examples.java.App
+</code></pre><p>输出如下:</p>
+<pre><code>Hello World!
+</code></pre><p>接下来将这个应用打包成docker镜像</p>
+<p><strong>Java Docker 镜像</strong></p>
+<p>以一种交互性的方式运行 OpenJDK 容器:</p>
+<pre><code>docker container run -it openjdk
+</code></pre><p>这将会在容器当中打开一个终端窗口.检查Java的版本:</p>
+<pre><code>root@8d0af9da5258:/# java -version
+openjdk version &quot;1.8.0_141&quot;
+OpenJDK Runtime Environment (build 1.8.0_141-8u141-b15-1~deb9u1-b15)
+OpenJDK 64-Bit Server VM (build 25.141-b15, mixed mode)
+</code></pre><p>通过在容器 shell中输入<code>exit</code> 退出容器.</p>
+<h3 id="1.3.2">作为Docker 镜像打包和运行Java应用</h3>    
+
+<p>在<code>helloworld</code>目录创建一个新的Dockerfile文件并且使用以下内容:</p>
+<pre><code>FROM openjdk:latest
+
+COPY target/helloworld-1.0-SNAPSHOT.jar /usr/src/helloworld-1.0-SNAPSHOT.jar
+
+CMD java -cp /usr/src/helloworld-1.0-SNAPSHOT.jar org.examples.java.App
+</code></pre><p>构建镜像:</p>
+<pre><code>docker image build -t hello-java:latest .
+</code></pre><p>运行镜像:</p>
+<pre><code>docker container run hello-java:latest
+</code></pre><p>输出如下:</p>
+<pre><code>Hello World!
+</code></pre><h3 id="1.3.2">使用Docker Maven Plugin打包和运行Java应用</h3>   
+
+<p><a href="https://github.com/fabric8io/docker-maven-plugin" target="_blank" rel="external">Docker Maven Plugin</a> 允许你通过Maven管理Docker 镜像和容器.<br>allows you to manage Docker images and containers using Maven. 它通过预定义目标来完成相应操作:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Goal</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">docker:build</td>
+<td style="text-align:center">Build images</td>
+</tr>
+<tr>
+<td style="text-align:center">docker:start</td>
+<td style="text-align:center">Create and start containers</td>
+</tr>
+<tr>
+<td style="text-align:center">docker:stop</td>
+<td style="text-align:center">Stop and destroy containers</td>
+</tr>
+<tr>
+<td style="text-align:center">docker:push</td>
+<td style="text-align:center">Push images to a registry</td>
+</tr>
+<tr>
+<td style="text-align:center">docker:remove</td>
+<td style="text-align:center">Remove images from local docker host</td>
+</tr>
+<tr>
+<td style="text-align:center">docker:logs</td>
+<td style="text-align:center">Show container logs</td>
+</tr>
+</tbody>
+</table>
+<p>完整的目标列表如下: <a href="https://github.com/fabric8io/docker-maven-plugin" target="_blank" rel="external">https://github.com/fabric8io/docker-maven-plugin</a>.</p>
+<p>示例下载地址: <a href="https://github.com/arun-gupta/docker-java-sample/" target="_blank" rel="external">https://github.com/arun-gupta/docker-java-sample/</a>.</p>
+<p>创建Docker 镜像:</p>
+<pre><code>mvn -f docker-java-sample/pom.xml package -Pdocker
+</code></pre><p>输出如下:    </p>
+<pre><code>[INFO] Copying files to /Users/argu/workspaces/docker-java-sample/target/docker/hellojava/build/maven
+[INFO] Building tar: /Users/argu/workspaces/docker-java-sample/target/docker/hellojava/tmp/docker-build.tar
+[INFO] DOCKER&gt; [hellojava:latest]: Created docker-build.tar in 87 milliseconds
+[INFO] DOCKER&gt; [hellojava:latest]: Built image sha256:6f815
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+</code></pre><p>使用<code>docker image ls | grep hello-java</code>命令查看镜像列表:    </p>
+<pre><code>hello-java  latest  ea64a9f5011e   5 seconds ago       643 MB
+</code></pre><p>运行Docker容器:</p>
+<pre><code>mvn -f docker-java-sample/pom.xml install -Pdocker
+</code></pre><p>输出如下:</p>
+<pre><code>[INFO] DOCKER&gt; [hellojava:latest]: Start container 30a08791eedb
+30a087&gt; Hello World!
+[INFO] DOCKER&gt; [hellojava:latest]: Waited on log out &apos;Hello World!&apos; 510 ms
+</code></pre><p>使用 <code>java</code> CLI 或者使用 Docker 容器使用 <code>docker container run</code> 命令来运行这个Java应用，输出都是相似的.</p>
+<p>容器运行在最顶层的位置.使用 <code>Ctrl</code> + <code>C</code> 来终止容器并且返回到终端.</p>
+<p>在项目中想要允许或禁止 Docker packaging 和 running ,只需要改变一处地方.在<code>pom.xml</code>配置文件中添加如下Maven配置:</p>
+<pre><code>&lt;profiles&gt;
+    &lt;profile&gt;
+        &lt;id&gt;docker&lt;/id&gt;
+        &lt;build&gt;
+            &lt;plugins&gt;
+                &lt;plugin&gt;
+                    &lt;groupId&gt;io.fabric8&lt;/groupId&gt;
+                    &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;0.22.1&lt;/version&gt;
+                    &lt;configuration&gt;
+                        &lt;images&gt;
+                            &lt;image&gt;
+                                &lt;name&gt;hello-java&lt;/name&gt;
+                                &lt;build&gt;
+                                    &lt;from&gt;openjdk:latest&lt;/from&gt;
+                                    &lt;assembly&gt;
+                                        &lt;descriptorRef&gt;artifact&lt;/descriptorRef&gt;
+                                    &lt;/assembly&gt;
+                                    &lt;cmd&gt;java -cp maven/${project.name}-${project.version}.jar org.examples.java.App&lt;/cmd&gt;
+                                &lt;/build&gt;
+                                &lt;run&gt;
+                                    &lt;wait&gt;
+                                        &lt;log&gt;Hello World!&lt;/log&gt;
+                                    &lt;/wait&gt;
+                                &lt;/run&gt;
+                            &lt;/image&gt;
+                        &lt;/images&gt;
+                    &lt;/configuration&gt;
+                    &lt;executions&gt;
+                        &lt;execution&gt;
+                            &lt;id&gt;docker:build&lt;/id&gt;
+                            &lt;phase&gt;package&lt;/phase&gt;
+                            &lt;goals&gt;
+                                &lt;goal&gt;build&lt;/goal&gt;
+                            &lt;/goals&gt;
+                        &lt;/execution&gt;
+                        &lt;execution&gt;
+                            &lt;id&gt;docker:start&lt;/id&gt;
+                            &lt;phase&gt;install&lt;/phase&gt;
+                            &lt;goals&gt;
+                                &lt;goal&gt;start&lt;/goal&gt;
+                                &lt;goal&gt;logs&lt;/goal&gt;
+                            &lt;/goals&gt;
+                        &lt;/execution&gt;
+                    &lt;/executions&gt;
+                &lt;/plugin&gt;
+            &lt;/plugins&gt;
+        &lt;/build&gt;
+    &lt;/profile&gt;
+&lt;/profiles&gt;
+</code></pre><h2 id="1.4">Dockerfile 命令设计模式</h2>
+
+<h3 id="1.4.1">CMD 和 ENTRYPOINT 之间的不同</h3>
+
+<p><code>CMD</code> 在大多数情况下都能正常工作.</p>
+<p>容器默认的入口是<code>/bin/sh</code>,即默认的shell.</p>
+<p>使用命令<code>docker container run -it ubuntu</code> 来运行容器并且启动默认shell.输出如下:</p>
+<pre><code>&gt; docker container run -it ubuntu
+root@88976ddee107:/#
+</code></pre><p><code>ENTRYPOINT</code> 允许使用其它命令重写 entry point ，设置进行自定义.例如,一个容器能这样启动:</p>
+<pre><code>&gt; docker container run -it --entrypoint=/bin/cat ubuntu /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+. . .
+</code></pre><p>这个容器重写了容器的 entry point 到 <code>/bin/cat</code> 目录. </p>
+<h3 id="1.4.2">ADD 和 COPY 之间的不同</h3>
+
+<p><code>COPY</code> 大多数情况都能正常工作.</p>
+<p><code>ADD</code> 拥有 <code>COPY</code> 命令的所有功能并且拥有以下额外特性:</p>
+<ul>
+<li><p>允许tar 文件在镜像中自动解压缩,例如:<code>ADD app.tar.gz /opt/var/myapp</code>.</p>
+</li>
+<li><p>允许文件从远程URL下载.然而,下载文件会成为镜像的一部分.这会使得镜像越来越臃肿.所以一般还是建议使用curl 或者wget的方式来明确地下载，解压缩或者移除存档文件.</p>
+</li>
+</ul>
+<h3 id="1.4.3">导入和导出镜像</h3>
+
+<p>Docker 镜像能使用<code>image save</code>命令保存为<code>.tar</code>文件.</p>
+<pre><code>docker image save helloworld &gt; helloworld.tar
+</code></pre><p>这些tar文件能够使用<code>load</code>命令进行导入:</p>
+<pre><code>docker image load -i helloworld.tar
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/10/Docker Java教程4：运行一个Docker 容器/" rel="next" title="Docker Java教程4：运行一个Docker 容器">
+                <i class="fa fa-chevron-left"></i> Docker Java教程4：运行一个Docker 容器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/Docker Java教程5_使用Docker Compose 实现多容器应用/" rel="prev" title="Docker Java教程5：使用Docker Compose 实现多容器应用">
+                Docker Java教程5：使用Docker Compose 实现多容器应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMzEyMy85Njgy"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Hans Chung" />
+            
+              <p class="site-author-name" itemprop="name">Hans Chung</p>
+              <p class="site-description motion-element" itemprop="description">A Salty Fish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/darkleave" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1.1"><span class="nav-number">1.</span> <span class="nav-text">Dockerfile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1.2"><span class="nav-number">2.</span> <span class="nav-text">创建你的首个镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1.3"><span class="nav-number">3.</span> <span class="nav-text">使用Java创建你的首个镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1.3.1"><span class="nav-number">3.1.</span> <span class="nav-text">创建你的首个镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1.3.2"><span class="nav-number">3.2.</span> <span class="nav-text">作为Docker 镜像打包和运行Java应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1.3.2"><span class="nav-number">3.3.</span> <span class="nav-text">使用Docker Maven Plugin打包和运行Java应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1.4"><span class="nav-number">4.</span> <span class="nav-text">Dockerfile 命令设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1.4.1"><span class="nav-number">4.1.</span> <span class="nav-text">CMD 和 ENTRYPOINT 之间的不同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1.4.2"><span class="nav-number">4.2.</span> <span class="nav-text">ADD 和 COPY 之间的不同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1.4.3"><span class="nav-number">4.3.</span> <span class="nav-text">导入和导出镜像</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hans Chung</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("6vFOsvul8HaoNI6fiYReb3WW-gzGzoHsz", "O2fMHy7gRb7x2NsOSUY029TO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
