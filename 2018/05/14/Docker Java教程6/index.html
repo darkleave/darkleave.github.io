@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="docker," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="静默的魔法书" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Docker Engine 包含 swarm 模式 用来管理一个Docker Engines 的集群.Docker CLI 可以用来创建swarm,部署应用服务到swarm上,并且管理swarm的行为.完全的细节地址：https://docs.docker.com/engine/swarm/.在开始这个章节之前需要先了解一些重要的概念: Swarm mode key concepts">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker Java教程6：使用Swarm 模式部署应用">
+<meta property="og:url" content="http://www.zhz.gift/2018/05/14/Docker Java教程6/index.html">
+<meta property="og:site_name" content="静默的魔法书">
+<meta property="og:description" content="Docker Engine 包含 swarm 模式 用来管理一个Docker Engines 的集群.Docker CLI 可以用来创建swarm,部署应用服务到swarm上,并且管理swarm的行为.完全的细节地址：https://docs.docker.com/engine/swarm/.在开始这个章节之前需要先了解一些重要的概念: Swarm mode key concepts">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-17T13:36:13.713Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker Java教程6：使用Swarm 模式部署应用">
+<meta name="twitter:description" content="Docker Engine 包含 swarm 模式 用来管理一个Docker Engines 的集群.Docker CLI 可以用来创建swarm,部署应用服务到swarm上,并且管理swarm的行为.完全的细节地址：https://docs.docker.com/engine/swarm/.在开始这个章节之前需要先了解一些重要的概念: Swarm mode key concepts">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'MZF9ZS9GXL',
+      apiKey: '71b4ec727c0816672d93fec5d3747c8f',
+      indexName: 'darkleave',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.zhz.gift/2018/05/14/Docker Java教程6/"/>
+
+
+
+
+
+  <title>Docker Java教程6：使用Swarm 模式部署应用 | 静默的魔法书</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  
+    
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script type="text/javascript" src="/js/src/algolia.js?v=5.1.4"></script>
+
+  
+  
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">静默的魔法书</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">零</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/05/14/Docker Java教程6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hans Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静默的魔法书">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker Java教程6：使用Swarm 模式部署应用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T23:09:42+08:00">
+                2018-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/14/Docker Java教程6/" class="leancloud_visitors" data-flag-title="Docker Java教程6：使用Swarm 模式部署应用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Docker Engine 包含 swarm 模式 用来管理一个Docker Engines 的集群.Docker CLI 可以用来创建swarm,部署应用服务到swarm上,并且管理swarm的行为.完全的细节地址：<a href="https://docs.docker.com/engine/swarm/.在开始这个章节之前需要先了解一些重要的概念" target="_blank" rel="external">https://docs.docker.com/engine/swarm/.在开始这个章节之前需要先了解一些重要的概念</a>: <a href="https://docs.docker.com/engine/swarm/key-concepts/" target="_blank" rel="external">Swarm mode key concepts</a> </p>
+<a id="more"></a>
+<p><a href="#1.1">初始化 Swarm</a></p>
+<p><a href="#1.2">多容器应用</a></p>
+<p><a href="#1.3">验证在应用中的服务和容器</a></p>
+<p><a href="#1.4">访问应用</a></p>
+<p><a href="#1.5">停止应用</a></p>
+<p><a href="#1.6">完全地移除应用</a></p>
+<p>Swarm 是多个Docker Engines 的集群.但一般情况下我们只会运行一个单独节点的Swarm.</p>
+<p>这个章节将会部署一个应用，在<a href="https://www.mysql.com/" target="_blank" rel="external">MySQL</a>的数据桶上提供一个 CRUD/REST 接口.这一点通过使用部署在<a href="http://wildfly.org/" target="_blank" rel="external">WildFly</a>上的Java EE应用 来访问数据库已经完成》</p>
+<h2 id="1.1">初始化 Swarm</h2>
+
+<p>使用如下命令初始化Swarm :</p>
+<pre><code>docker swarm init
+</code></pre><p>这会启动一个 Swarm Manager.默认情况下,一个管理节点同样是一个worker,但是只能配置给一个manager.</p>
+<p>使用<code>docker info</code>命令可以得到一些关于这个单节点集群的一些信息.</p>
+<pre><code>Containers: 0
+ Running: 0
+ Paused: 0
+ Stopped: 0
+Images: 17
+Server Version: 17.09.0-ce
+Storage Driver: overlay2
+ Backing Filesystem: extfs
+ Supports d_type: true
+ Native Overlay Diff: true
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins:
+ Volume: local
+ Network: bridge host ipvlan macvlan null overlay
+ Log: awslogs fluentd gcplogs gelf journald json-file logentries splunk syslog
+Swarm: active
+ NodeID: p9a1tqcjh58ro9ucgtqxa2wgq
+ Is Manager: true
+ ClusterID: r3xdxly8zv82e4kg38krd0vog
+ Managers: 1
+ Nodes: 1
+ Orchestration:
+  Task History Retention Limit: 5
+ Raft:
+  Snapshot Interval: 10000
+  Number of Old Snapshots to Retain: 0
+  Heartbeat Tick: 1
+  Election Tick: 3
+ Dispatcher:
+  Heartbeat Period: 5 seconds
+ CA Configuration:
+  Expiry Duration: 3 months
+  Force Rotate: 0
+ Autolock Managers: false
+ Root Rotation In Progress: false
+ Node Address: 192.168.65.2
+ Manager Addresses:
+  192.168.65.2:2377
+Runtimes: runc
+Default Runtime: runc
+Init Binary: docker-init
+containerd version: 06b9cb35161009dcb7123345749fef02f7cea8e0
+runc version: 3f2f8b84a77f73d38244dd690525642a72156c64
+init version: 949e6fa
+Security Options:
+ seccomp
+  Profile: default
+Kernel Version: 4.9.49-moby
+Operating System: Alpine Linux v3.5
+OSType: linux
+Architecture: x86_64
+CPUs: 4
+Total Memory: 1.952GiB
+Name: moby
+ID: TJSZ:O44Y:PWGZ:ZWZM:SA73:2UHI:VVKV:KLAH:5NPO:AXQZ:XWZD:6IRJ
+Docker Root Dir: /var/lib/docker
+Debug Mode (client): false
+Debug Mode (server): true
+ File Descriptors: 35
+ Goroutines: 142
+ System Time: 2017-10-05T20:57:14.037442426Z
+ EventsListeners: 1
+Registry: https://index.docker.io/v1/
+Experimental: true
+Insecure Registries:
+ 127.0.0.0/8
+Live Restore Enabled: false
+</code></pre><p>这个集群有一个节点，同时也是一个管理节点.默认情况下，管理节点也同样是一个worker 节点.这意味着容器能在这个节点上运行.</p>
+<h2 id="1.2">多容器应用</h2>
+
+<p>这个章节描述了如何使用 Docker Compose 在 Swarm 模式下使用 Docker CLI 来部署一个多容器应用.</p>
+<p>创建一个新目录并且使用<code>cd</code>命令移动到此:</p>
+<pre><code>mkdir webapp
+cd webapp
+</code></pre><p>使用<a href="https://github.com/docker/labs/blob/master/developer-tools/java/chapters/ch05-compose.adoc#configuration-file" target="_blank" rel="external">configuration file</a>创建一个新的Compose 定义文件 <code>docker-compose.yml</code>.</p>
+<p>这个应用能够用如下命令启动:</p>
+<pre><code>docker stack deploy --compose-file=docker-compose.yml webapp
+</code></pre><p>这里展示的输出如下:</p>
+<pre><code>Ignoring deprecated options:
+
+container_name: Setting the container name is not supported.
+
+Creating network webapp_default
+Creating service webapp_db
+Creating service webapp_web
+</code></pre><p>WildFly Swarm 和 MySQL services 在这个节点上启动.每个 service 有一个单独的容器. 如果Swarm 模式在多个节点上可用的话，那么所有容器将会通过这些节点进行分布式部署.</p>
+<p>一个新的覆盖网络被创建.这可以通过<code>docker network ls</code>命令来验证.这个网络允许多个容器在不同的hosts上互相交互联系.</p>
+<h2 id="1.3">验证在应用中的服务和容器</h2>
+
+<p>使用<code>docker service ls</code>命令验证WildFly 和 MySQL 服务.</p>
+<pre><code>ID                  NAME                MODE                REPLICAS            IMAGE                                   PORTS
+j21lwelj529f        webapp_db           replicated          1/1                 mysql:8                                 *:3306-&gt;3306/tcp
+m0m44axt35cg        webapp_web          replicated          1/1                 arungupta/docker-javaee:dockerconeu17   *:8080-&gt;8080/tcp,*:9990-&gt;9990/tcp
+</code></pre><p>使用<code>docker service inspect webapp_web</code> 命令取得更多细节:</p>
+<pre><code>[
+    {
+        &quot;ID&quot;: &quot;m0m44axt35cgjetcjwzls7u9r&quot;,
+        &quot;Version&quot;: {
+            &quot;Index&quot;: 22
+        },
+        &quot;CreatedAt&quot;: &quot;2017-10-07T00:17:44.038961419Z&quot;,
+        &quot;UpdatedAt&quot;: &quot;2017-10-07T00:17:44.040746062Z&quot;,
+        &quot;Spec&quot;: {
+            &quot;Name&quot;: &quot;webapp_web&quot;,
+            &quot;Labels&quot;: {
+                &quot;com.docker.stack.image&quot;: &quot;arungupta/docker-javaee:dockerconeu17&quot;,
+                &quot;com.docker.stack.namespace&quot;: &quot;webapp&quot;
+            },
+            &quot;TaskTemplate&quot;: {
+                &quot;ContainerSpec&quot;: {
+                    &quot;Image&quot;: &quot;arungupta/docker-javaee:dockerconeu17@sha256:6a403c35d2ab4442f029849207068eadd8180c67e2166478bc3294adbf578251&quot;,
+                    &quot;Labels&quot;: {
+                        &quot;com.docker.stack.namespace&quot;: &quot;webapp&quot;
+                    },
+                    &quot;Privileges&quot;: {
+                        &quot;CredentialSpec&quot;: null,
+                        &quot;SELinuxContext&quot;: null
+                    },
+                    &quot;StopGracePeriod&quot;: 10000000000,
+                    &quot;DNSConfig&quot;: {}
+                },
+                &quot;Resources&quot;: {},
+                &quot;RestartPolicy&quot;: {
+                    &quot;Condition&quot;: &quot;any&quot;,
+                    &quot;Delay&quot;: 5000000000,
+                    &quot;MaxAttempts&quot;: 0
+                },
+                &quot;Placement&quot;: {
+                    &quot;Platforms&quot;: [
+                        {
+                            &quot;Architecture&quot;: &quot;amd64&quot;,
+                            &quot;OS&quot;: &quot;linux&quot;
+                        }
+                    ]
+                },
+                &quot;Networks&quot;: [
+                    {
+                        &quot;Target&quot;: &quot;bwnp1nvkkga68dirhp1ue7qey&quot;,
+                        &quot;Aliases&quot;: [
+                            &quot;web&quot;
+                        ]
+                    }
+                ],
+                &quot;ForceUpdate&quot;: 0,
+                &quot;Runtime&quot;: &quot;container&quot;
+            },
+            &quot;Mode&quot;: {
+                &quot;Replicated&quot;: {
+                    &quot;Replicas&quot;: 1
+                }
+            },
+            &quot;UpdateConfig&quot;: {
+                &quot;Parallelism&quot;: 1,
+                &quot;FailureAction&quot;: &quot;pause&quot;,
+                &quot;Monitor&quot;: 5000000000,
+                &quot;MaxFailureRatio&quot;: 0,
+                &quot;Order&quot;: &quot;stop-first&quot;
+            },
+            &quot;RollbackConfig&quot;: {
+                &quot;Parallelism&quot;: 1,
+                &quot;FailureAction&quot;: &quot;pause&quot;,
+                &quot;Monitor&quot;: 5000000000,
+                &quot;MaxFailureRatio&quot;: 0,
+                &quot;Order&quot;: &quot;stop-first&quot;
+            },
+            &quot;EndpointSpec&quot;: {
+                &quot;Mode&quot;: &quot;vip&quot;,
+                &quot;Ports&quot;: [
+                    {
+                        &quot;Protocol&quot;: &quot;tcp&quot;,
+                        &quot;TargetPort&quot;: 8080,
+                        &quot;PublishedPort&quot;: 8080,
+                        &quot;PublishMode&quot;: &quot;ingress&quot;
+                    },
+                    {
+                        &quot;Protocol&quot;: &quot;tcp&quot;,
+                        &quot;TargetPort&quot;: 9990,
+                        &quot;PublishedPort&quot;: 9990,
+                        &quot;PublishMode&quot;: &quot;ingress&quot;
+                    }
+                ]
+            }
+        },
+        &quot;Endpoint&quot;: {
+            &quot;Spec&quot;: {
+                &quot;Mode&quot;: &quot;vip&quot;,
+                &quot;Ports&quot;: [
+                    {
+                        &quot;Protocol&quot;: &quot;tcp&quot;,
+                        &quot;TargetPort&quot;: 8080,
+                        &quot;PublishedPort&quot;: 8080,
+                        &quot;PublishMode&quot;: &quot;ingress&quot;
+                    },
+                    {
+                        &quot;Protocol&quot;: &quot;tcp&quot;,
+                        &quot;TargetPort&quot;: 9990,
+                        &quot;PublishedPort&quot;: 9990,
+                        &quot;PublishMode&quot;: &quot;ingress&quot;
+                    }
+                ]
+            },
+            &quot;Ports&quot;: [
+                {
+                    &quot;Protocol&quot;: &quot;tcp&quot;,
+                    &quot;TargetPort&quot;: 8080,
+                    &quot;PublishedPort&quot;: 8080,
+                    &quot;PublishMode&quot;: &quot;ingress&quot;
+                },
+                {
+                    &quot;Protocol&quot;: &quot;tcp&quot;,
+                    &quot;TargetPort&quot;: 9990,
+                    &quot;PublishedPort&quot;: 9990,
+                    &quot;PublishMode&quot;: &quot;ingress&quot;
+                }
+            ],
+            &quot;VirtualIPs&quot;: [
+                {
+                    &quot;NetworkID&quot;: &quot;vysfza7wgjepdlutuwuigbws1&quot;,
+                    &quot;Addr&quot;: &quot;10.255.0.5/16&quot;
+                },
+                {
+                    &quot;NetworkID&quot;: &quot;bwnp1nvkkga68dirhp1ue7qey&quot;,
+                    &quot;Addr&quot;: &quot;10.0.0.4/24&quot;
+                }
+            ]
+        }
+    }
+]
+</code></pre><p>使用<code>docker service logs -f webapp_web</code>命令来查看service 的日志.</p>
+<pre><code>webapp_web.1.lf3y5k7pkpt9@moby    | 00:17:47,296 INFO  [org.jboss.msc] (main) JBoss MSC version 1.2.6.Final
+webapp_web.1.lf3y5k7pkpt9@moby    | 00:17:47,404 INFO  [org.jboss.as] (MSC service thread 1-8) WFLYSRV0049: WildFly Core 2.0.10.Final &quot;Kenny&quot; starting
+webapp_web.1.lf3y5k7pkpt9@moby    | 2017-10-07 00:17:48,636 INFO  [org.wildfly.extension.io] (ServerService Thread Pool -- 20) WFLYIO001: Worker &apos;default&apos; has auto-configured to 8 core threads with 64 task threads based on your 4 available processors
+
+. . .
+
+webapp_web.1.lf3y5k7pkpt9@moby    | 2017-10-07 00:17:56,619 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 12) RESTEASY002225: Deploying javax.ws.rs.core.Application: class org.javaee.samples.employees.MyApplication
+webapp_web.1.lf3y5k7pkpt9@moby    | 2017-10-07 00:17:56,621 WARN  [org.jboss.as.weld] (ServerService Thread Pool -- 12) WFLYWELD0052: Using deployment classloader to load proxy classes for module com.fasterxml.jackson.jaxrs.jackson-jaxrs-json-provider:main. Package-private access will not work. To fix this the module should declare dependencies on [org.jboss.weld.core, org.jboss.weld.spi]
+webapp_web.1.lf3y5k7pkpt9@moby    | 2017-10-07 00:17:56,682 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 12) WFLYUT0021: Registered web context: /
+webapp_web.1.lf3y5k7pkpt9@moby    | 2017-10-07 00:17:57,094 INFO  [org.jboss.as.server] (main) WFLYSRV0010: Deployed &quot;docker-javaee.war&quot; (runtime-name : &quot;docker-javaee.war&quot;)
+</code></pre><h2 id="1.4">访问应用</h2>
+
+<p>现在 WildFly 和 MySQL 服务器已经被配置,接下来根据指定的ip地址进行访问:</p>
+<pre><code>curl -v http://localhost:8080/resources/employees
+</code></pre><p>输出如下:</p>
+<pre><code>*   Trying ::1...
+* TCP_NODELAY set
+* Connected to localhost (::1) port 8080 (#0)
+&gt; GET /resources/employees HTTP/1.1
+&gt; Host: localhost:8080
+&gt; User-Agent: curl/7.51.0
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 200 OK
+&lt; Connection: keep-alive
+&lt; Content-Type: application/xml
+&lt; Content-Length: 478
+&lt; Date: Sat, 07 Oct 2017 00:22:59 GMT
+&lt;
+* Curl_http_done: called premature == 0
+* Connection #0 to host localhost left intact
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;collection&gt;&lt;employee&gt;&lt;id&gt;1&lt;/id&gt;&lt;name&gt;Penny&lt;/name&gt;&lt;/employee&gt;&lt;employee&gt;&lt;id&gt;2&lt;/id&gt;&lt;name&gt;Sheldon&lt;/name&gt;&lt;/employee&gt;&lt;employee&gt;&lt;id&gt;3&lt;/id&gt;&lt;name&gt;Amy&lt;/name&gt;&lt;/employee&gt;&lt;employee&gt;&lt;id&gt;4&lt;/id&gt;&lt;name&gt;Leonard&lt;/name&gt;&lt;/employee&gt;&lt;employee&gt;&lt;id&gt;5&lt;/id&gt;&lt;name&gt;Bernadette&lt;/name&gt;&lt;/employee&gt;&lt;employee&gt;&lt;id&gt;6&lt;/id&gt;&lt;name&gt;Raj&lt;/name&gt;&lt;/employee&gt;&lt;employee&gt;&lt;id&gt;7&lt;/id&gt;&lt;name&gt;Howard&lt;/name&gt;&lt;/employee&gt;&lt;employee&gt;&lt;id&gt;8&lt;/id&gt;&lt;name&gt;Priya&lt;/name&gt;&lt;/employee&gt;&lt;/collection&gt;
+</code></pre><h2 id="1.5">停止应用</h2>
+
+<p>如果你只是想临时性地停止应用，并保持已经被创建的networks，推荐的方式是将service replicas(服务副本)的数量设置为0.</p>
+<pre><code>docker service scale webapp_db=0 webapp_web=0
+</code></pre><p>输出如下:</p>
+<pre><code>webapp_db scaled to 0
+webapp_web scaled to 0
+Since --detach=false was not specified, tasks will be scaled in the background.
+In a future release, --detach=false will become the default.
+</code></pre><p>这特别有用尤其是堆具备一定体积而你又想保存数据的时候.它允许你再次启动堆,通过将replicas 的数设置为大于0的方式.</p>
+<h2 id="1.6">完全地移除应用</h2>
+
+<p>使用<code>docker stack rm webapp</code>命令关闭应用 :</p>
+<pre><code>Removing service webapp_db
+Removing service webapp_web
+Removing network webapp_default
+</code></pre><p>这会停止在每个service中的容器，并且移除services.这同样会删除这个应用中的所有网络通信.</p>
+<p><a href="https://github.com/docker/labs/blob/master/developer-tools/java/chapters/ch06-swarm.adoc" target="_blank" rel="external">官方链接</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/10/Docker java教程3.2_ 使用JDK9 构建 Docker 镜像/" rel="next" title="Docker java教程3.2: 使用JDK9 构建 Docker 镜像">
+                <i class="fa fa-chevron-left"></i> Docker java教程3.2: 使用JDK9 构建 Docker 镜像
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMzEyMy85Njgy"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Hans Chung" />
+            
+              <p class="site-author-name" itemprop="name">Hans Chung</p>
+              <p class="site-description motion-element" itemprop="description">A Salty Fish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/darkleave" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1.1"><span class="nav-number">1.</span> <span class="nav-text">初始化 Swarm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1.2"><span class="nav-number">2.</span> <span class="nav-text">多容器应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1.3"><span class="nav-number">3.</span> <span class="nav-text">验证在应用中的服务和容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1.4"><span class="nav-number">4.</span> <span class="nav-text">访问应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1.5"><span class="nav-number">5.</span> <span class="nav-text">停止应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1.6"><span class="nav-number">6.</span> <span class="nav-text">完全地移除应用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hans Chung</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("6vFOsvul8HaoNI6fiYReb3WW-gzGzoHsz", "O2fMHy7gRb7x2NsOSUY029TO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
