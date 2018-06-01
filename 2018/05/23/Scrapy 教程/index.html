@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="scrapy," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="静默的魔法书" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="在这个教程里面, 我们会假设Scrapy 已经安装在你的系统里面,如果还没安装的话，查看安装教程">
+<meta name="keywords" content="scrapy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrapy 教程">
+<meta property="og:url" content="http://www.zhz.gift/2018/05/23/Scrapy 教程/index.html">
+<meta property="og:site_name" content="静默的魔法书">
+<meta property="og:description" content="在这个教程里面, 我们会假设Scrapy 已经安装在你的系统里面,如果还没安装的话，查看安装教程">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T14:31:50.829Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Scrapy 教程">
+<meta name="twitter:description" content="在这个教程里面, 我们会假设Scrapy 已经安装在你的系统里面,如果还没安装的话，查看安装教程">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'MZF9ZS9GXL',
+      apiKey: '71b4ec727c0816672d93fec5d3747c8f',
+      indexName: 'darkleave',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.zhz.gift/2018/05/23/Scrapy 教程/"/>
+
+
+
+
+
+  <title>Scrapy 教程 | 静默的魔法书</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  
+    
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script type="text/javascript" src="/js/src/algolia.js?v=5.1.4"></script>
+
+  
+  
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">静默的魔法书</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">零</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.zhz.gift/2018/05/23/Scrapy 教程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hans Chung">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静默的魔法书">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Scrapy 教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-23T23:09:42+08:00">
+                2018-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/23/Scrapy 教程/" class="leancloud_visitors" data-flag-title="Scrapy 教程">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在这个教程里面, 我们会假设Scrapy 已经安装在你的系统里面,如果还没安装的话，查看<a href="https://docs.scrapy.org/en/latest/intro/install.html#intro-install" target="_blank" rel="external">安装教程</a></p>
+<a id="more"></a>
+<p>我们准备爬取 <a href="">quotes.toscrape.com</a>，这个网站引用了许多知名作者的名言.</p>
+<p>这个教程将通过下述任务带领你学习:</p>
+<ol>
+<li>创建一个新的Scrapy(爬虫)项目</li>
+<li>编写一个<a href="https://docs.scrapy.org/en/latest/topics/spiders.html#topics-spiders" target="_blank" rel="external">spider</a> 来爬取网站和解析数据</li>
+<li>使用命令行导出爬取的数据</li>
+<li>使用spider 去递归超链接</li>
+<li>使用spider 参数</li>
+</ol>
+<p>Scrapy 是使用<a href="https://www.python.org/" target="_blank" rel="external">Python</a>写的.</p>
+<p>如果你已经熟悉其它语言，并且想要快速地学习Python,我们推荐你阅读<a href="http://www.diveintopython3.net/" target="_blank" rel="external">Dive Into Python3</a>.或者阅读<a href="https://docs.python.org/3/tutorial" target="_blank" rel="external">Python 教程</a>.</p>
+<p>如果你是编程新手并且想要开始学习Python,你可能需要找到有用的网络书籍 <a href="https://learnpythonthehardway.org/book/" target="_blank" rel="external">Learn Python The Hard Way</a>. 你也可以同样看看<a href="https://wiki.python.org/moin/BeginnersGuide/NonProgrammers" target="_blank" rel="external"> this list of Python resources for non-programmers</a>.</p>
+<h2 id="创建一个项目"><a href="#创建一个项目" class="headerlink" title="创建一个项目"></a>创建一个项目</h2><p>在你开始爬取数据之前，你必须去创建一个新的Scrpay 爬虫项目.进入到你想要存储代码的目录并且运行:</p>
+<pre><code>scrapy startproject tutorial
+</code></pre><p>这将会创建一个<code>tutorial</code>目录并且包含以下内容:</p>
+<pre><code>tutorial/
+    scrapy.cfg         #deploy configuration file
+
+    tutorial/          #project&apos;s Python module,you&apos;ll import your code from here
+        __init__.py
+        items.py       #project items definition file
+        middlewares.py #project middlewares file
+        piplines.py    #project pipelines file
+        settings.py       #project settings file
+        spiders/       #a directory where you&apos;ll later put your spiders
+            __init__.py
+</code></pre><h2 id="我们的第一只Spider-蜘蛛"><a href="#我们的第一只Spider-蜘蛛" class="headerlink" title="我们的第一只Spider 蜘蛛"></a>我们的第一只Spider 蜘蛛</h2><p>Spiders 是你定义的类，Scrapy 使用它们来从网站爬取信息(或者一系列的网站).它们必须是<code>scrapy.Spider</code>的子类, 并且定义初始化的请求, 比如怎样追踪页面的一些超链接, 还有怎样转换解析下载页面的内容数据.</p>
+<p>如下是我们第一只Spider的代码. 保存到你项目路径下的<code>tutorial/spiders</code>目录下的<code>quotes_spider.py</code>文件中：</p>
+<pre><code>import scrapy
+
+class QuotesSpider(scrapy.Spider):
+    name = &quot;quotes&quot;
+    def start_requests(self):
+        urls = [
+            &apos;http://quotes.toscrape.com/page/1/&apos;,
+            &apos;http://quotes.toscrape.com/page/2/&apos;,
+        ]
+        for url in urls:
+            yield scrapy.Request(url=url,callback=self.parse)
+
+    def parse(self,response):
+        page = response.url.split(&quot;/&quot;)[-2]
+        filename = &apos;quotes-%s.html&apos; % page
+        with open(filename, &apos;2b&apos;) as f:
+            f.write(response.body)
+        self.log(&apos;Saved file %s&apos; % filename)
+</code></pre><p>正如你所看到的,我们的Spider 继承了 <code>scrapy.Spider</code> 并且定义了一些属性和方法:</p>
+<ul>
+<li><p><code>name</code>:Spider的唯一标识. 它必须在一个项目中保持唯一,这意味着,你不能在不同的Spiders之间使用同样的名称.</p>
+</li>
+<li><p><code>start_requests()</code>: 必须返回一个可迭代的Requests请求(你可以返回一个requests列表或者写一个生成器方法) ,Spider会使用它们来嗅探你想要的内容. 后续的requests请求将从这些初始请求中成功生成.</p>
+</li>
+<li><p><code>parse()</code> : 这个方法将用来处理每个成功请求响应下载的内容. 响应参数是<code>TextResponse</code> 的实例,这个实例持有整个页面的内容并且含有进一步的处理这些内容的方法.</p>
+</li>
+</ul>
+<p><code>parse()</code> 方法通常用来转换reponse, 提取爬取的数据作为字段并且寻找新的URLs去追踪并且从它们那里创建新的请求.</p>
+<h2 id="如何运行你的spider"><a href="#如何运行你的spider" class="headerlink" title="如何运行你的spider"></a>如何运行你的spider</h2><p>为了让我们的spider 工作, 回到项目的顶级目录并且运行:</p>
+<pre><code>scrapy crawl quotes
+</code></pre><p>这个命令通过spider名称<code>quotes</code> 来运行我们刚刚添加的spider, 它将会发送一些请求到 <code>quotes.toscrape.com</code> 域名. 你将会收到的输出类似这样:</p>
+<pre><code>... (omitted for brevity)
+2016-12-16 21:24:05 [scrapy.core.engine] INFO: Spider opened
+2016-12-16 21:24:05 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2016-12-16 21:24:05 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2016-12-16 21:24:05 [scrapy.core.engine] DEBUG: Crawled (404) &lt;GET http://quotes.toscrape.com/robots.txt&gt; (referer: None)
+2016-12-16 21:24:05 [scrapy.core.engine] DEBUG: Crawled (200) &lt;GET http://quotes.toscrape.com/page/1/&gt; (referer: None)
+2016-12-16 21:24:05 [scrapy.core.engine] DEBUG: Crawled (200) &lt;GET http://quotes.toscrape.com/page/2/&gt; (referer: None)
+2016-12-16 21:24:05 [quotes] DEBUG: Saved file quotes-1.html
+2016-12-16 21:24:05 [quotes] DEBUG: Saved file quotes-2.html
+2016-12-16 21:24:05 [scrapy.core.engine] INFO: Closing spider (finished)
+...
+</code></pre><p>现在，在当前目录检查文件.你应该能注意到两个新的文件已经被创建: quotes-1.html 和 quotes-2.html ,分别对应URLs请求的内容，并且通过<code>parse</code>方法进行了转换.</p>
+<pre><code>Note
+如果你好奇为什么我们还没有转换HTML,稍等一下，我们很快会涉及到
+</code></pre><h2 id="在神秘面纱的掩盖下还发生了什么"><a href="#在神秘面纱的掩盖下还发生了什么" class="headerlink" title="在神秘面纱的掩盖下还发生了什么?"></a>在神秘面纱的掩盖下还发生了什么?</h2><p>Scrapy 通过 Spider的<code>start_requests</code>方法获得<strong><code>scrapy.Request</code></strong>对象.通过从每个请求接收到response,它会实例化<code>**Response**</code>对象并且调用与request相关联的回调方法(在这个例子中，就是<code>parse</code>方法),并且将response作为参数.</p>
+<h2 id="start-requests-方法的一个捷径"><a href="#start-requests-方法的一个捷径" class="headerlink" title="start_requests 方法的一个捷径"></a>start_requests 方法的一个捷径</h2><p>相比实现<strong><code>start_requests()</code></strong>方法来从URLs生成<strong><code>scrapy.Request</code></strong>对象,你可以仅定义一个<strong><code>start_urls</code></strong>类属性来包含一个URLs列表. 这个泪飙将会被<strong><code>start_requests()</code></strong>的默认实现用来为你的spider创建默认请求:</p>
+<pre><code>import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    name = &quot;quotes&quot;
+    start_urls = [
+        &apos;http://quotes.toscrape.com/page/1/&apos;,
+        &apos;http://quotes.toscrape.com/page/2/&apos;,
+    ]
+
+    def parse(self, response):
+        page = response.url.split(&quot;/&quot;)[-2]
+        filename = &apos;quotes-%s.html&apos; % page
+        with open(filename, &apos;wb&apos;) as f:
+            f.write(response.body)
+</code></pre><p><code>parse()</code>将用来处理那些URL所对应的请求,尽管我们没有明确指定Scrapy这样去做. 这是因为<code>parse()</code>方法是Scrapy的默认回调方法,用来处理那些没有明确指定回调方法的请求.</p>
+<h2 id="提取数据"><a href="#提取数据" class="headerlink" title="提取数据"></a>提取数据</h2><p>学习使用Scrpay提取数据的最好方式是使用 <a href="https://doc.scrapy.org/en/latest/topics/shell.html#topics-shell" target="_blank" rel="external">Scrapy shell</a>.运行:</p>
+<pre><code>scrapy shell &apos;http://quotes.toscrape.com/page/1/&apos;
+
+
+
+Note:
+当在命令行运行Scrapy shell的时候，记得要用引号闭合URL,否则url包含的参数(比如.`&amp;`带的参数)将不会工作.
+
+在Windows环境，使用双引号:
+
+scrapy shell &quot;http://quotes.toscrape.com/page/1/&quot;
+</code></pre><p>你将会看到如下输出:</p>
+<pre><code>[ ... Scrapy log here ... ]
+2016-09-19 12:09:27 [scrapy.core.engine] DEBUG: Crawled (200) &lt;GET http://quotes.toscrape.com/page/1/&gt; (referer: None)
+[s] Available Scrapy objects:
+[s]   scrapy     scrapy module (contains scrapy.Request, scrapy.Selector, etc)
+[s]   crawler    &lt;scrapy.crawler.Crawler object at 0x7fa91d888c90&gt;
+[s]   item       {}
+[s]   request    &lt;GET http://quotes.toscrape.com/page/1/&gt;
+[s]   response   &lt;200 http://quotes.toscrape.com/page/1/&gt;
+[s]   settings   &lt;scrapy.settings.Settings object at 0x7fa91d888c10&gt;
+[s]   spider     &lt;DefaultSpider &apos;default&apos; at 0x7fa91c8af990&gt;
+[s] Useful shortcuts:
+[s]   shelp()           Shell help (print this help)
+[s]   fetch(req_or_url) Fetch request (or URL) and update local objects
+[s]   view(response)    View response in a browser
+&gt;&gt;&gt;
+</code></pre><p>使用shell，你可以通过使用response 对象的<a href="https://www.w3.org/TR/selectors" target="_blank" rel="external">CSS</a>语法来选择元素.</p>
+<pre><code>&gt;&gt;&gt; response.css(&apos;title&apos;)
+[&lt;Selector xpath=&apos;descendant-or-self::title&apos; data=&apos;&lt;title&gt;Quotes to Scrape&lt;/title&gt;&apos;&gt;]
+</code></pre><p>运行<code>response.css(&#39;title&#39;)</code>的结果是一个类似列表的对象，命名为<strong><code>SelectorList</code></strong>,它代表了一个<strong><code>Selector</code></strong>对象列表，这些对象包含了XML/HTML元素并且允许你运行一些查询来获得更小粒度的选择器或者提取数据.</p>
+<p>从上述的above提取text，如下:</p>
+<pre><code>&gt;&gt;&gt; response.css(&apos;title::text&apos;).extract()
+[&apos;Quotes to Scrape&apos;]
+</code></pre><p>这里有两个我们需要注意的地方,其一是我们添加了<code>::text</code>到css查询,这意味着我们只想要选择在<code>&lt;title&gt;</code>元素中的text元素.如果我们不指定<code>::text</code>,我们将会会的这个title元素,包含它的tags:</p>
+<pre><code>&gt;&gt;&gt; response.css(&apos;title&apos;).extract()
+[&apos;&lt;title&gt;Quotes to Scrape&lt;/title&gt;&apos;]
+</code></pre><p>另一件事就是调用的结果.<code>.extract()</code>是一个列表,因为我们处理的是<strong><code>SelectorList</code></strong>的实例.当你知道你仅仅只想要首个结果，就像在这个例子中,你可以这样做:</p>
+<pre><code>&gt;&gt;&gt; response.css(&apos;title::text&apos;).extract_first()
+&apos;Quotes to Scrape&apos;
+</code></pre><p>或者:</p>
+<pre><code>&gt;&gt;&gt; response.css(&apos;title::text&apos;)[0].extract()
+&apos;Quotes to Scrape&apos;
+</code></pre><p>然而,使用<code>.extract_first()</code> 避免了一个 <code>IndexError</code>错误 并且当它没有找到任何可匹配的元素时返回 <code>None</code>.</p>
+<p>注意：对于大多数scraping 代码，你想要当在页面上查找不到你想要的数据而发生错误时显得更有弹性的话,所以即使有一些部分对scraped失败了,你至少可以获得<strong>部分</strong>数据.</p>
+<p>除了<code>extract()</code>方法和 <code>extract_first()</code> 方法,你同样能使用<code>re()</code> 方法来使用正则表达式来提取数据:</p>
+<pre><code>&gt;&gt;&gt; response.css(&apos;title::text&apos;).re(r&apos;Quotes.*&apos;)
+[&apos;Quotes to Scrape&apos;]
+&gt;&gt;&gt; response.css(&apos;title::text&apos;).re(r&apos;Q\w+&apos;)
+[&apos;Quotes&apos;]
+&gt;&gt;&gt; response.css(&apos;title::text&apos;).re(r&apos;(\w+) to (\w+)&apos;)
+[&apos;Quotes&apos;, &apos;Scrape&apos;]
+</code></pre><p>为了找到适当的CSS 选择器来使用,你可以通过<code>view(response)</code>来在浏览器直接打开响应页面. 你可以使用你的浏览器开发者工具或者扩展类似Firebug(详细查看<a href="https://doc.scrapy.org/en/latest/topics/firebug.html#topics-firebug" target="_blank" rel="external">Using Firebug for scraping</a> 和 <a href="https://doc.scrapy.org/en/latest/topics/firefox.html#topics-firefox" target="_blank" rel="external">Using Firefox for scraping</a>).</p>
+<p><a href="http://selectorgadget.com/" target="_blank" rel="external">Selector Gadget</a>同样是一个能够快速找到CSS选择器的绝佳工具,在很多浏览器它都工作良好.</p>
+<h2 id="Xpath-简要介绍"><a href="#Xpath-简要介绍" class="headerlink" title="Xpath:简要介绍"></a>Xpath:简要介绍</h2><p>除了<a href="https://www.w3.org/TR/selectors" target="_blank" rel="external">CSS</a>,Scrapy 选择器同样支持使用<a href="https://www.w3.org/TR/xpath" target="_blank" rel="external">XPath</a>表达式:</p>
+<pre><code>&gt;&gt;&gt; response.xpath(&apos;//title&apos;)
+[&lt;Selector xpath=&apos;//title&apos; data=&apos;&lt;title&gt;Quotes to Scrape&lt;/title&gt;&apos;&gt;]
+&gt;&gt;&gt; response.xpath(&apos;//title/text()&apos;).extract_first()
+&apos;Quotes to Scrape&apos;
+</code></pre><p>XPath表达式功能非常强大,并且是Scrapy选择器的基础. 事实上,CSS选择器最后是转化为XPath表达式.</p>
+<p>也许XPath没有CSS选择器那样受欢迎,但是XPath表达式提供更多强大的功能因为除了结构导航,它同样可以查看内容.使用XPath,你可以同样选中像如下的事物: 选中包含”Next Page”内容的超链接.这使得XPath 与scraping任务非常适宜,尽管你已经知道如何去操作CSS选择器我们仍然鼓励你去学习XPath,它会使得scraping更加容易.</p>
+<p>我们不想再这个教程涉及太多XPath的内容,详情阅读<a href="https://doc.scrapy.org/en/latest/topics/selectors.html#topics-selectors" target="_blank" rel="external">using XPath with Scrapy Selectors here</a>. 学习更多XPath的内容，我们推荐<a href="http://zvon.org/comp/r/tut-XPath_1.html" target="_blank" rel="external">this tutorial to learn XPath through examples</a>或者<a href="http://plasmasturm.org/log/xpath101/" target="_blank" rel="external">this tutorial to learn “how to think in XPath”</a>.</p>
+<h2 id="提取名言和作者"><a href="#提取名言和作者" class="headerlink" title="提取名言和作者"></a>提取名言和作者</h2><p>现在你大致了解如何选中和解析了,接下来完成从web页面解析名言的spider代码.</p>
+<p><a href="">http://quotes.toscrape.com</a>页面的每个引用名言都被HTML元素包含，类似这样:</p>
+<pre><code>&lt;div class=&quot;quote&quot;&gt;
+    &lt;span class=&quot;text&quot;&gt;“The world as we have created it is a process of our
+    thinking. It cannot be changed without changing our thinking.”&lt;/span&gt;
+    &lt;span&gt;
+        by &lt;small class=&quot;author&quot;&gt;Albert Einstein&lt;/small&gt;
+        &lt;a href=&quot;/author/Albert-Einstein&quot;&gt;(about)&lt;/a&gt;
+    &lt;/span&gt;
+    &lt;div class=&quot;tags&quot;&gt;
+        Tags:
+        &lt;a class=&quot;tag&quot; href=&quot;/tag/change/page/1/&quot;&gt;change&lt;/a&gt;
+        &lt;a class=&quot;tag&quot; href=&quot;/tag/deep-thoughts/page/1/&quot;&gt;deep-thoughts&lt;/a&gt;
+        &lt;a class=&quot;tag&quot; href=&quot;/tag/thinking/page/1/&quot;&gt;thinking&lt;/a&gt;
+        &lt;a class=&quot;tag&quot; href=&quot;/tag/world/page/1/&quot;&gt;world&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>在scrapy shell 中执行如下命令:</p>
+<pre><code>$ scrapy shell &apos;http://quotes.toscrape.com&apos;
+</code></pre><p>我们获得一系列quote HTML元素的选择器:</p>
+<pre><code>&gt;&gt;&gt; response.css(&quot;div.quote&quot;)
+</code></pre><p>上述查询返回的每个选择器允许我们运行更多查询来获得它们的子元素等.让我们将首个选择器复制给一个变量,这样我们能通过运行我们的CSS选择器来直接操作一个特别的 “名言引用”:</p>
+<pre><code>&gt;&gt;&gt; quote = response.css(&quot;div.quote&quot;)[0]
+</code></pre><p>现在，通过我们刚刚创建的<code>quote</code>对象提取<code>title</code>,<code>author</code>和<code>tags</code> :</p>
+<pre><code>&gt;&gt;&gt; title = quote.css(&quot;span.text::text&quot;).extract_first()
+&gt;&gt;&gt; title
+&apos;“The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”&apos;
+&gt;&gt;&gt; author = quote.css(&quot;small.author::text&quot;).extract_first()
+&gt;&gt;&gt; author
+&apos;Albert Einstein&apos;
+</code></pre><p>使用<code>.extract()</code> 方法获取所有的tags:</p>
+<pre><code>&gt;&gt;&gt; tags = quote.css(&quot;div.tags a.tag::text&quot;).extract()
+&gt;&gt;&gt; tags
+[&apos;change&apos;, &apos;deep-thoughts&apos;, &apos;thinking&apos;, &apos;world&apos;]
+</code></pre><p>现在我们可以迭代所有的名言引用元素，并且将它们放置到一个Python目录:</p>
+<pre><code>&gt;&gt;&gt; for quote in response.css(&quot;div.quote&quot;):
+...     text = quote.css(&quot;span.text::text&quot;).extract_first()
+...     author = quote.css(&quot;small.author::text&quot;).extract_first()
+...     tags = quote.css(&quot;div.tags a.tag::text&quot;).extract()
+...     print(dict(text=text, author=author, tags=tags))
+{&apos;tags&apos;: [&apos;change&apos;, &apos;deep-thoughts&apos;, &apos;thinking&apos;, &apos;world&apos;], &apos;author&apos;: &apos;Albert Einstein&apos;, &apos;text&apos;: &apos;“The world as we have created it is a process of our thinking. It cannot be changed without changing our thinking.”&apos;}
+{&apos;tags&apos;: [&apos;abilities&apos;, &apos;choices&apos;], &apos;author&apos;: &apos;J.K. Rowling&apos;, &apos;text&apos;: &apos;“It is our choices, Harry, that show what we truly are, far more than our abilities.”&apos;}
+    ... a few more of these, omitted for brevity
+&gt;&gt;&gt;
+</code></pre><h2 id="在我们的spider中提取数据"><a href="#在我们的spider中提取数据" class="headerlink" title="在我们的spider中提取数据"></a>在我们的spider中提取数据</h2><p>现在让我们回到自己的spider.直到现在,它并不提取任何特别的数据，仅仅保存整个HTML页面到本地 .现在集成提取逻辑到我们的spider中。</p>
+<p>一个Scrpay spider 通常生成很多包含从页面中解析出来的数据的字典. 为了实现这一点，我们使用<code>yield</code> Python 关键字在回调上,正如你在如下看到的那样:</p>
+<pre><code>import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    name = &quot;quotes&quot;
+    start_urls = [
+        &apos;http://quotes.toscrape.com/page/1/&apos;,
+        &apos;http://quotes.toscrape.com/page/2/&apos;,
+    ]
+
+    def parse(self, response):
+        for quote in response.css(&apos;div.quote&apos;):
+            yield {
+                &apos;text&apos;: quote.css(&apos;span.text::text&apos;).extract_first(),
+                &apos;author&apos;: quote.css(&apos;small.author::text&apos;).extract_first(),
+                &apos;tags&apos;: quote.css(&apos;div.tags a.tag::text&apos;).extract(),
+            }
+</code></pre><p>如果你运行这只spider，它将会用日志输出如下数据:</p>
+<pre><code>2016-09-19 18:57:19 [scrapy.core.scraper] DEBUG: Scraped from &lt;200 http://quotes.toscrape.com/page/1/&gt;
+{&apos;tags&apos;: [&apos;life&apos;, &apos;love&apos;], &apos;author&apos;: &apos;André Gide&apos;, &apos;text&apos;: &apos;“It is better to be hated for what you are than to be loved for what you are not.”&apos;}
+2016-09-19 18:57:19 [scrapy.core.scraper] DEBUG: Scraped from &lt;200 http://quotes.toscrape.com/page/1/&gt;
+{&apos;tags&apos;: [&apos;edison&apos;, &apos;failure&apos;, &apos;inspirational&apos;, &apos;paraphrased&apos;], &apos;author&apos;: &apos;Thomas A. Edison&apos;, &apos;text&apos;: &quot;“I have not failed. I&apos;ve just found 10,000 ways that won&apos;t work.”&quot;}
+</code></pre><h2 id="存储我们爬取的数据"><a href="#存储我们爬取的数据" class="headerlink" title="存储我们爬取的数据"></a>存储我们爬取的数据</h2><p>存储爬取数据的最简单方法是使用<a href="https://doc.scrapy.org/en/latest/topics/feed-exports.html#topics-feed-exports" target="_blank" rel="external">Feed exports</a>,使用如下命令:</p>
+<pre><code>scrapy crawl quotes -o quotes.json
+</code></pre><p>这将会生成一个 <code>quotes.json</code>文件，包含所有爬取的items,序列化成<a href="https://en.wikipedia.org/wiki/JSON" target="_blank" rel="external">JSON</a>的形式.</p>
+<p>因为一些历史上的原因，Scrapy 会将爬取的数据内容添加到所指定的文件后方，而不是直接重写覆盖. 如果你连续运行这个命令两次，并且在第二次命令之前没有移除这个文件，你将会获得拥有两份重复json数据的json文件.</p>
+<p>其它的格式，像<a href="http://jsonlines.org/" target="_blank" rel="external">JSON Lines</a>:</p>
+<pre><code>scrapy crawl quotes -o quotes.jl
+</code></pre><p><a href="http://jsonlines.org/" target="_blank" rel="external">JSON Lines</a>格式非常有用，因为它类似流那样,你可以轻松地在它后面添加新的记录行.当你同样运行两次它不会产生跟JSON格式一样的问题.同样的，由于每条记录都是一行，最后你可能要遍历一个巨大的文件,但是你不必在内存中完成所有事情,通过<a href="https://stedolan.github.io/jq" target="_blank" rel="external">JQ</a>可以在命令行完成这些事情.</p>
+<p>在小型的项目中(类似这个教程),这可能足够了.然而，如果你想要使用scrapy完成更复杂的事情.你可以写一个<a href="https://doc.scrapy.org/en/latest/topics/item-pipeline.html#topics-item-pipeline" target="_blank" rel="external">Item Pipeline</a>.</p>
+<p>当项目被创建的时候一个Item Pipelines 的占位符文件就已经被创建了，就在 <code>tutorial/pipelines.py</code> 目录下面.如果你只是想要存储scraped items 的话你不需要实现任何item pipelines .</p>
+<h2 id="追踪超链接"><a href="#追踪超链接" class="headerlink" title="追踪超链接"></a>追踪超链接</h2><p>与在<a href="">http://quotes.toscrape.com</a>网站前两个页面爬取一些信息相比，你想要这个网站所有页面的名言引用.</p>
+<p>现在你知道如何从这些页面提取数据.接下来让我们了解一下如何从它们追踪超链接:</p>
+<p>我们要做的第一件事就是从页面解析我们想要追踪的超链接, 我们可以看到在下个页面有一个如下标记的超链接:</p>
+<pre><code>&lt;ul class=&quot;pager&quot;&gt;
+    &lt;li class=&quot;next&quot;&gt;
+        &lt;a href=&quot;/page/2/&quot;&gt;Next &lt;span aria-hidden=&quot;true&quot;&gt;&amp;rarr;&lt;/span&gt;&lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre><p>我们可以在shell中对其进行解析:</p>
+<pre><code>&gt;&gt;&gt; response.css(&apos;li.next a&apos;).extract_first()
+&apos;&lt;a href=&quot;/page/2/&quot;&gt;Next &lt;span aria-hidden=&quot;true&quot;&gt;→&lt;/span&gt;&lt;/a&gt;&apos;
+</code></pre><p>这能获取 <code>a</code> 元素，但是我们想要的是 <code>href</code> 属性. Scrapy 支持CSS扩展能够让你选中属性内容,就像这样:</p>
+<pre><code>&gt;&gt;&gt; response.css(&apos;li.next a::attr(href)&apos;).extract_first()
+&apos;/page/2/&apos;
+</code></pre><p>现在我们的spider 代码修改为能够自动追踪下个页面的超链接，并从它解析数据:</p>
+<pre><code>import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    name = &quot;quotes&quot;
+    start_urls = [
+        &apos;http://quotes.toscrape.com/page/1/&apos;,
+    ]
+
+    def parse(self, response):
+        for quote in response.css(&apos;div.quote&apos;):
+            yield {
+                &apos;text&apos;: quote.css(&apos;span.text::text&apos;).extract_first(),
+                &apos;author&apos;: quote.css(&apos;small.author::text&apos;).extract_first(),
+                &apos;tags&apos;: quote.css(&apos;div.tags a.tag::text&apos;).extract(),
+            }
+
+        next_page = response.css(&apos;li.next a::attr(href)&apos;).extract_first()
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)
+</code></pre><p>现在，在解析完数据之后, <code>parse()</code> 方法从下一个页面寻找超链接,使用<code>urljoin()</code> 方法创建完全路径的URL(因为超链接是相关的)并且yields 一个新的请求到下一个页面,注册它本身作为回调来处理下个页面的数据解析并且确保能爬取到所有页面的数据.</p>
+<p>你在这里看到的就是Scrapy 追踪超链接的原理:<br>但你在一个回调方法中yield 一个请求,Scrapy 将会安排这个请求在发送并且请求完成后执行它所注册的回调方法.</p>
+<p>通过这个原理, 你可以根据你定义的规则构建追踪超链接的负责爬取器,并且根据它访问的页面解析不同类型的数据.</p>
+<p>在我们的例子中，它创建了一个一种循环，追踪所有到下个页面的超链接直到它不能再找到下一个位置 - 这对于爬取依赖分页的博客，论坛或者其它网站非常遍历.</p>
+<h2 id="创建请求的捷径"><a href="#创建请求的捷径" class="headerlink" title="创建请求的捷径"></a>创建请求的捷径</h2><p>你可以直接通过<strong><code>response.follow</code></strong>创建请求:</p>
+<pre><code>import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    name = &quot;quotes&quot;
+    start_urls = [
+        &apos;http://quotes.toscrape.com/page/1/&apos;,
+    ]
+
+    def parse(self, response):
+        for quote in response.css(&apos;div.quote&apos;):
+            yield {
+                &apos;text&apos;: quote.css(&apos;span.text::text&apos;).extract_first(),
+                &apos;author&apos;: quote.css(&apos;span small::text&apos;).extract_first(),
+                &apos;tags&apos;: quote.css(&apos;div.tags a.tag::text&apos;).extract(),
+            }
+
+        next_page = response.css(&apos;li.next a::attr(href)&apos;).extract_first()
+        if next_page is not None:
+            yield response.follow(next_page, callback=self.parse)
+</code></pre><p>与scrapy.Request不同, <code>response.follow</code> 直接支持关联的URL  不需要调用 urljoin. 需要注意的是 <code>response.follow</code> 只是返回一个Request实例; 你仍然需要 yield 这个请求.</p>
+<p>你同样可以传递一个选择器到 <code>response.follow</code> 而不是一个string; 这个选择器需要解析必要的属性:</p>
+<pre><code>for href in response.css(&apos;li.next a::attr(href)&apos;):
+    yield response.follow(href, callback=self.parse)
+</code></pre><p>对于 <code>&lt;a&gt;</code> 元素: <code>response.follow</code> 自动使用它们的href属性. 这样能进一步的简化代码:</p>
+<pre><code>for a in response.css(&apos;li.next a&apos;):
+    yield response.follow(a, callback=self.parse)
+</code></pre><p><strong>Note:</strong></p>
+<pre><code>`response.follow(response.css(&apos;li.next a&apos;))` 是无效的 ,因为`response.css` 返回一个所有a元素结果集的选择器列表对象,不是一个单独的选择器. 需要用一个 `for` 循环来处理上述的例子,或者 `response.follow(response.css(&apos;li.next a&apos;)[0]` 也可以.
+</code></pre><h2 id="更多的例子和模式"><a href="#更多的例子和模式" class="headerlink" title="更多的例子和模式"></a>更多的例子和模式</h2><p>这是另一个阐明回调和追踪超链接的spider,这次是为了爬取作者的信息:</p>
+<pre><code>import scrapy
+
+
+class AuthorSpider(scrapy.Spider):
+    name = &apos;author&apos;
+
+    start_urls = [&apos;http://quotes.toscrape.com/&apos;]
+
+    def parse(self, response):
+        # follow links to author pages
+        for href in response.css(&apos;.author + a::attr(href)&apos;):
+            yield response.follow(href, self.parse_author)
+
+        # follow pagination links
+        for href in response.css(&apos;li.next a::attr(href)&apos;):
+            yield response.follow(href, self.parse)
+
+    def parse_author(self, response):
+        def extract_with_css(query):
+            return response.css(query).extract_first().strip()
+
+        yield {
+            &apos;name&apos;: extract_with_css(&apos;h3.author-title::text&apos;),
+            &apos;birthdate&apos;: extract_with_css(&apos;.author-born-date::text&apos;),
+            &apos;bio&apos;: extract_with_css(&apos;.author-description::text&apos;),
+        }
+</code></pre><p>spider 将会从主页面开始,它将会追踪所有到作者页面的超链接并且调用<code>parse_author</code> 回掉方法来处理返回的每一个响应页面,并且同样追踪分页的超链接并调用<code>parse</code>回调方法如同之前的一样.</p>
+<p>这里我们传递回调到 <code>response.follow</code> 作为位置参数来简化代码,它同样对 <code>scrapy.Request</code> 有效.</p>
+<p><code>parse_author</code> 回调方法定义了一个工具方法用来解析和清理从CSS查询获得的数据并且最终 yields 一个包含作者数据的Python 字典.</p>
+<p>另一个有趣的事情是,在这个示例中，即使有很多名言引用来自同一个作者，但是我们并不需要担心会访问同一个作者页面多次.因为默认情况下,scrapy 会过滤已经访问过的URL请求，来防止因为程序错误而过多访问服务器的问题. 这个配置可在 <strong><a href="https://doc.scrapy.org/en/latest/topics/settings.html#std:setting-DUPEFILTER_CLASS" target="_blank" rel="external">DUPEFILTER_CLASS</a></strong>中配置.</p>
+<p>查看<a href="https://doc.scrapy.org/en/latest/topics/spiders.html#scrapy.spiders.CrawlSpider" target="_blank" rel="external">CrawlSpider</a> 类，这是一个泛用的spider,实现了一些比较小的规则引擎，你可以在这个基础上开发自己的crawlers.</p>
+<p>同时，一个普通的模式是从多个页面构建一个数据项,使用<a href="https://doc.scrapy.org/en/latest/topics/request-response.html#topics-request-response-ref-request-callback-arguments" target="_blank" rel="external">trick to pass additional data to the callbacks</a> 来实现.</p>
+<h2 id="使用spider-参数"><a href="#使用spider-参数" class="headerlink" title="使用spider 参数"></a>使用spider 参数</h2><p>你可以通过使用 <code>-a</code> 选项在spider运行的时候附加命令行参数:</p>
+<pre><code>scrapy crawl quotes -o quotes-humor.json -a tag=humor
+</code></pre><p>这些参数会被传递到 Spider 的 <code>__init__</code> 方法并且默认成为spider的属性》</p>
+<p>在这里例子中, <code>tag</code> 参数可以通过 <code>self.tag</code> 进行调用, 你可以通过它来控制spider只爬取特定标签的的名言引用, 同时基于参数构建URL:</p>
+<pre><code>import scrapy
+
+
+class QuotesSpider(scrapy.Spider):
+    name = &quot;quotes&quot;
+
+    def start_requests(self):
+        url = &apos;http://quotes.toscrape.com/&apos;
+        tag = getattr(self, &apos;tag&apos;, None)
+        if tag is not None:
+            url = url + &apos;tag/&apos; + tag
+        yield scrapy.Request(url, self.parse)
+
+    def parse(self, response):
+        for quote in response.css(&apos;div.quote&apos;):
+            yield {
+                &apos;text&apos;: quote.css(&apos;span.text::text&apos;).extract_first(),
+                &apos;author&apos;: quote.css(&apos;small.author::text&apos;).extract_first(),
+            }
+
+        next_page = response.css(&apos;li.next a::attr(href)&apos;).extract_first()
+        if next_page is not None:
+            yield response.follow(next_page, self.parse)
+</code></pre><p>如果你传递 <code>tag=humor</code> 参数到spider，那么你将会注意到spider将会只访问 <code>humor</code> 标签的URL,比如 <code>http://quotes.toscrape.com/tag/humor</code>.</p>
+<p>更多spider参数查看<a href="https://doc.scrapy.org/en/latest/topics/spiders.html#spiderargs" target="_blank" rel="external">learn more about handling spider arguments here</a>.</p>
+<h2 id="下一步"><a href="#下一步" class="headerlink" title="下一步"></a>下一步</h2><p>这个教程只涉及Scrapy最基本的东西,还有一大坨没有被提及的新特性.查看<a href="https://doc.scrapy.org/en/latest/intro/overview.html#topics-whatelse" target="_blank" rel="external">还有啥?</a> ,在<a href="https://doc.scrapy.org/en/latest/intro/overview.html#intro-overview" target="_blank" rel="external">Scrapy at a glance</a>章节中快速查看比较重要的部分.</p>
+<p>你可以继续从小节<a href="https://doc.scrapy.org/en/latest/index.html#section-basics" target="_blank" rel="external">Basic concepts</a>中知道更多关于命令行工具,spiders,selectors 选择器和其它在教程中没有涉及的东西比如 模块化爬取数据. 如果你更喜欢通过例子项目来学习，查看<a href="https://doc.scrapy.org/en/latest/intro/examples.html#intro-examples" target="_blank" rel="external">Examples</a>小节.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/scrapy/" rel="tag"># scrapy</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/23/mysql二进制日志介绍/" rel="next" title="MySql binary log 二进制日志介绍">
+                <i class="fa fa-chevron-left"></i> MySql binary log 二进制日志介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMzEyMy85Njgy"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="Hans Chung" />
+            
+              <p class="site-author-name" itemprop="name">Hans Chung</p>
+              <p class="site-description motion-element" itemprop="description">A Salty Fish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/darkleave" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建一个项目"><span class="nav-number">1.</span> <span class="nav-text">创建一个项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们的第一只Spider-蜘蛛"><span class="nav-number">2.</span> <span class="nav-text">我们的第一只Spider 蜘蛛</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何运行你的spider"><span class="nav-number">3.</span> <span class="nav-text">如何运行你的spider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在神秘面纱的掩盖下还发生了什么"><span class="nav-number">4.</span> <span class="nav-text">在神秘面纱的掩盖下还发生了什么?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#start-requests-方法的一个捷径"><span class="nav-number">5.</span> <span class="nav-text">start_requests 方法的一个捷径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提取数据"><span class="nav-number">6.</span> <span class="nav-text">提取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xpath-简要介绍"><span class="nav-number">7.</span> <span class="nav-text">Xpath:简要介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提取名言和作者"><span class="nav-number">8.</span> <span class="nav-text">提取名言和作者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在我们的spider中提取数据"><span class="nav-number">9.</span> <span class="nav-text">在我们的spider中提取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储我们爬取的数据"><span class="nav-number">10.</span> <span class="nav-text">存储我们爬取的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#追踪超链接"><span class="nav-number">11.</span> <span class="nav-text">追踪超链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建请求的捷径"><span class="nav-number">12.</span> <span class="nav-text">创建请求的捷径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更多的例子和模式"><span class="nav-number">13.</span> <span class="nav-text">更多的例子和模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用spider-参数"><span class="nav-number">14.</span> <span class="nav-text">使用spider 参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下一步"><span class="nav-number">15.</span> <span class="nav-text">下一步</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hans Chung</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("6vFOsvul8HaoNI6fiYReb3WW-gzGzoHsz", "O2fMHy7gRb7x2NsOSUY029TO");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
